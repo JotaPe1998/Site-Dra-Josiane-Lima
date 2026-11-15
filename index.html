@@ -200,6 +200,47 @@
       50% { transform: scale(1.08) translate(15px, -18px); opacity: 0.65; }
       100% { transform: scale(0.95) translate(-12px, 14px); opacity: 0.45; }
     }
+
+    /* ----------------------------------------------------------------
+       2ª DOBRA: SEÇÃO TRAJETÓRIA (DESIGN SYSTEM CARDS & DECKS)
+    ---------------------------------------------------------------- */
+    .trajetoria-card {
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(127, 152, 84, 0.16);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 18px 40px -18px rgba(60, 50, 40, 0.14);
+      border-radius: 28px;
+      padding: 24px;
+      transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.45s ease;
+    }
+    @media (min-width: 640px) {
+      .trajetoria-card {
+        padding: 28px;
+      }
+    }
+    .trajetoria-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(127, 152, 84, 0.32);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 28px 52px -20px rgba(60, 50, 40, 0.22);
+    }
+
+    /* Deck de fotos com troca de profundidade em loop */
+    .deck-container {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+    .deck-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 14px 30px -12px rgba(60, 50, 40, 0.22);
+      will-change: transform, opacity;
+      transform-origin: center bottom;
+    }
   </style>
 </head>
 <body class="relative bg-[#FAF5EE] text-[#2C2416]">
@@ -303,11 +344,11 @@
          CAMADA 30: BOTÃO CENTRALIZADO, LOCAIS & MICRO-RÓTULOS EDITORIAIS
     ============================================================ -->
     <!-- Locais de Atendimento (Design System Editorial Capsule) -->
-    <div id="hero-locations-card" class="hero-editorial-label absolute z-30 left-6 sm:left-10 bottom-24 sm:bottom-28 pointer-events-auto transition-transform duration-300 hover:-translate-y-1">
-      <div class="glass-capsule px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-2xl flex flex-col gap-2 border border-[#7F9854]/25 shadow-lg backdrop-blur-xl bg-white/80 max-w-[245px] sm:max-w-[280px]">
+    <div id="hero-locations-card" class="hero-editorial-label absolute z-30 left-4 sm:left-10 bottom-24 sm:bottom-28 pointer-events-auto transition-transform duration-300 hover:-translate-y-1">
+      <div class="glass-capsule px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-2xl flex flex-col gap-2 border border-[#7F9854]/25 shadow-lg backdrop-blur-xl bg-white/80 w-fit max-w-[calc(100vw-2rem)] sm:max-w-none">
         
         <!-- Header com Ícone e Rótulo -->
-        <div class="flex items-center gap-1.5 pb-1.5 border-b border-[#7F9854]/15">
+        <div class="flex items-center gap-1.5 pb-1.5 border-b border-[#7F9854]/15 whitespace-nowrap">
           <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#7F9854] stroke-[2.2]"></i>
           <span class="font-manrope text-[10px] uppercase font-bold tracking-[0.16em] text-[#2C2416]/75">
             Locais de Atendimento
@@ -317,20 +358,20 @@
         <!-- Lista de Unidades com Nós Coloridos da Identidade Visual -->
         <div class="flex flex-col gap-1.5">
           <!-- Zona Sul: Botafogo -->
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 whitespace-nowrap">
             <span class="w-2 h-2 rounded-full bg-[#4392DF] shadow-xs shrink-0"></span>
-            <div class="flex items-baseline gap-1.5 font-manrope text-[11px] sm:text-xs">
-              <span class="font-semibold text-[#2C2416]">Zona Sul</span>
+            <div class="flex items-baseline gap-1.5 font-manrope text-[11px] sm:text-xs whitespace-nowrap">
+              <span class="font-semibold text-[#2C2416] whitespace-nowrap">Zona Sul</span>
               <span class="text-[#2C2416]/40 text-[10px]">—</span>
-              <span class="font-medium text-[#2C2416]/75">Botafogo</span>
+              <span class="font-medium text-[#2C2416]/75 whitespace-nowrap">Botafogo</span>
             </div>
           </div>
 
           <!-- Zona Norte: Shopping Nova América -->
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 whitespace-nowrap">
             <span class="w-2 h-2 rounded-full bg-[#EB746A] shadow-xs shrink-0"></span>
-            <div class="flex items-baseline gap-1.5 font-manrope text-[11px] sm:text-xs">
-              <span class="font-semibold text-[#2C2416]">Zona Norte</span>
+            <div class="flex items-baseline gap-1.5 font-manrope text-[11px] sm:text-xs whitespace-nowrap">
+              <span class="font-semibold text-[#2C2416] whitespace-nowrap">Zona Norte</span>
               <span class="text-[#2C2416]/40 text-[10px]">—</span>
               <span class="font-medium text-[#2C2416]/75 whitespace-nowrap">Shopping Nova América</span>
             </div>
@@ -352,14 +393,14 @@
     </div>
 
     <!-- Botão Centralizado na Parte Inferior (Design System CTA Oficial) -->
-    <div id="hero-center-cta" class="hero-editorial-label absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-auto">
-      <a href="#section-next" class="btn-primary-med group" aria-label="Agendar Consulta com a Dra. Josiane Lima">
+    <div id="hero-center-cta" class="hero-editorial-label absolute bottom-3.5 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-auto">
+      <a href="#trajetoria" class="btn-primary-med group px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm" aria-label="Conhecer a Trajetória da Dra. Josiane Lima">
         <span>Agendar Consulta</span>
-        <i data-lucide="calendar" class="w-4 h-4 stroke-[2.2] transition-transform duration-300 group-hover:scale-110"></i>
+        <i data-lucide="calendar" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2] transition-transform duration-300 group-hover:scale-110"></i>
       </a>
     </div>
 
-    <!-- Canto Inferior Direito (Assinatura Editorial) -->
+    <!-- Canto Inferior Direito (Assinatura Editorial — Desktop) -->
     <div id="hero-bottom-right" class="hero-editorial-label absolute bottom-7 sm:bottom-8 right-6 sm:right-10 z-30 hidden md:flex items-center gap-2.5">
       <div class="glass-capsule px-4 py-1.5 rounded-full flex items-center gap-2">
         <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#7F9854]"></i>
@@ -372,21 +413,206 @@
   </section>
 
   <!-- ================================================================
-       3. SEÇÃO PLACEHOLDER MÍNIMA (PARA TESTAR A ROLAGEM E TRANSIÇÃO)
+       3. SEGUNDA DOBRA: SEÇÃO DE TRAJETÓRIA & SOBRE (3 BLOCOS INDUSTRIAIS)
+       - Hierarquia estrita: Mídia Superior (Aspect 4/5) + Texto Inferior
+       - Bloco 1: Vídeo vertical acelerado em 2x integrado ao fundo
+       - Bloco 2: Deck de fotos em loop de 3s com troca suave de profundidade
+       - Bloco 3: Deck de fotos em loop de 3s com delay de 1.5s
   ================================================================ -->
-  <section id="section-next" class="relative min-h-[120vh] py-32 px-6 sm:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/15 flex items-center justify-center text-center">
-    <div class="max-w-3xl mx-auto">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 border border-[#7F9854]/20 mb-6 shadow-xs">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#7F9854]"></i>
-        <span class="font-manrope text-xs uppercase tracking-wider font-semibold text-[#7F9854]">02 · Transição Concluída</span>
-      </div>
-      <h2 class="font-fraunces font-light text-3xl sm:text-5xl text-[#2C2416] tracking-tight mb-4">
-        Cuidado que floresce desde as primeiras raízes.
-      </h2>
-      <p class="font-manrope text-base sm:text-lg text-[#2C2416]/65 font-light leading-relaxed max-w-xl mx-auto">
-        Seção de teste de scroll da 1ª dobra. O pin foi liberado e os letreiros repousaram com harmonia abaixo das raízes da árvore.
-      </p>
+  <section id="trajetoria" class="relative w-full pt-10 pb-16 sm:pt-14 sm:pb-24 px-4 sm:px-8 md:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/18 overflow-hidden">
+    
+    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute -top-40 -left-40 w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-gradient-to-br from-[#A8C282]/20 via-[#FCE8D5]/25 to-transparent rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-40 -right-40 w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-gradient-to-tl from-[#FCE8D5]/35 via-[#A8C282]/18 to-transparent rounded-full blur-3xl"></div>
     </div>
+
+    <div class="relative max-w-7xl mx-auto">
+      
+      <!-- ============================================================
+           BLOCO 1: CENTRALIZADO, LIVRE E FORA DO POPUP (ESCULTURAL)
+           Mídia Superior Centralizada + Texto Exato Logo Abaixo
+      ============================================================ -->
+      <div id="trajetoria-bloco1-center" class="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+        
+        <!-- Mídia Superior: Vídeo Vertical com Acabamento e Proporção 4/5 -->
+        <div class="relative w-[clamp(280px,32vw,390px)] aspect-[4/5] rounded-[32px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/20 shadow-2xl group">
+          <!-- Bruma / Halo suave atrás do vídeo -->
+          <div class="absolute inset-x-4 -bottom-4 h-36 bg-radial from-[#FCE8D5]/80 via-[#A8C282]/30 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+
+          <video 
+            id="video-trajetoria-bloco1"
+            src="Midias que seram usadas/Woman_posing_in_photo_slideshow_4e96a258.mp4" 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            class="w-full h-full object-cover object-top select-none transition-transform duration-700 group-hover:scale-105"
+            style="mix-blend-mode: multiply; filter: contrast(1.02) saturate(1.03);"
+          ></video>
+
+          <!-- Moldura e Integração Cromática com o Fundo -->
+          <div class="absolute inset-0 pointer-events-none rounded-[32px] ring-1 ring-inset ring-[#7F9854]/18 shadow-[inset_0_0_32px_rgba(245,238,230,0.5)]"></div>
+
+          <!-- Selo Superior com Micro-Indicador -->
+          <div class="absolute top-4 left-4 z-10 px-3.5 py-1 rounded-full text-[10.5px] font-semibold font-manrope bg-white/90 backdrop-blur-md text-[#7F9854] border border-[#7F9854]/22 shadow-xs flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#7F9854] animate-pulse"></span>
+            <span>01 · Formação & Residência</span>
+          </div>
+        </div>
+
+        <!-- Texto Inferior Exato do Bloco 1 (Centralizado com elegância tipográfica) -->
+        <div class="mt-6 max-w-2xl px-4">
+          <span class="font-manrope text-[11px] sm:text-xs uppercase tracking-[0.2em] font-bold text-[#7F9854] block mb-2">
+            Universidade & Especialização
+          </span>
+          <p class="font-manrope text-[15px] sm:text-[16.5px] leading-relaxed text-[#2C2416]/85 font-normal">
+            Minha trajetória na Medicina começou na Universidade Estácio de Sá, onde me formei como bolsista integral pelo ProUni. Em seguida, especializei-me em Pediatria pelo Hospital Federal dos Servidores do Estado, no Rio de Janeiro.
+          </p>
+          <div class="flex items-center justify-center gap-3 mt-5 text-[#7F9854]/40">
+            <div class="w-12 h-[1px] bg-[#7F9854]/25"></div>
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#7F9854]/60"></i>
+            <div class="w-12 h-[1px] bg-[#7F9854]/25"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Grid dos 2 Blocos de Trajetória (Bloco 2 e Bloco 3 redimensionados em 2 colunas) -->
+      <div id="trajetoria-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto items-stretch">
+        
+        <!-- ============================================================
+             BLOCO 2: STACK DE IMAGENS EM LOOP 3S + TEXTO ABAIXO
+        ============================================================ -->
+        <article class="trajetoria-card flex flex-col justify-between group">
+          
+          <!-- Mídia Superior: Deck com Transição Fluida a cada 3 segundos -->
+          <div id="deck-bloco2" class="deck-container relative w-full aspect-[4/5] rounded-[22px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/18 shadow-inner">
+            
+            <!-- Foto A (Inicialmente na Frente) -->
+            <div class="deck-card">
+              <img 
+                src="Midias que seram usadas/SaveClip.App_658828135_18076589132550453_7585150318290626266_n.jpg" 
+                alt="Liga Acadêmica e Congresso Internacional — Dra. Josiane Lima" 
+                class="w-full h-full object-cover object-center select-none"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+
+            <!-- Foto B (Inicialmente no Fundo / Depth) -->
+            <div class="deck-card">
+              <img 
+                src="Midias que seram usadas/SaveClip.App_669945646_18518104516078033_4719220900828479847_n.jpg" 
+                alt="Trajetória Acadêmica e Formatura — Dra. Josiane Lima" 
+                class="w-full h-full object-cover object-center select-none"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+
+            <!-- Selo Superior com Micro-Indicador -->
+            <div class="absolute top-3.5 left-3.5 z-20 px-3 py-1 rounded-full text-[10.5px] font-semibold font-manrope bg-white/90 backdrop-blur-md text-[#4392DF] border border-[#4392DF]/25 shadow-xs flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#4392DF]"></span>
+              <span>02 · Medicina Integrativa & EUA</span>
+            </div>
+
+            <!-- Indicador Visual do Loop (Pontos de Deck) -->
+            <div class="deck-indicator-pill absolute bottom-3.5 right-3.5 z-20 px-2.5 py-1 rounded-full bg-black/45 backdrop-blur-md border border-white/15 flex items-center gap-1.5">
+              <div class="deck-dot w-3.5 h-1.5 rounded-full bg-white transition-all duration-300"></div>
+              <div class="deck-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <!-- Texto Inferior Exato do Bloco 2 -->
+          <div class="mt-6 flex flex-col flex-1 justify-between">
+            <div>
+              <span class="font-manrope text-[11px] uppercase tracking-[0.16em] font-bold text-[#4392DF] block mb-2">
+                Liga Acadêmica & Congresso Internacional
+              </span>
+              <p class="font-manrope text-[14.5px] sm:text-[15px] leading-relaxed text-[#2C2416]/85 font-normal">
+                Ainda na graduação, fundei e representei a Liga Acadêmica de Medicina Integrativa, unindo ciência, fitoterapia, medicina tradicional chinesa e os saberes tradicionais, vivência que me levou a um congresso internacional nos Estados Unidos para compartilhar a importância da abordagem integrativa e humanizada no cuidado pediátrico.
+              </p>
+            </div>
+
+            <!-- Rodapé do Card com Mini-Tag Editorial -->
+            <div class="pt-5 mt-5 border-t border-[#7F9854]/12 flex items-center justify-between text-xs text-[#2C2416]/55 font-manrope">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="globe" class="w-3.5 h-3.5 text-[#4392DF]"></i>
+                <span>EUA · Ciência & Tradição</span>
+              </span>
+              <span class="font-semibold text-[#4392DF]">Integrativa</span>
+            </div>
+          </div>
+
+        </article>
+
+        <!-- ============================================================
+             BLOCO 3: STACK DE IMAGENS EM LOOP 3S (+1.5S OFFSET) + TEXTO ABAIXO
+        ============================================================ -->
+        <article class="trajetoria-card flex flex-col justify-between group">
+          
+          <!-- Mídia Superior: Deck com Transição Fluida com Ritmo Alternado -->
+          <div id="deck-bloco3" class="deck-container relative w-full aspect-[4/5] rounded-[22px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/18 shadow-inner">
+            
+            <!-- Foto A (Inicialmente na Frente) -->
+            <div class="deck-card">
+              <img 
+                src="Midias que seram usadas/Captura de tela 2026-11-15 184556.png" 
+                alt="Atuação em Comunidades Ribeirinhas no Pará — Dra. Josiane Lima" 
+                class="w-full h-full object-cover object-center select-none"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+
+            <!-- Foto B (Inicialmente no Fundo / Depth) -->
+            <div class="deck-card">
+              <img 
+                src="Midias que seram usadas/SaveClip.App_653507200_18113016301732994_4330325680006310770_n.jpg" 
+                alt="Vivência Amazônica e Assistência Médica — Dra. Josiane Lima" 
+                class="w-full h-full object-cover object-center select-none"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+
+            <!-- Selo Superior com Micro-Indicador -->
+            <div class="absolute top-3.5 left-3.5 z-20 px-3 py-1 rounded-full text-[10.5px] font-semibold font-manrope bg-white/90 backdrop-blur-md text-[#EB746A] border border-[#EB746A]/25 shadow-xs flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#EB746A]"></span>
+              <span>03 · Vivência Amazônica</span>
+            </div>
+
+            <!-- Indicador Visual do Loop (Pontos de Deck) -->
+            <div class="deck-indicator-pill absolute bottom-3.5 right-3.5 z-20 px-2.5 py-1 rounded-full bg-black/45 backdrop-blur-md border border-white/15 flex items-center gap-1.5">
+              <div class="deck-dot w-3.5 h-1.5 rounded-full bg-white transition-all duration-300"></div>
+              <div class="deck-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300"></div>
+            </div>
+          </div>
+
+          <!-- Texto Inferior Exato do Bloco 3 -->
+          <div class="mt-6 flex flex-col flex-1 justify-between">
+            <div>
+              <span class="font-manrope text-[11px] uppercase tracking-[0.16em] font-bold text-[#EB746A] block mb-2">
+                Comunidades Ribeirinhas · Pará
+              </span>
+              <p class="font-manrope text-[14.5px] sm:text-[15px] leading-relaxed text-[#2C2416]/85 font-normal">
+                Já durante a residência, vivi uma das experiências mais marcantes da minha trajetória ao atuar em comunidades ribeirinhas de Oriximiná, no Pará, levando assistência médica e aprendendo com a força, a simplicidade e a sabedoria ancestral das famílias no coração do nosso país: a Amazônia.
+              </p>
+            </div>
+
+            <!-- Rodapé do Card com Mini-Tag Editorial -->
+            <div class="pt-5 mt-5 border-t border-[#7F9854]/12 flex items-center justify-between text-xs text-[#2C2416]/55 font-manrope">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="heart" class="w-3.5 h-3.5 text-[#EB746A]"></i>
+                <span>Oriximiná · Amazônia</span>
+              </span>
+              <span class="font-semibold text-[#EB746A]">Humanização</span>
+            </div>
+          </div>
+
+        </article>
+
+      </div>
+
+    </div>
+
   </section>
 
   <!-- ================================================================
@@ -465,6 +691,7 @@
        3. ANIMAÇÃO DE ENTRADA CINEMATOGRÁFICA (PAGE LOAD)
     ---------------------------------------------------------------- */
     window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
       alignTreeInitial();
 
       // Entrada da Árvore Central
@@ -517,7 +744,7 @@
         scrollTrigger: {
           trigger: "#hero",
           start: "top top",
-          end: isDesktop ? "+=180%" : "+=140%",
+          end: isDesktop ? "+=90%" : "+=70%",
           pin: true,
           scrub: 1,
           anticipatePin: 1
@@ -546,6 +773,132 @@
         duration: 0.25,
         ease: "power1.in"
       }, 0);
+    });
+
+    /* ----------------------------------------------------------------
+       4.5. COREOGRAFIA DA 2ª DOBRA (SEÇÃO TRAJETÓRIA)
+       - Aceleração do vídeo em 2x (Bloco 1)
+       - Card Stack Depth Swap em loop contínuo de 3s (Blocos 2 e 3)
+       - Stagger/Delay de 1.5s entre os Blocos 2 e 3 para ritmo orgânico
+       - ScrollTrigger Reveal em cascata
+    ---------------------------------------------------------------- */
+    // 1. Aceleração do vídeo do Bloco 1 em 2x com persistência
+    (function initBlock1Video() {
+      const vid = document.getElementById('video-trajetoria-bloco1');
+      if (!vid) return;
+      vid.playbackRate = 2.0;
+      vid.addEventListener('loadedmetadata', () => { vid.playbackRate = 2.0; });
+      vid.addEventListener('play', () => { vid.playbackRate = 2.0; });
+      vid.addEventListener('canplay', () => { vid.playbackRate = 2.0; });
+    })();
+
+    // 2. Card Stack Depth Swap nos Blocos 2 e 3 (Loop de 3 segundos)
+    function initCardDeckSwap(deckId, delaySec, flingDir) {
+      const deck = document.getElementById(deckId);
+      if (!deck) return;
+      const cards = deck.querySelectorAll('.deck-card');
+      if (cards.length < 2) return;
+
+      let frontIdx = 0;
+      let isSwapping = false;
+
+      // Estado inicial dos cards (Card 0 na frente, Card 1 no fundo com depth)
+      gsap.set(cards[0], { zIndex: 2, scale: 1, x: 0, y: 0, rotate: 0, opacity: 1 });
+      gsap.set(cards[1], { zIndex: 1, scale: 0.94, x: 0, y: 12, rotate: flingDir * -2.5, opacity: 0.88 });
+
+      function doSwap() {
+        if (isSwapping) return;
+        isSwapping = true;
+
+        const currentFront = cards[frontIdx];
+        const currentBack = cards[1 - frontIdx];
+        const dir = flingDir; // -1 = desliza para a esquerda, 1 = desliza para a direita
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            frontIdx = 1 - frontIdx;
+            isSwapping = false;
+
+            // Atualiza os pontos indicadores de foto ativa
+            const indicator = deck.querySelector('.deck-indicator-pill');
+            if (indicator) {
+              const dots = indicator.querySelectorAll('.deck-dot');
+              dots.forEach((dot, idx) => {
+                dot.className = idx === frontIdx
+                  ? 'deck-dot w-3.5 h-1.5 rounded-full bg-white transition-all duration-300'
+                  : 'deck-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300';
+              });
+            }
+          }
+        });
+
+        // 1. Carta frontal desliza lateralmente com rotação orgânica e redução de escala
+        tl.to(currentFront, {
+          x: dir * 75,
+          rotate: dir * 6,
+          scale: 0.96,
+          duration: 0.55,
+          ease: "power2.inOut"
+        })
+        // 2. Carta de trás ganha z-index superior e avança para a frente com foco pleno
+        .set(currentBack, { zIndex: 2 }, "-=0.25")
+        .to(currentBack, {
+          scale: 1,
+          x: 0,
+          y: 0,
+          rotate: 0,
+          opacity: 1,
+          duration: 0.65,
+          ease: "power3.out"
+        }, "-=0.25")
+        // 3. Antiga carta frontal reposiciona-se com suavidade atrás da nova carta frontal
+        .set(currentFront, { zIndex: 1 })
+        .to(currentFront, {
+          x: 0,
+          y: 12,
+          rotate: -dir * 2.5,
+          scale: 0.94,
+          opacity: 0.88,
+          duration: 0.6,
+          ease: "power3.out"
+        }, "-=0.4");
+      }
+
+      // Dispara o ciclo de 3 segundos respeitando o delay programado
+      setTimeout(() => {
+        doSwap();
+        setInterval(doSwap, 3000);
+      }, delaySec * 1000);
+    }
+
+    // Inicializa Bloco 2 aos 3s e Bloco 3 aos 4.5s (offset estético de 1.5s)
+    initCardDeckSwap('deck-bloco2', 3.0, -1);
+    initCardDeckSwap('deck-bloco3', 4.5, 1);
+
+    // 3. ScrollTrigger Reveal em Cascata para a 2ª Dobra
+    gsap.from("#trajetoria-bloco1-center", {
+      scrollTrigger: {
+        trigger: "#trajetoria",
+        start: "top 82%",
+        toggleActions: "play none none none"
+      },
+      y: 40,
+      opacity: 0,
+      duration: 1.1,
+      ease: "power3.out"
+    });
+
+    gsap.from(".trajetoria-card", {
+      scrollTrigger: {
+        trigger: "#trajetoria-grid",
+        start: "top 84%",
+        toggleActions: "play none none none"
+      },
+      y: 50,
+      opacity: 0,
+      duration: 1.2,
+      stagger: 0.18,
+      ease: "power3.out"
     });
 
     /* ----------------------------------------------------------------
