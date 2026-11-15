@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dra. Josiane Lima Pediatra — Florescer Com Raízes</title>
+  <meta name="description" content="Florescer Com Raízes — Dra. Josiane Lima Pediatra CRM-RJ 1244990 | RQE 59693. Cuidado humano e medicina com excelência.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+
+  <!-- ================================================================
+       FONTES OFICIAIS DO DESIGN SYSTEM (FRAUNCES + MANROPE)
+  ================================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..800;1,9..144,200..800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- ================================================================
+       STACK TÉCNICA CDN OBRIGATÓRIA
+       Tailwind CSS + Lucide Icons + GSAP + ScrollTrigger + Lenis
+  ================================================================ -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            medPeach: '#FCE8D5',
+            medSage: '#A8C282',
+            medOlive: '#7F9854',
+            medOliveDark: '#5a7038',
+            medBlue: '#4392DF',
+            medOcre: '#F3C440',
+            medCoral: '#EB746A',
+            medGround: '#F5EEE6',
+            medShell: '#FAF5EE',
+            medInk: '#2C2416'
+          },
+          fontFamily: {
+            fraunces: ['Fraunces', 'serif'],
+            manrope: ['Manrope', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP 3.12.5 + ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lenis Smooth Scroll CDN -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- ================================================================
+       ESTILOS & TOKENS EXCLUSIVOS DO DESIGN SYSTEM
+  ================================================================ -->
+  <style>
+    :root {
+      --med-peach: #FCE8D5;
+      --med-sage: #A8C282;
+      --med-olive: #7F9854;
+      --med-olive-dark: #5a7038;
+      --med-blue: #4392DF;
+      --med-ocre: #F3C440;
+      --med-coral: #EB746A;
+      --med-ground: #F5EEE6;
+      --med-shell: #FAF5EE;
+      --med-ink: #2C2416;
+      --med-graphite: rgb(60, 50, 40);
+    }
+
+    /* Reset & Base */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--med-shell);
+      color: var(--med-graphite);
+      font-family: 'Manrope', -apple-system, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection {
+      background: var(--med-olive);
+      color: #FFFFFF;
+    }
+
+    /* Tipografia oficial com especificidade estrita */
+    .font-fraunces {
+      font-family: 'Fraunces', Georgia, serif !important;
+    }
+    .font-manrope {
+      font-family: 'Manrope', -apple-system, sans-serif !important;
+    }
+
+    /* Lenis Smooth Scroll Setup */
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+    .lenis.lenis-stopped {
+      overflow: hidden;
+    }
+
+    /* Pílula de Vidro Fosco do Design System */
+    .glass-capsule {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(127, 152, 84, 0.20);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 12px 28px -12px rgba(60, 50, 40, 0.12);
+    }
+
+    /* Escultura Central da Árvore */
+    .hero-tree-sculpture {
+      filter: drop-shadow(0 22px 42px rgba(60, 50, 40, 0.14));
+      transition: filter 0.5s ease;
+    }
+    .hero-tree-sculpture:hover {
+      filter: drop-shadow(0 26px 48px rgba(127, 152, 84, 0.22));
+    }
+
+    /* Botão Primário Oficial do Design System */
+    .btn-primary-med {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 13px 30px;
+      font-family: 'Manrope', -apple-system, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, #7F9854 0%, #5a7038 100%);
+      box-shadow:
+        rgba(255, 255, 255, 0.28) 0 1px 0 inset,
+        rgba(0, 0, 0, 0.24) 0 -3px 8px inset,
+        rgba(60, 50, 40, 0.25) 0 14px 28px -10px,
+        rgba(127, 152, 84, 0.42) 0 8px 22px -6px;
+      transition: all 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary-med:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow:
+        rgba(255, 255, 255, 0.36) 0 1px 0 inset,
+        rgba(0, 0, 0, 0.2) 0 -3px 8px inset,
+        rgba(127, 152, 84, 0.6) 0 18px 32px -8px;
+    }
+    .btn-primary-med::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.7s ease;
+    }
+    .btn-primary-med:hover::before {
+      left: 140%;
+    }
+
+    /* Canvas de Chuva de Folhas Orgânicas */
+    #hero-leaf-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    /* Orbs e fundos */
+    .hero-blur-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(85px);
+      pointer-events: none;
+      animation: orbPulse 16s ease-in-out infinite alternate;
+    }
+    @keyframes orbPulse {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.45; }
+      50% { transform: scale(1.08) translate(15px, -18px); opacity: 0.65; }
+      100% { transform: scale(0.95) translate(-12px, 14px); opacity: 0.45; }
+    }
+  </style>
+</head>
+<body class="relative bg-[#FAF5EE] text-[#2C2416]">
+
+  <!-- ================================================================
+       1. BARRA SUPERIOR & INDICADOR HORIZONTAL DE PROGRESSO DE SCROLL
+       (Linha divisória sutil + barra de progresso no canto superior esquerdo)
+  ================================================================ -->
+  <div id="scroll-progress-track" class="fixed top-0 left-0 w-full h-[3px] bg-black/[0.04] z-50 pointer-events-none">
+    <div id="scroll-progress-bar" class="h-full bg-gradient-to-r from-[#A8C282] via-[#7F9854] to-[#4392DF] w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header Editorial Minimalista -->
+  <header id="site-header" class="fixed top-0 left-0 w-full z-40 px-6 sm:px-12 py-4 transition-all duration-500">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Logo Oficial da Árvore e Nome -->
+      <a href="#hero" class="flex items-center gap-3 group focus:outline-none" aria-label="Dra. Josiane Lima — Início">
+        <div class="w-9 h-9 rounded-full bg-white/95 border border-[#7F9854]/25 shadow-xs flex items-center justify-center p-1 group-hover:scale-105 transition-transform duration-300 overflow-hidden">
+          <img 
+            src="Midias que seram usadas/f7fc32f9-5ae3-470e-8199-4719960b6220-removebg-preview.png" 
+            alt="Logo Oficial Dra. Josiane Lima" 
+            class="w-full h-full object-contain"
+          />
+        </div>
+        <div class="flex flex-col">
+          <span class="font-manrope font-bold text-sm tracking-tight text-[#2C2416] group-hover:text-[#7F9854] transition-colors">Dra. Josiane Lima</span>
+          <span class="font-manrope text-[10px] uppercase tracking-wider text-[#2C2416]/50 -mt-0.5">Pediatra</span>
+        </div>
+      </a>
+
+      <!-- Status de Atendimento Discreto -->
+      <div class="glass-capsule px-4 py-1.5 rounded-full flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[#7F9854] animate-pulse"></span>
+        <span class="font-manrope text-[11px] font-semibold text-[#2C2416]/80 tracking-wide">CRM-RJ 1244990 · RQE 59693</span>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================================================================
+       2. ARQUITETURA DA 1ª DOBRA (HERO SECTION — 100VH EM TELA CHEIA)
+       PINNED NO SCROLL + SCRUB:
+       - Escultura da Árvore no Centro Exato (Z-INDEX: 20)
+       - Letreiro Monumental (Z-INDEX: 10) que desliza SUAVEMENTE POR TRÁS da árvore
+       - Micro-rótulo editorial no canto inferior esquerdo
+  ================================================================ -->
+  <section id="hero" class="relative w-full h-screen overflow-hidden bg-[#FAF5EE] flex items-center justify-center select-none">
+
+    <!-- Orbs de Iluminação Difusa com as Cores da Paleta -->
+    <div class="hero-blur-orb w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] -left-28 -top-28 bg-gradient-to-br from-[#A8C282]/30 via-[#FCE8D5]/35 to-transparent"></div>
+    <div class="hero-blur-orb w-[55vw] h-[55vw] max-w-[750px] max-h-[750px] -right-28 -bottom-28 bg-gradient-to-tl from-[#FCE8D5]/40 via-[#A8C282]/25 to-transparent"></div>
+
+    <!-- Canvas de Chuva de Folhas Orgânicas -->
+    <canvas id="hero-leaf-canvas" aria-hidden="true"></canvas>
+
+    <!-- Linha Divisória de Topo Minimalista -->
+    <div class="absolute top-[72px] left-8 right-8 h-[1px] bg-[#7F9854]/15 pointer-events-none hidden sm:block"></div>
+
+    <!-- ============================================================
+         CAMADA POSTERIOR (Z-INDEX: 10): LETREIRO PRINCIPAL & SECUNDÁRIO
+         Inicia na porção superior com a base tocando a copa da árvore,
+         e no scroll desliza SUAVEMENTE POR TRÁS de toda a árvore!
+    ============================================================ -->
+    <div id="hero-headline-group" class="absolute z-10 w-full max-w-7xl px-4 flex flex-col items-center justify-center text-center pointer-events-none" style="top: clamp(65px, 8.5vh, 96px);">
+      
+      <!-- Título Principal / H1 Exato -->
+      <h1 id="hero-title" class="font-fraunces font-light text-[clamp(2.9rem,8.4vw,8.5rem)] leading-[0.92] tracking-[-0.03em] text-[#2C2416] max-w-6xl">
+        Florescer Com Raízes
+      </h1>
+
+      <!-- Subtítulo Oficial em Cinza Grafite do Design System -->
+      <p id="hero-subtitle" class="font-manrope font-semibold text-[clamp(0.85rem,1.35vw,1.15rem)] uppercase tracking-[0.22em] mt-3.5 max-w-3xl" style="color: rgba(60, 50, 40, 0.78);">
+        Dra. Josiane Lima | Pediatra
+      </p>
+
+    </div>
+
+    <!-- ============================================================
+         CAMADA ANTERIOR (Z-INDEX: 20): ESCULTURA CENTRAL DA ÁRVORE
+         - Recorte milimétrico da imagem oficial (zero margens invisíveis)
+         - Proporcionalmente significativamente maior e imponente
+         - Posicionada logo abaixo do subtítulo (próxima e sem sobreposição inicial)
+         - Título e subtítulo sobrepõem-se deslizando por trás somente na rolagem
+    ============================================================ -->
+    <div id="hero-tree-container" class="absolute z-20 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none w-[clamp(280px,36vw,440px)] h-[clamp(320px,47vh,500px)] aspect-[260/322]" style="top: clamp(165px, 21vh, 205px);">
+      
+      <!-- Halo de Iluminação Sutil sob as Raízes Coloridas -->
+      <div class="absolute inset-x-4 bottom-0 h-44 bg-radial from-[#FCE8D5]/80 via-[#A8C282]/30 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+
+      <!-- Imagem Oficial da Árvore com Recorte Exato (Sem corte de folhas ou raízes) -->
+      <img 
+        id="hero-tree-image"
+        src="Midias que seram usadas/arvore-logo-cropped.png" 
+        alt="Árvore da Vida — Logo Oficial Dra. Josiane Lima" 
+        class="hero-tree-sculpture w-full h-full object-contain select-none"
+      />
+    </div>
+
+    <!-- ============================================================
+         CAMADA 30: BOTÃO CENTRALIZADO INFERIOR & MICRO-RÓTULOS EDITORIAIS
+    ============================================================ -->
+    <!-- Canto Inferior Esquerdo (Micro-Rótulo Minimalista Editorial) -->
+    <div id="hero-bottom-left" class="hero-editorial-label absolute bottom-7 sm:bottom-8 left-6 sm:left-10 z-30 hidden md:flex items-center gap-3 text-xs font-manrope text-[#2C2416]/65 tracking-wider">
+      <div class="w-2.5 h-2.5 rounded-full border border-[#7F9854] flex items-center justify-center">
+        <div class="w-1.5 h-1.5 rounded-full bg-[#7F9854]"></div>
+      </div>
+      <span class="uppercase text-[11px] font-semibold tracking-[0.18em]">01 / INTRODUÇÃO</span>
+      <span class="text-[#2C2416]/30">|</span>
+      <span class="text-[11px] font-medium text-[#2C2416]/55">ROLE PARA EXPLORAR</span>
+      <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-[#7F9854] animate-bounce"></i>
+    </div>
+
+    <!-- Botão Centralizado na Parte Inferior (Design System CTA Oficial) -->
+    <div id="hero-center-cta" class="hero-editorial-label absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-auto">
+      <a href="#section-next" class="btn-primary-med group" aria-label="Agendar Consulta com a Dra. Josiane Lima">
+        <span>Agendar Consulta</span>
+        <i data-lucide="calendar" class="w-4 h-4 stroke-[2.2] transition-transform duration-300 group-hover:scale-110"></i>
+      </a>
+    </div>
+
+    <!-- Canto Inferior Direito (Assinatura Editorial) -->
+    <div id="hero-bottom-right" class="hero-editorial-label absolute bottom-7 sm:bottom-8 right-6 sm:right-10 z-30 hidden md:flex items-center gap-2.5">
+      <div class="glass-capsule px-4 py-1.5 rounded-full flex items-center gap-2">
+        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#7F9854]"></i>
+        <span class="font-manrope text-[11px] font-semibold tracking-wide text-[#2C2416]/85">Medicina Integrativa</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[#A8C282]"></span>
+        <span class="font-manrope text-[11px] text-[#2C2416]/65">Cuidado Humanizado</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================================================================
+       3. SEÇÃO PLACEHOLDER MÍNIMA (PARA TESTAR A ROLAGEM E TRANSIÇÃO)
+  ================================================================ -->
+  <section id="section-next" class="relative min-h-[120vh] py-32 px-6 sm:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/15 flex items-center justify-center text-center">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/70 border border-[#7F9854]/20 mb-6 shadow-xs">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#7F9854]"></i>
+        <span class="font-manrope text-xs uppercase tracking-wider font-semibold text-[#7F9854]">02 · Transição Concluída</span>
+      </div>
+      <h2 class="font-fraunces font-light text-3xl sm:text-5xl text-[#2C2416] tracking-tight mb-4">
+        Cuidado que floresce desde as primeiras raízes.
+      </h2>
+      <p class="font-manrope text-base sm:text-lg text-[#2C2416]/65 font-light leading-relaxed max-w-xl mx-auto">
+        Seção de teste de scroll da 1ª dobra. O pin foi liberado e os letreiros repousaram com harmonia abaixo das raízes da árvore.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SCRIPTS: LENIS, GSAP SCROLLTRIGGER & CHUVA DE FOLHAS
+  ================================================================ -->
+  <script>
+    // Inicialização dos Ícones Lucide
+    lucide.createIcons();
+
+    /* ----------------------------------------------------------------
+       1. LENIS SMOOTH SCROLL (INTEGRADO AO GSAP TICKER)
+    ---------------------------------------------------------------- */
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.8
+    });
+
+    lenis.on('scroll', ScrollTrigger.update);
+
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    /* ----------------------------------------------------------------
+       2. BARRA DE PROGRESSO DE SCROLL SUPERIOR
+    ---------------------------------------------------------------- */
+    const progressBar = document.getElementById('scroll-progress-bar');
+    window.addEventListener('scroll', () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const progress = (window.scrollY / totalHeight) * 100;
+        progressBar.style.width = `${progress}%`;
+      }
+    }, { passive: true });
+
+    /* ----------------------------------------------------------------
+       2.5. ALINHAMENTO GEOMÉTRICO: ÁRVORE PRÓXIMA AO SUBTÍTULO
+       - Posição próxima, imponente e sem sobreposição no estado estático.
+       - A passagem do letreiro por trás da árvore ocorre exclusivamente
+         durante a rolagem para baixo!
+       - Unificado com rigor visual para Desktop e Smartphone.
+    ---------------------------------------------------------------- */
+    function alignTreeInitial() {
+      const headline = document.getElementById('hero-headline-group');
+      const tree = document.getElementById('hero-tree-container');
+      const hero = document.getElementById('hero');
+      if (!headline || !tree || !hero) return;
+      
+      const hRect = headline.getBoundingClientRect();
+      const heroRect = hero.getBoundingClientRect();
+      
+      // Proximidade elegante entre o subtítulo e o topo das folhas da árvore:
+      // ~14px em smartphone e ~18px em desktop
+      const isMobile = window.innerWidth < 768;
+      const gap = isMobile ? 14 : 18;
+      const initialTop = (hRect.bottom - heroRect.top) + gap;
+      tree.style.top = initialTop + 'px';
+    }
+
+    window.addEventListener('resize', alignTreeInitial, { passive: true });
+    window.addEventListener('load', () => {
+      alignTreeInitial();
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+    });
+    if (document.fonts) {
+      document.fonts.ready.then(alignTreeInitial);
+    }
+
+    /* ----------------------------------------------------------------
+       3. ANIMAÇÃO DE ENTRADA CINEMATOGRÁFICA (PAGE LOAD)
+    ---------------------------------------------------------------- */
+    window.addEventListener('DOMContentLoaded', () => {
+      alignTreeInitial();
+
+      // Entrada da Árvore Central
+      gsap.from("#hero-tree-container", {
+        scale: 0.90,
+        opacity: 0,
+        y: 16,
+        duration: 1.5,
+        ease: "power3.out"
+      });
+
+      // Entrada dos Letreiros
+      gsap.from("#hero-headline-group", {
+        y: -24,
+        opacity: 0,
+        duration: 1.4,
+        delay: 0.2,
+        ease: "power3.out"
+      });
+
+      // Entrada dos Micro-rótulos e Botão Central
+      gsap.from(".hero-editorial-label", {
+        opacity: 0,
+        y: 15,
+        duration: 1.0,
+        delay: 0.5,
+        ease: "power2.out",
+        stagger: 0.12
+      });
+    });
+
+    /* ----------------------------------------------------------------
+       4. COREOGRAFIA CRÍTICA DA 1ª DOBRA (HERO SECTION PIN + SCRUB)
+       - A Hero Section fica fixada (pinned) durante o percurso.
+       - A árvore (z-index: 20) permanece centralizada com respiro de escala.
+       - Os letreiros (z-index: 10) descem passando POR TRÁS da árvore,
+         repousando perfeitamente abaixo das raízes coloridas!
+    ---------------------------------------------------------------- */
+    gsap.registerPlugin(ScrollTrigger);
+
+    let mm = gsap.matchMedia();
+
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context) => {
+      let { isDesktop, isMobile } = context.conditions;
+
+      const heroTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: isDesktop ? "+=180%" : "+=140%",
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1
+        }
+      });
+
+      // 1. Letreiro desliza verticalmente para baixo passando por trás da árvore
+      heroTimeline.to("#hero-headline-group", {
+        yPercent: isDesktop ? 68 : 52,
+        scale: isDesktop ? 0.94 : 0.90,
+        opacity: 0.92,
+        ease: "power2.inOut"
+      }, 0);
+
+      // 2. A árvore (z-index: 20) permanece ancorada no centro com leve respiração e parallax
+      heroTimeline.to("#hero-tree-container", {
+        scale: isDesktop ? 1.08 : 1.05,
+        y: isDesktop ? -12 : -6,
+        ease: "power1.out"
+      }, 0);
+
+      // 3. Os micro-rótulos editoriais e o botão inferior desvanecem suavemente no início da rolagem
+      heroTimeline.to(".hero-editorial-label", {
+        opacity: 0,
+        y: 12,
+        duration: 0.25,
+        ease: "power1.in"
+      }, 0);
+    });
+
+    /* ----------------------------------------------------------------
+       5. CHUVA DE FOLHAS VERDES BOTÂNICAS NO CANVAS
+       (Física orgânica com vento interativo e rotação 3D)
+    ---------------------------------------------------------------- */
+    (function initLeafRain() {
+      const hero = document.getElementById('hero');
+      const canvas = document.getElementById('hero-leaf-canvas');
+      if (!canvas || !hero) return;
+
+      const ctx = canvas.getContext('2d');
+      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      let W = 0, H = 0;
+      let leaves = [];
+      const isMobile = window.innerWidth < 768;
+      const count = isMobile ? 48 : 78;
+      let mouse = { x: -9999, y: -9999, inside: false };
+      let wind = 0;
+      let frame = 0;
+
+      const LEAF_COLORS = ['#7F9854', '#8BA55F', '#6B8342', '#A8C282', '#5A7038'];
+
+      function resizeCanvas() {
+        const rect = hero.getBoundingClientRect();
+        W = rect.width;
+        H = rect.height;
+        canvas.width = Math.max(1, W * DPR);
+        canvas.height = Math.max(1, H * DPR);
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+        if (leaves.length === 0 && W > 0) {
+          for (let i = 0; i < count; i++) {
+            leaves.push(createLeaf(false));
+          }
+        }
+      }
+
+      function createLeaf(resetY) {
+        return {
+          x: Math.random() * (W + 200) - 100,
+          y: resetY ? -35 : Math.random() * H,
+          vy: Math.random() * 1.5 + 1.1,
+          vx: (Math.random() - 0.5) * 0.6,
+          size: Math.random() * 8 + 9,
+          aspect: Math.random() * 0.25 + 0.45,
+          angle: Math.random() * Math.PI * 2,
+          rotSpeed: (Math.random() - 0.5) * 0.04,
+          sway: Math.random() * Math.PI * 2,
+          swaySpeed: Math.random() * 0.025 + 0.015,
+          swayAmp: Math.random() * 1.5 + 0.8,
+          color: LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)],
+          alpha: Math.random() * 0.3 + 0.62,
+          scaleX: 1
+        };
+      }
+
+      function drawSingleLeaf(lf) {
+        ctx.save();
+        ctx.translate(lf.x, lf.y);
+        ctx.rotate(lf.angle);
+        ctx.scale(lf.scaleX, 1);
+        ctx.globalAlpha = lf.alpha;
+
+        const s = lf.size;
+        const w = s * lf.aspect;
+
+        ctx.beginPath();
+        ctx.moveTo(0, -s);
+        ctx.bezierCurveTo(w * 1.25, -s * 0.4, w * 1.15, s * 0.5, 0, s);
+        ctx.bezierCurveTo(-w * 1.15, s * 0.5, -w * 1.25, -s * 0.4, 0, -s);
+        ctx.fillStyle = lf.color;
+        ctx.fill();
+
+        // Nervura central da folha
+        ctx.beginPath();
+        ctx.moveTo(0, -s * 0.85);
+        ctx.quadraticCurveTo(w * 0.1, 0, 0, s * 0.85);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.lineWidth = 0.9;
+        ctx.stroke();
+
+        ctx.restore();
+      }
+
+      window.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+        mouse.inside = mouse.x >= 0 && mouse.x <= r.width && mouse.y >= 0 && mouse.y <= r.height;
+      }, { passive: true });
+
+      window.addEventListener('resize', resizeCanvas, { passive: true });
+      resizeCanvas();
+
+      function animateLeaves() {
+        ctx.clearRect(0, 0, W, H);
+        frame++;
+
+        // Brisa ambiental contínua + vetor de vento pelo ponteiro
+        const ambientWind = Math.sin(frame * 0.018) * 1.4;
+        const pointerWind = mouse.inside ? (mouse.x / W - 0.5) * 6.5 : 0;
+        const targetWind = ambientWind + pointerWind;
+        wind += (targetWind - wind) * 0.035;
+
+        for (let i = 0; i < leaves.length; i++) {
+          const lf = leaves[i];
+          lf.sway += lf.swaySpeed;
+          lf.x += lf.vx + Math.sin(lf.sway) * lf.swayAmp + wind * 0.6;
+          lf.y += lf.vy;
+          lf.angle += lf.rotSpeed + wind * 0.008;
+          lf.scaleX = Math.cos(lf.sway * 0.8);
+
+          if (lf.y > H + 40 || lf.x < -80 || lf.x > W + 80) {
+            Object.assign(lf, createLeaf(true));
+          }
+
+          drawSingleLeaf(lf);
+        }
+
+        requestAnimationFrame(animateLeaves);
+      }
+      requestAnimationFrame(animateLeaves);
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FCE8D5">
+<title>Dra. Josiane Lima — Design System Médico</title>
+<link rel="stylesheet" href="assets/overview/assets/fonts.googleapis.com/css2__q409fcde3.css">
+<link rel="stylesheet" href="assets/overview/assets/fonts.googleapis.com/css2__qf7d38554.css">
+<link rel="stylesheet" href="assets/overview/assets/fonts.googleapis.com/css2__qed4d15e6.css">
+<script src="assets/overview/assets/cdn.tailwindcss.com/3.4.17.js"></script>
+<script src="assets/overview/assets/terrasprint-ai.aura.build/iconify-solar.js"></script>
+<script src="assets/overview/assets/code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<script src="assets/overview/assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="assets/overview/assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<style>
+/* ===================================================================
+   DRA. JOSIANE LIMA — DESIGN SYSTEM MÉDICO
+   Paleta: Pêssego #FCE8D5 · Sálvia #A8C282 · Oliva #7F9854
+           Azul #4392DF · Ocre #F3C440 · Coral #EB746A
+=================================================================== */
+
+/* ---- Font aliases (mesmas classes do TerraSprint) --------------- */
+.font-fraunces { font-family: 'Fraunces', 'Georgia', serif !important; }
+.font-manrope  { font-family: 'Manrope', sans-serif !important; }
+
+/* ---- Tokens da médica ------------------------------------------ */
+:root {
+  /* Brand */
+  --med-peach:   #FCE8D5;   /* bege claro / pêssego suave */
+  --med-sage:    #A8C282;   /* verde sálvia */
+  --med-olive:   #7F9854;   /* verde oliva */
+  --med-blue:    #4392DF;   /* azul */
+  --med-ocre:    #F3C440;   /* amarelo ocre */
+  --med-coral:   #EB746A;   /* coral / salmão */
+
+  /* Surfaces derivadas */
+  --med-ground:  #F5EEE6;   /* chão quente */
+  --med-shell:   #FDF8F3;   /* papel quente */
+  --med-ink:     #2C2416;   /* texto escuro */
+  --med-graphite:rgb(60, 50, 40);
+
+  /* Gradientes */
+  --grad-olive:  linear-gradient(135deg, #7F9854 0%, #5a7038 100%);
+  --grad-peach:  linear-gradient(135deg, #FCE8D5 0%, #f5c9a0 100%);
+  --grad-sage:   linear-gradient(135deg, #A8C282 0%, #7F9854 100%);
+  --grad-hero:   linear-gradient(160deg, #FCE8D5 0%, #e8d4b8 55%);
+
+  /* Radi */
+  --ds-inset:  16px;
+  --ds-radius: 40px;
+  --ds-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html, body { height: 100%; margin: 0; }
+body {
+  overflow-x: hidden;
+  background: var(--med-ground);
+  color: var(--med-graphite);
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ================================================================
+   HERO — Primeira dobra
+================================================================ */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--grad-hero);
+  display: flex; align-items: center;
+}
+
+/* Background animado: bolhas orgânicas */
+#hero-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orbDrift 12s ease-in-out infinite alternate;
+}
+.hero-orb-1 {
+  width: 65vw; height: 65vw; max-width: 900px; max-height: 900px;
+  left: -20%; top: -20%;
+  background: radial-gradient(circle at 40% 40%, rgba(168,194,130,0.42) 0%, rgba(127,152,84,0.18) 45%, transparent 70%);
+  animation-delay: 0s;
+}
+.hero-orb-2 {
+  width: 50vw; height: 50vw; max-width: 720px; max-height: 720px;
+  right: -15%; top: 10%;
+  background: radial-gradient(circle at 60% 50%, rgba(243,196,64,0.28) 0%, rgba(235,116,106,0.12) 45%, transparent 70%);
+  animation-delay: -4s;
+}
+.hero-orb-3 {
+  width: 40vw; height: 40vw; max-width: 580px; max-height: 580px;
+  left: 30%; bottom: -10%;
+  background: radial-gradient(circle at 50% 60%, rgba(67,146,223,0.22) 0%, rgba(127,152,84,0.10) 50%, transparent 72%);
+  animation-delay: -8s;
+}
+
+@keyframes orbDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(3%, 2%) scale(1.06); }
+  100% { transform: translate(-2%, 4%) scale(0.96); }
+}
+
+/* Canvas de chuva de folhas — visível em primeiro plano (z-index: 15) em desktop e smartphone */
+#hero-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 15;
+  cursor: default;
+}
+/* Permite clique no hero p/ abrir/fechar o "leque" de folhas */
+#hero { cursor: pointer; }
+
+/* Haze de fundo */
+#hero-haze {
+  position: absolute; inset-x: 0; bottom: 0; height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(245,238,230,0.75));
+  pointer-events: none; z-index: 2;
+}
+
+/* Conteúdo hero */
+.hero-content {
+  position: relative; z-index: 10;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 120px clamp(24px, 5vw, 80px) 100px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+@media (max-width: 860px) { .hero-content { grid-template-columns: 1fr; gap: 48px; padding-top: 100px; } }
+
+/* Badge hero */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 18px; border-radius: 999px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(127,152,84,0.22);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 8px 24px -10px rgba(127,152,84,0.25);
+  font: 500 12px/1.4 'Manrope', sans-serif;
+  color: #4a6b2a;
+  margin-bottom: 28px;
+  animation: riseIn 0.8s cubic-bezier(0.22,0.61,0.36,1) both;
+}
+
+/* Título principal */
+.hero-title {
+  margin: 0 0 20px;
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: clamp(3rem, 7vw, 6.25rem); line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: #2c2416;
+  animation: riseIn 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.09s both;
+}
+.hero-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, #7F9854 0%, #4392DF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-lead {
+  margin: 0 0 36px;
+  font: 400 1.125rem/1.65 'Manrope', sans-serif;
+  color: rgba(60,50,40,0.62);
+  animation: riseIn 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.18s both;
+}
+
+.hero-ctas {
+  display: flex; flex-wrap: wrap; gap: 14px;
+  animation: riseIn 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.27s both;
+}
+
+/* Tiles flutuantes hero */
+.hero-tiles {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  animation: riseIn 0.9s cubic-bezier(0.22,0.61,0.36,1) 0.36s both;
+}
+.hero-tile {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 20px; border-radius: 22px; cursor: default;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-tile:hover { transform: translateY(-3px); }
+.hero-tile-icon {
+  width: 44px; height: 44px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.hero-tile-t { font: 600 13px/1.3 'Manrope', sans-serif; color: #2c2416; }
+.hero-tile-s { font: 400 11px/1.4 'Manrope', sans-serif; color: rgba(60,50,40,0.5); margin-top: 2px; }
+
+/* Chip de preview flutuante */
+.hero-preview-chip {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 10px 18px 10px 10px; border-radius: 20px; margin-top: 20px;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(127,152,84,0.16);
+  box-shadow: 0 12px 28px -14px rgba(60,50,40,0.22);
+  animation: riseIn 0.8s cubic-bezier(0.22,0.61,0.36,1) 0.45s both;
+}
+.hero-preview-chip img {
+  width: 40px; height: 40px; border-radius: 12px; object-fit: cover;
+}
+
+/* Animação de surgimento */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Pulsing glow nos CTAs */
+@keyframes btnGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(127,152,84,0.0), 0 1px 0 rgba(255,255,255,0.28) inset, 0 -3px 8px rgba(0,0,0,0.3) inset, 0 16px 32px -12px rgba(60,50,40,0.5); }
+  50%       { box-shadow: 0 0 24px 4px rgba(127,152,84,0.28), 0 1px 0 rgba(255,255,255,0.28) inset, 0 -3px 8px rgba(0,0,0,0.3) inset, 0 16px 32px -12px rgba(60,50,40,0.5); }
+}
+
+/* ================================================================
+   NAV CAPSULE — mesmas classes do TerraSprint adaptadas
+================================================================ */
+#nav {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  z-index: 50; width: calc(100% - 2rem); max-width: 900px;
+  top: 1.25rem; transition: all 0.5s;
+}
+#navCapsule {
+  position: relative; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px;
+  border-radius: 36px; padding: 8px 8px 8px 20px;
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(127,152,84,0.14);
+  box-shadow: rgba(255,255,255,0.9) 0 1px 0 inset, rgba(60,50,40,0.18) 0 10px 30px -14px;
+  transition: box-shadow 0.5s, background 0.5s;
+}
+#navCapsule.scrolled {
+  background: rgba(255,255,255,0.92);
+  box-shadow: rgba(255,255,255,0.9) 0 1px 0 inset, rgba(60,50,40,0.28) 0 20px 44px -16px;
+}
+#ds-home {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-dots { display: flex; align-items: center; }
+.nav-dot-1 { width: 16px; height: 16px; border-radius: 50%; background: var(--med-olive); }
+.nav-dot-2 { width: 16px; height: 16px; border-radius: 50%; background: var(--med-coral); margin-left: -6px; }
+#ds-links { display: flex; align-items: center; gap: 4px; }
+#ds-links a {
+  border-radius: 999px; padding: 6px 14px;
+  font: 500 12px/1.4 'Manrope', sans-serif;
+  color: rgba(60,50,40,0.55); text-decoration: none;
+  transition: color 0.25s, background 0.25s;
+}
+#ds-links a:hover { color: #2c2416; }
+#ds-links a.is-active { color: #2c2416; background: rgba(60,50,40,0.06); }
+
+/* ================================================================
+   PAGE SHELL (mesma lógica do TerraSprint)
+================================================================ */
+#page-shell {
+  background: var(--med-shell);
+}
+
+/* ================================================================
+   SECTION LAYOUT GERAL
+================================================================ */
+.ds-section {
+  max-width: 1240px; margin: 0 auto;
+  padding: 100px clamp(24px, 5vw, 80px);
+}
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; border-radius: 999px; margin-bottom: 20px;
+  font: 500 12px/1.4 'Manrope', sans-serif;
+  color: #4a6b2a;
+  background: rgba(127,152,84,0.10);
+  border: 1px solid rgba(127,152,84,0.22);
+}
+.section-title {
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem); line-height: 1.05;
+  letter-spacing: -0.02em; color: #2c2416; margin: 0 0 16px;
+}
+.section-lead {
+  font: 400 1rem/1.65 'Manrope', sans-serif;
+  color: rgba(60,50,40,0.62); max-width: 60ch; margin: 0;
+}
+
+/* ================================================================
+   ANIMATED SECTION BACKGROUNDS
+================================================================ */
+.section-bg-wave {
+  position: relative; overflow: hidden;
+}
+.section-bg-wave::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 10% 50%, rgba(168,194,130,0.14) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 20%, rgba(243,196,64,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 90%, rgba(67,146,223,0.08) 0%, transparent 60%);
+  animation: bgShift 18s ease-in-out infinite alternate;
+}
+@keyframes bgShift {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* ================================================================
+   TIPOGRAFIA — Seção 2
+================================================================ */
+.ds-type-row {
+  display: grid; grid-template-columns: 190px minmax(0,1fr) 160px;
+  gap: 24px; align-items: center; padding: 24px 28px;
+  border-top: 1px solid rgba(127,152,84,0.12);
+}
+.ds-type-row:first-child { border-top: 0; }
+.ds-type-row .role { font: 600 13px/1.3 'Manrope', sans-serif; color: #2c2416; }
+.ds-type-row .face { font: 400 12px/1.5 'Manrope', sans-serif; color: rgba(60,50,40,0.6); margin-top: 4px; }
+.ds-type-row .face code { display: block; margin-top: 5px; font: 400 10.5px/1.5 var(--ds-mono); color: rgba(60,50,40,0.65); }
+.ds-type-row .sample { min-width: 0; overflow: hidden; }
+.ds-type-row .sizes { text-align: right; font: 500 11.5px/1.6 var(--ds-mono); color: #2c2416; }
+.ds-type-row .sizes i { display: block; font-style: normal; font-size: 10.5px; color: rgba(60,50,40,0.5); }
+@media (max-width: 1099px) {
+  .ds-type-row { grid-template-columns: minmax(0,1fr) auto; padding: 20px; }
+  .ds-type-row .sample { grid-column: 1 / -1; grid-row: 2; }
+}
+
+/* ================================================================
+   CORES — Seção 3
+================================================================ */
+.color-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0; overflow: hidden;
+}
+.color-swatch {
+  display: grid; grid-template-columns: 64px minmax(0,1fr);
+  gap: 14px; align-items: start; padding: 16px;
+  box-shadow: 0 0 0 0.5px rgba(127,152,84,0.12);
+}
+.color-chip {
+  position: relative; height: 64px; border-radius: 16px; overflow: hidden;
+  display: grid; place-items: center;
+  background: var(--med-shell);
+  box-shadow: inset 0 0 0 1px rgba(127,152,84,0.12);
+}
+.color-chip .fill { position: absolute; inset: 0; }
+.color-chip .aa {
+  position: relative;
+  font-family: 'Fraunces', serif; font-weight: 300;
+  font-size: 28px; line-height: 1;
+}
+.color-chip .bar { position: absolute; left: 10px; right: 10px; top: 50%; height: 0; border-top: 2px solid; }
+.color-chip.on-dark { background: #2c2416; }
+.color-swatch strong { display: block; font: 600 13px/1.3 'Manrope', sans-serif; color: #2c2416; }
+.color-swatch code { display: block; margin-top: 3px; font: 400 10.5px/1.45 var(--ds-mono); color: #2c2416; overflow-wrap: anywhere; }
+.color-swatch p { margin: 4px 0 0; font: 400 12px/1.45 'Manrope', sans-serif; color: rgba(60,50,40,0.6); }
+
+/* ================================================================
+   BUTTONS / ACTIONS — Seção 7
+================================================================ */
+/* Primary (olive gradient) — mesma estrutura do TerraSprint */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 14px 28px;
+  font: 500 14px/1.3 'Manrope', sans-serif; color: #fff;
+  background: var(--grad-olive);
+  box-shadow:
+    rgba(255,255,255,0.24) 0 1px 0 inset,
+    rgba(0,0,0,0.3) 0 -3px 8px inset,
+    rgba(60,50,40,0.5) 0 16px 32px -12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none; cursor: pointer; border: 0;
+  animation: btnGlow 3s ease-in-out infinite;
+}
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-primary iconify-icon { transition: transform 0.3s ease; }
+.btn-primary:hover iconify-icon { transform: translateX(2px); }
+
+/* Secondary (glass pill) */
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 14px 28px;
+  font: 500 14px/1.3 'Manrope', sans-serif; color: #2c2416;
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(127,152,84,0.18);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 12px 24px -12px rgba(60,50,40,0.18);
+  transition: transform 0.3s ease, background 0.3s ease;
+  text-decoration: none; cursor: pointer;
+}
+.btn-secondary:hover { transform: translateY(-2px); background: #fff; }
+
+/* Coral CTA */
+.btn-coral {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 14px 28px;
+  font: 500 14px/1.3 'Manrope', sans-serif; color: #fff;
+  background: linear-gradient(135deg, #EB746A 0%, #c94d42 100%);
+  box-shadow:
+    rgba(255,255,255,0.22) 0 1px 0 inset,
+    rgba(0,0,0,0.25) 0 -2px 6px inset,
+    rgba(235,116,106,0.4) 0 14px 28px -10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-decoration: none; cursor: pointer; border: 0;
+}
+.btn-coral:hover { transform: translateY(-2px); }
+
+/* Blue CTA */
+.btn-blue {
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 14px 28px;
+  font: 500 14px/1.3 'Manrope', sans-serif; color: #fff;
+  background: linear-gradient(135deg, #4392DF 0%, #2867b2 100%);
+  box-shadow:
+    rgba(255,255,255,0.20) 0 1px 0 inset,
+    rgba(0,0,0,0.25) 0 -2px 6px inset,
+    rgba(67,146,223,0.4) 0 14px 28px -10px;
+  transition: transform 0.3s;
+  text-decoration: none; cursor: pointer; border: 0;
+}
+.btn-blue:hover { transform: translateY(-2px); }
+
+/* Compact nav CTA */
+.btn-nav {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 999px; padding: 8px 16px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #fff;
+  background: var(--grad-olive);
+  box-shadow:
+    rgba(255,255,255,0.22) 0 1px 0 inset,
+    rgba(0,0,0,0.3) 0 -2px 6px inset,
+    rgba(60,50,40,0.5) 0 12px 22px -10px;
+  transition: transform 0.3s;
+  text-decoration: none; cursor: pointer; border: 0;
+}
+.btn-nav:hover { transform: translateY(-2px); }
+
+/* ================================================================
+   CARDS
+================================================================ */
+/* Card de serviço */
+.card-service {
+  background: #fff;
+  border: 1px solid rgba(127,152,84,0.10);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 14px 28px -18px rgba(60,50,40,0.22);
+  border-radius: 24px; padding: 28px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+.card-service:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 24px 44px -18px rgba(60,50,40,0.28);
+}
+
+/* Card featured (gradient sálvia) */
+.card-featured {
+  background: linear-gradient(160deg, #7F9854 0%, #4a6b2a 70%);
+  border-radius: 26px; padding: 28px;
+  box-shadow: rgba(255,255,255,0.16) 0 1px 0 inset, rgba(60,50,40,0.6) 0 30px 55px -22px;
+}
+
+/* Card muted */
+.card-muted {
+  background: rgba(252,232,213,0.4);
+  border: 1px solid rgba(127,152,84,0.12);
+  border-radius: 24px; padding: 28px;
+  box-shadow: 0 16px 30px -20px rgba(60,50,40,0.18);
+}
+
+/* ================================================================
+   BADGES E STATUS
+================================================================ */
+.badge-hero {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 18px; border-radius: 999px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #2c2416;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(127,152,84,0.18);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 8px 20px -10px rgba(60,50,40,0.14);
+}
+.badge-sage {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 999px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #4a6b2a;
+  background: rgba(127,152,84,0.10);
+  border: 1px solid rgba(127,152,84,0.22);
+}
+.badge-coral {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 999px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #9c3129;
+  background: rgba(235,116,106,0.12);
+  border: 1px solid rgba(235,116,106,0.28);
+}
+.badge-blue {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 999px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #1a4f8a;
+  background: rgba(67,146,223,0.12);
+  border: 1px solid rgba(67,146,223,0.28);
+}
+.badge-ocre {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 999px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #7a5a00;
+  background: rgba(243,196,64,0.15);
+  border: 1px solid rgba(243,196,64,0.35);
+}
+.status-chip-light {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #2c2416;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 4px 12px -6px rgba(60,50,40,0.18);
+}
+.status-chip-dark {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 999px;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #fff;
+  background: #2c2416;
+  box-shadow: 0 10px 22px -12px rgba(44,36,22,0.5);
+}
+
+/* ================================================================
+   INPUTS E FORMULÁRIOS
+================================================================ */
+.input-field {
+  width: 100%;
+  border-radius: 999px; padding: 14px 20px;
+  font: 400 14px/1.4 'Manrope', sans-serif; color: #2c2416;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(127,152,84,0.18);
+  box-shadow: 0 8px 20px -14px rgba(60,50,40,0.18);
+  outline: none;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  box-sizing: border-box;
+}
+.input-field:focus {
+  border-color: rgba(127,152,84,0.5);
+  box-shadow: 0 0 0 3px rgba(127,152,84,0.12), 0 8px 20px -14px rgba(60,50,40,0.22);
+}
+.input-field::placeholder { color: rgba(60,50,40,0.38); }
+.input-textarea {
+  border-radius: 20px; padding: 14px 20px;
+  font: 400 14px/1.6 'Manrope', sans-serif; color: #2c2416;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(127,152,84,0.18);
+  box-shadow: 0 8px 20px -14px rgba(60,50,40,0.14);
+  outline: none; resize: vertical;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  box-sizing: border-box; width: 100%;
+}
+.input-textarea:focus {
+  border-color: rgba(127,152,84,0.5);
+  box-shadow: 0 0 0 3px rgba(127,152,84,0.12);
+}
+
+/* ================================================================
+   MODALS / TOOLTIPS
+================================================================ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(44,36,22,0.42); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: #fff; border-radius: 28px; padding: 36px;
+  max-width: 520px; width: calc(100% - 48px);
+  box-shadow: rgba(255,255,255,0.14) 0 1px 0 inset, rgba(44,36,22,0.35) 0 32px 64px -24px;
+  border: 1px solid rgba(127,152,84,0.12);
+  transform: translateY(20px); transition: transform 0.4s cubic-bezier(0.22,0.61,0.36,1);
+}
+.modal-overlay.open .modal-box { transform: translateY(0); }
+.tooltip {
+  position: relative; display: inline-block;
+}
+.tooltip-label {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  white-space: nowrap; padding: 7px 14px; border-radius: 10px;
+  font: 400 12px/1.4 'Manrope', sans-serif; color: #fff;
+  background: #2c2416;
+  box-shadow: 0 8px 20px -8px rgba(44,36,22,0.4);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+  transform: translateX(-50%) translateY(4px);
+}
+.tooltip:hover .tooltip-label { opacity: 1; transform: translateX(-50%) translateY(0); }
+.tooltip-label::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #2c2416;
+}
+
+/* ================================================================
+   DATA DISPLAY — Proof Pills
+================================================================ */
+.proof-pill-white {
+  flex: 1; border-radius: 999px; padding: 36px 40px; text-align: center;
+  background: #fff;
+  border: 1px solid rgba(127,152,84,0.12);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 18px 34px -18px rgba(60,50,40,0.22);
+}
+.proof-pill-dark {
+  flex: 1; border-radius: 999px; padding: 36px 40px; text-align: center;
+  background: linear-gradient(160deg, #7F9854 0%, #4a6b2a 100%);
+  box-shadow: rgba(255,255,255,0.14) 0 1px 0 inset, rgba(60,50,40,0.5) 0 24px 44px -18px;
+  position: relative; z-index: 2;
+  transform: scale(1.04);
+}
+.proof-num {
+  font-family: 'Fraunces', serif; font-weight: 300; letter-spacing: -0.04em;
+  font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1; color: #2c2416;
+}
+.proof-num-light { color: #fff; }
+.proof-label { font: 400 14px/1.4 'Manrope', sans-serif; color: rgba(60,50,40,0.55); margin-top: 8px; }
+.proof-label-light { color: rgba(255,255,255,0.65); margin-top: 8px; }
+
+/* ================================================================
+   MOTION — Animações
+================================================================ */
+/* data-rise — mesma lógica do TerraSprint */
+[data-rise] {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.8s cubic-bezier(0.22,0.61,0.36,1), transform 0.8s cubic-bezier(0.22,0.61,0.36,1);
+}
+[data-rise].is-visible { opacity: 1; transform: translateY(0); }
+
+/* data-drift — bob tiles */
+[data-drift="1"] { animation: drift1 5.2s ease-in-out infinite; }
+[data-drift="2"] { animation: drift2 6.1s ease-in-out 0.5s infinite; }
+[data-drift="3"] { animation: drift3 5.7s ease-in-out 1s infinite; }
+@keyframes drift1 { 0%,100%{ transform: rotate(4deg) translateY(0); } 50%{ transform: rotate(4deg) translateY(-8px); } }
+@keyframes drift2 { 0%,100%{ transform: rotate(-3deg) translateY(0); } 50%{ transform: rotate(-3deg) translateY(-9px); } }
+@keyframes drift3 { 0%,100%{ transform: rotate(2deg) translateY(0); } 50%{ transform: rotate(2deg) translateY(-7px); } }
+
+/* Pulso suave (glow) em elementos de destaque */
+.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(127,152,84,0.0); }
+  50%      { box-shadow: 0 0 32px 6px rgba(127,152,84,0.22); }
+}
+
+/* Scroll reveal do TerraSprint (GSAP) */
+.scroll-reveal {}
+
+/* ================================================================
+   ICON GRID
+================================================================ */
+.icon-grid {
+  display: grid; grid-template-columns: repeat(5, minmax(0,1fr));
+  gap: 26px 12px; padding: 28px 22px;
+}
+.icon-item { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; min-width: 0; }
+.icon-glyph { height: 40px; display: grid; place-items: center; }
+.icon-glyph.on-dark { width: 40px; border-radius: 999px; background: #2c2416; }
+.icon-item code { font: 400 10.5px/1.4 var(--ds-mono); color: #2c2416; overflow-wrap: anywhere; }
+.icon-item small { font: 400 10.5px/1.3 'Manrope', sans-serif; color: rgba(60,50,40,0.5); }
+@media (max-width: 699px) { .icon-grid { grid-template-columns: repeat(3, minmax(0,1fr)); padding: 22px 12px; } }
+
+/* ================================================================
+   SHARED SHEET (card branco de documentação)
+================================================================ */
+.ds-sheet {
+  background: #fff;
+  border: 1px solid rgba(127,152,84,0.10);
+  border-radius: 28px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 20px 40px -22px rgba(60,50,40,0.22);
+}
+.ds-spec {
+  margin: 0 0 44px;
+}
+.ds-spec-h {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 14px;
+}
+.ds-spec-h h3 {
+  margin: 0;
+  font: 600 14px/1.3 'Manrope', sans-serif; color: #2c2416;
+  display: inline-block; padding: 5px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(127,152,84,0.12);
+  backdrop-filter: blur(10px);
+}
+.ds-spec-h code, .ds-code {
+  display: inline-block; max-width: 100%; padding: 4px 10px; border-radius: 10px;
+  font: 400 11px/1.5 var(--ds-mono);
+  color: rgba(44,36,22,0.82); background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(127,152,84,0.12);
+  backdrop-filter: blur(10px); overflow-wrap: anywhere;
+}
+.ds-note {
+  margin: 12px 0 0; max-width: 80ch;
+  font: 400 12.5px/1.6 'Manrope', sans-serif; color: rgba(60,50,40,0.72);
+  width: fit-content; padding: 10px 16px; border-radius: 16px;
+  background: rgba(252,232,213,0.55);
+  border: 1px solid rgba(127,152,84,0.10);
+  backdrop-filter: blur(10px);
+}
+.ds-note b { font-weight: 600; color: #2c2416; }
+.ds-row { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 22px; }
+.ds-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px; }
+.ds-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+@media (max-width: 1099px) { .ds-3 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 699px) { .ds-2, .ds-3 { grid-template-columns: minmax(0,1fr); } }
+.ds-sub {
+  margin: 40px 0 14px;
+  font: 600 12px/1.4 'Manrope', sans-serif;
+  letter-spacing: .06em; text-transform: uppercase; color: #4a6b2a;
+}
+.ds-replay {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 14px;
+  padding: 6px 14px; border-radius: 999px; cursor: pointer;
+  font: 500 12px/1.4 'Manrope', sans-serif; color: #2c2416;
+  background: rgba(255,255,255,0.9); border: 1px solid rgba(127,152,84,0.18);
+}
+.ds-replay:hover { background: #fff; }
+
+/* ================================================================
+   SURFACE CELLS
+================================================================ */
+.ds-surf { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 22px; }
+.ds-surf .box { height: 132px; }
+.ds-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; }
+.ds-cell small { font: 600 10px/1.2 'Manrope', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: rgba(60,50,40,0.6);
+  display: inline-block; padding: 5px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.9); border: 1px solid rgba(127,152,84,0.10); }
+
+/* ================================================================
+   NAVIGATION SECTION
+================================================================ */
+.ds-navbox { position: relative; max-width: 900px; }
+.ds-mnav { max-width: 358px; }
+
+/* ================================================================
+   STATE CHIPS
+================================================================ */
+.ds-states { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap: 14px; padding: 18px; }
+.ds-states > strong { grid-column: 1/-1; font: 600 13.5px/1.3 'Manrope', sans-serif; color: #2c2416; }
+.ds-state { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ds-state code { font: 400 10.5px/1.45 var(--ds-mono); color: #2c2416; overflow-wrap: anywhere; }
+.ds-state small { font: 600 10px/1.2 'Manrope', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: rgba(60,50,40,0.6); }
+
+/* ================================================================
+   FOOTER PETALS / CLOSING SECTION
+================================================================ */
+#footer-section {
+  position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #FCE8D5 0%, #f0d5b2 50%, #e6cba0 100%);
+}
+#footer-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.footer-glow {
+  position: absolute; left: 50%; bottom: -30%; transform: translateX(-50%);
+  width: 80vw; height: 50vw; max-width: 1100px; max-height: 640px;
+  background: radial-gradient(at 50% 80%, rgba(127,152,84,0.32) 0%, rgba(67,146,223,0.12) 45%, transparent 72%);
+  filter: blur(60px); pointer-events: none;
+}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media (max-width: 639px) {
+  :root { --ds-inset: 8px; --ds-radius: 28px; }
+  .hero-tiles { grid-template-columns: 1fr; }
+  .icon-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+
+/* ================================================================
+   REDUCED MOTION
+================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, .hero-orb, [data-drift], .btn-primary { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ================================================================
+     FLOATING NAV (mesma estrutura #nav / #navCapsule do TerraSprint)
+================================================================ -->
+<header id="nav">
+  <div id="navCapsule">
+    <a href="#hero" id="ds-home" aria-label="Dra. Josiane Lima — Design System">
+      <!-- Logo árvore SVG inline (mini, 28px) -->
+      <span aria-hidden="true" style="display:inline-flex;align-items:center;flex-shrink:0;">
+        <svg width="28" height="28" viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Folhas/copa -->
+          <ellipse cx="60" cy="42" rx="34" ry="30" fill="#7F9854" opacity="0.9"/>
+          <ellipse cx="38" cy="52" rx="20" ry="17" fill="#7F9854" opacity="0.8"/>
+          <ellipse cx="82" cy="52" rx="20" ry="17" fill="#7F9854" opacity="0.8"/>
+          <ellipse cx="60" cy="28" rx="22" ry="18" fill="#A8C282" opacity="0.7"/>
+          <!-- Folhas individuais -->
+          <ellipse cx="45" cy="36" rx="6" ry="10" fill="#A8C282" opacity="0.9" transform="rotate(-20 45 36)"/>
+          <ellipse cx="75" cy="36" rx="6" ry="10" fill="#A8C282" opacity="0.9" transform="rotate(20 75 36)"/>
+          <ellipse cx="55" cy="22" rx="5" ry="9" fill="#A8C282" opacity="0.8" transform="rotate(-10 55 22)"/>
+          <ellipse cx="68" cy="20" rx="5" ry="8" fill="#A8C282" opacity="0.8" transform="rotate(10 68 20)"/>
+          <!-- Tronco -->
+          <rect x="55" y="68" width="10" height="28" rx="4" fill="#7F9854"/>
+          <!-- Raízes com cores da paleta -->
+          <path d="M60 96 Q45 102 30 100" stroke="#7F9854" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M60 100 Q40 108 22 112" stroke="#7F9854" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M60 96 Q75 102 90 100" stroke="#7F9854" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M60 100 Q80 108 98 112" stroke="#7F9854" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M60 104 Q55 114 50 120" stroke="#7F9854" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <path d="M60 104 Q65 114 70 120" stroke="#7F9854" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <!-- Nós das raízes -->
+          <circle cx="30" cy="100" r="3.5" fill="#4392DF"/>
+          <circle cx="22" cy="112" r="3" fill="#4392DF"/>
+          <circle cx="90" cy="100" r="3.5" fill="#4392DF"/>
+          <circle cx="98" cy="112" r="3" fill="#4392DF"/>
+          <circle cx="45" cy="104" r="3" fill="#EB746A"/>
+          <circle cx="75" cy="104" r="3" fill="#EB746A"/>
+          <circle cx="50" cy="120" r="2.5" fill="#F3C440"/>
+          <circle cx="70" cy="120" r="2.5" fill="#F3C440"/>
+          <!-- Linhas de raíz coloridas -->
+          <path d="M30 100 Q26 106 22 112" stroke="#4392DF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M90 100 Q94 106 98 112" stroke="#4392DF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="text-sm font-medium font-manrope" style="color:#2c2416; letter-spacing:-0.02em;">Dra. Josiane Lima</span>
+    </a>
+    <nav id="ds-links" class="hidden md:flex" aria-label="Design system">
+      <a href="#tipografia" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope">Tipografia</a>
+      <a href="#cores" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope">Cores</a>
+      <a href="#componentes" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope">Componentes</a>
+      <a href="#icones" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope">Ícones</a>
+      <a href="#motion" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope">Motion</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href="#contato" class="btn-nav hidden sm:inline-flex font-manrope">
+        Agendar Consulta
+        <iconify-icon icon="solar:arrow-right-linear" width="13" style="stroke-width:1.5;"></iconify-icon>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ================================================================
+     HERO — 1ª DOBRA
+================================================================ -->
+<section id="hero">
+  <div id="hero-bg" aria-hidden="true">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+  </div>
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div id="hero-haze" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <!-- Coluna de texto -->
+    <div>
+      <div class="hero-badge" style="animation-delay:0s;">
+        <iconify-icon icon="solar:heart-pulse-linear" width="14" style="color:#7F9854; stroke-width:1.5;"></iconify-icon>
+        Design System · Medicina &amp; Bem-Estar
+      </div>
+
+      <h1 class="hero-title font-fraunces">
+        Cuidado <em>humano</em> e ciência com excelência.
+      </h1>
+
+      <p class="hero-lead font-manrope">
+        Um sistema de design elegante, acolhedor e confiável — desenvolvido para a identidade visual da Dra. Josiane Lima. Paleta quente e natural, tipografia refinada, componentes com alma.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="#componentes" class="btn-primary group font-manrope">
+          Explorar Componentes
+          <iconify-icon icon="solar:arrow-right-down-linear" width="15" class="transition-transform duration-300 group-hover:translate-y-0.5" style="stroke-width:1.5;"></iconify-icon>
+        </a>
+        <a href="#cores" class="btn-secondary font-manrope">
+          Ver Paleta de Cores
+        </a>
+        <button type="button" id="hero-burst-btn" class="btn-secondary font-manrope" style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;" title="Clique para liberar uma revoada de folhas">
+          <iconify-icon icon="solar:leaf-linear" width="16" style="color:#7F9854;stroke-width:1.8;"></iconify-icon>
+          Soprar Folhas
+        </button>
+      </div>
+
+      <!-- Preview chip (mesma estrutura do TerraSprint) -->
+      <div class="hero-preview-chip">
+        <img src="assets/overview/assets/images.unsplash.com/photo-1501854140801-50d01698950b__q93fd3f2f.jpg" alt="Consultório" style="border-radius:12px;width:40px;height:40px;object-fit:cover;">
+        <div>
+          <p class="text-xs font-medium font-manrope" style="margin:0;color:#2c2416;">Sistema de Identidade Visual</p>
+          <p class="text-xs font-manrope" style="margin:0;color:rgba(60,50,40,0.5);">Medicina · Design · Excelência</p>
+        </div>
+        <span class="badge-sage" style="margin-left:8px;">
+          <iconify-icon icon="solar:shield-check-linear" width="12" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>
+          Ativo
+        </span>
+      </div>
+    </div>
+
+    <!-- Coluna de tiles flutuantes -->
+    <div>
+      <!-- Emblema Interativo da Árvore da Vida · Dra. Josiane Lima -->
+      <div id="hero-tree-emblem" class="group" data-drift="1" style="background:rgba(255,255,255,0.84);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(127,152,84,0.22);border-radius:26px;padding:16px 20px;box-shadow:0 1px 0 rgba(255,255,255,0.95) inset, 0 20px 42px -16px rgba(60,50,40,0.22);margin-bottom:18px;display:flex;align-items:center;gap:18px;cursor:pointer;transition:transform 0.3s ease, box-shadow 0.3s ease;" title="Clique na árvore para liberar uma chuva de folhas verdes!">
+        <!-- Árvore SVG rica e fiel à imagem da marca -->
+        <div style="flex-shrink:0;width:76px;height:84px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 45%,rgba(168,194,130,0.25) 0%,rgba(252,232,213,0.35) 60%,transparent 80%);border-radius:18px;border:1px solid rgba(127,152,84,0.18);">
+          <svg width="70" height="80" viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg" style="transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);" class="group-hover:scale-105">
+            <defs>
+              <linearGradient id="trunkGrad" x1="80" y1="65" x2="80" y2="120" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#8ba55f"/>
+                <stop offset="100%" stop-color="#67803f"/>
+              </linearGradient>
+            </defs>
+            <!-- Tronco e ramificações principais -->
+            <path d="M78 122 C78 102 74 94 66 84 C58 74 46 64 36 58" stroke="url(#trunkGrad)" stroke-width="4.2" stroke-linecap="round"/>
+            <path d="M82 122 C82 102 86 94 94 84 C102 74 114 64 124 58" stroke="url(#trunkGrad)" stroke-width="4.2" stroke-linecap="round"/>
+            <path d="M80 120 L80 66" stroke="url(#trunkGrad)" stroke-width="4" stroke-linecap="round"/>
+            <path d="M80 84 C72 74 62 68 54 62" stroke="url(#trunkGrad)" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M80 84 C88 74 98 68 106 62" stroke="url(#trunkGrad)" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M66 84 C66 70 60 56 50 48" stroke="url(#trunkGrad)" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M94 84 C94 70 100 56 110 48" stroke="url(#trunkGrad)" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M80 66 C75 52 70 42 62 34" stroke="url(#trunkGrad)" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M80 66 C85 52 90 42 98 34" stroke="url(#trunkGrad)" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M80 50 L80 26" stroke="url(#trunkGrad)" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- Folhagem exuberante: folhinhas ovais agrupadas em verde oliva e sálvia -->
+            <ellipse cx="80" cy="18" rx="4.5" ry="8" fill="#7F9854"/>
+            <ellipse cx="73" cy="22" rx="4" ry="7" fill="#A8C282" transform="rotate(-25 73 22)"/>
+            <ellipse cx="87" cy="22" rx="4" ry="7" fill="#7F9854" transform="rotate(25 87 22)"/>
+            <ellipse cx="66" cy="28" rx="4" ry="7.5" fill="#7F9854" transform="rotate(-40 66 28)"/>
+            <ellipse cx="94" cy="28" rx="4" ry="7.5" fill="#A8C282" transform="rotate(40 94 28)"/>
+            <ellipse cx="58" cy="36" rx="4.5" ry="8" fill="#A8C282" transform="rotate(-50 58 36)"/>
+            <ellipse cx="102" cy="36" rx="4.5" ry="8" fill="#7F9854" transform="rotate(50 102 36)"/>
+            <ellipse cx="76" cy="34" rx="4" ry="7.5" fill="#7F9854" transform="rotate(-15 76 34)"/>
+            <ellipse cx="84" cy="34" rx="4" ry="7.5" fill="#A8C282" transform="rotate(15 84 34)"/>
+            <ellipse cx="48" cy="44" rx="4.5" ry="8" fill="#7F9854" transform="rotate(-60 48 44)"/>
+            <ellipse cx="112" cy="44" rx="4.5" ry="8" fill="#A8C282" transform="rotate(60 112 44)"/>
+            <ellipse cx="38" cy="54" rx="4.5" ry="8" fill="#A8C282" transform="rotate(-70 38 54)"/>
+            <ellipse cx="122" cy="54" rx="4.5" ry="8" fill="#7F9854" transform="rotate(70 122 54)"/>
+            <ellipse cx="60" cy="50" rx="4.5" ry="7.5" fill="#7F9854" transform="rotate(-30 60 50)"/>
+            <ellipse cx="100" cy="50" rx="4.5" ry="7.5" fill="#A8C282" transform="rotate(30 100 50)"/>
+            <ellipse cx="73" cy="48" rx="4" ry="7" fill="#A8C282" transform="rotate(-10 73 48)"/>
+            <ellipse cx="87" cy="48" rx="4" ry="7" fill="#7F9854" transform="rotate(10 87 48)"/>
+            <ellipse cx="32" cy="66" rx="4.5" ry="8" fill="#7F9854" transform="rotate(-75 32 66)"/>
+            <ellipse cx="128" cy="66" rx="4.5" ry="8" fill="#A8C282" transform="rotate(75 128 66)"/>
+            <ellipse cx="48" cy="62" rx="4.5" ry="7.5" fill="#A8C282" transform="rotate(-55 48 62)"/>
+            <ellipse cx="112" cy="62" rx="4.5" ry="7.5" fill="#7F9854" transform="rotate(55 112 62)"/>
+            <ellipse cx="38" cy="78" rx="4.5" ry="8" fill="#7F9854" transform="rotate(-65 38 78)"/>
+            <ellipse cx="122" cy="78" rx="4.5" ry="8" fill="#A8C282" transform="rotate(65 122 78)"/>
+            <ellipse cx="52" cy="74" rx="4" ry="7.5" fill="#7F9854" transform="rotate(-40 52 74)"/>
+            <ellipse cx="108" cy="74" rx="4" ry="7.5" fill="#A8C282" transform="rotate(40 108 74)"/>
+            <ellipse cx="68" cy="70" rx="4" ry="7" fill="#A8C282" transform="rotate(-20 68 70)"/>
+            <ellipse cx="92" cy="70" rx="4" ry="7" fill="#7F9854" transform="rotate(20 92 70)"/>
+            <ellipse cx="48" cy="88" rx="4" ry="7.5" fill="#A8C282" transform="rotate(-50 48 88)"/>
+            <ellipse cx="112" cy="88" rx="4" ry="7.5" fill="#7F9854" transform="rotate(50 112 88)"/>
+            <ellipse cx="62" cy="84" rx="4" ry="7" fill="#7F9854" transform="rotate(-25 62 84)"/>
+            <ellipse cx="98" cy="84" rx="4" ry="7" fill="#A8C282" transform="rotate(25 98 84)"/>
+            <ellipse cx="80" cy="82" rx="3.8" ry="7" fill="#7F9854"/>
+
+            <!-- Rede de Raízes com nós coloridos: Ocre (#F3C440), Coral (#EB746A), Azul (#4392DF) -->
+            <path d="M26 122 C36 158 60 174 80 174 C100 174 124 158 134 122" stroke="#4392DF" stroke-width="1.8" fill="none" opacity="0.85"/>
+            <path d="M80 122 C70 134 50 144 34 140" stroke="#7F9854" stroke-width="2" fill="none"/>
+            <path d="M80 122 C90 134 110 144 126 140" stroke="#7F9854" stroke-width="2" fill="none"/>
+            <path d="M80 122 C76 138 68 152 50 162" stroke="#7F9854" stroke-width="1.8" fill="none"/>
+            <path d="M80 122 C84 138 92 152 110 162" stroke="#7F9854" stroke-width="1.8" fill="none"/>
+            <path d="M80 122 L80 168" stroke="#7F9854" stroke-width="2" stroke-linecap="round"/>
+
+            <path d="M60 132 C70 138 90 138 100 132" stroke="#EB746A" stroke-width="1.4" fill="none" stroke-dasharray="2 2"/>
+            <path d="M44 146 C60 156 100 156 116 146" stroke="#4392DF" stroke-width="1.2" fill="none"/>
+
+            <!-- Nós superiores: Amarelo Ocre (#F3C440) -->
+            <circle cx="62" cy="130" r="4.2" fill="#F3C440" stroke="#fff" stroke-width="1"/>
+            <circle cx="80" cy="132" r="4.5" fill="#F3C440" stroke="#fff" stroke-width="1"/>
+            <circle cx="98" cy="130" r="4.2" fill="#F3C440" stroke="#fff" stroke-width="1"/>
+
+            <!-- Nós intermediários: Coral / Salmão (#EB746A) -->
+            <circle cx="46" cy="144" r="4.2" fill="#EB746A" stroke="#fff" stroke-width="1"/>
+            <circle cx="70" cy="148" r="4.2" fill="#EB746A" stroke="#fff" stroke-width="1"/>
+            <circle cx="90" cy="148" r="4.2" fill="#EB746A" stroke="#fff" stroke-width="1"/>
+            <circle cx="114" cy="144" r="4.2" fill="#EB746A" stroke="#fff" stroke-width="1"/>
+
+            <!-- Nós periféricos / inferiores: Azul (#4392DF) -->
+            <circle cx="26" cy="122" r="4.8" fill="#4392DF" stroke="#fff" stroke-width="1.2"/>
+            <circle cx="34" cy="140" r="4.5" fill="#4392DF" stroke="#fff" stroke-width="1"/>
+            <circle cx="50" cy="162" r="4.6" fill="#4392DF" stroke="#fff" stroke-width="1"/>
+            <circle cx="80" cy="174" r="5" fill="#4392DF" stroke="#fff" stroke-width="1.2"/>
+            <circle cx="110" cy="162" r="4.6" fill="#4392DF" stroke="#fff" stroke-width="1"/>
+            <circle cx="126" cy="140" r="4.5" fill="#4392DF" stroke="#fff" stroke-width="1"/>
+            <circle cx="134" cy="122" r="4.8" fill="#4392DF" stroke="#fff" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <!-- Descrição e chamada interativa -->
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="badge-sage" style="font-size:10px;padding:2px 8px;">Origem da Chuva</span>
+            <span class="text-xs font-manrope font-semibold" style="color:#7F9854;">Toque para soprar folhas</span>
+          </div>
+          <h4 class="font-fraunces font-normal" style="margin:4px 0 2px;font-size:15px;color:#2c2416;line-height:1.2;">Árvore da Vida · Dra. Josiane Lima</h4>
+          <p class="font-manrope text-xs" style="margin:0;color:rgba(60,50,40,0.6);line-height:1.35;">
+            Copa com folhas vivas · Raízes integrativas com nós em Ocre, Coral e Azul.
+          </p>
+        </div>
+        <div class="transition-transform duration-300 group-hover:translate-x-1" style="color:#7F9854;">
+          <iconify-icon icon="solar:arrow-right-linear" width="18" style="stroke-width:1.8;"></iconify-icon>
+        </div>
+      </div>
+
+      <div class="hero-tiles">
+        <!-- Tile Pêssego -->
+        <div class="hero-tile" data-drift="1" style="background:linear-gradient(180deg,#FCE8D5,#f5cfa8);border:1px solid rgba(127,152,84,0.12);box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 18px 34px -16px rgba(60,50,40,0.25);">
+          <span class="hero-tile-icon" style="background:rgba(127,152,84,0.14);">
+            <iconify-icon icon="solar:heart-pulse-2-linear" width="20" style="color:#7F9854;stroke-width:1.5;"></iconify-icon>
+          </span>
+          <div>
+            <p class="hero-tile-t">Cardiologia</p>
+            <p class="hero-tile-s">Bem-estar cardíaco</p>
+          </div>
+        </div>
+        <!-- Tile Sálvia -->
+        <div class="hero-tile" data-drift="2" style="background:linear-gradient(180deg,#A8C282,#7F9854);border:1px solid rgba(127,152,84,0.18);box-shadow:0 1px 0 rgba(255,255,255,0.3) inset, 0 18px 34px -16px rgba(60,50,40,0.3);">
+          <span class="hero-tile-icon" style="background:rgba(255,255,255,0.18);">
+            <iconify-icon icon="solar:leaf-linear" width="20" style="color:#fff;stroke-width:1.5;"></iconify-icon>
+          </span>
+          <div>
+            <p class="hero-tile-t" style="color:#fff;">Medicina Natural</p>
+            <p class="hero-tile-s" style="color:rgba(255,255,255,0.65);">Saúde integrativa</p>
+          </div>
+        </div>
+        <!-- Tile Azul -->
+        <div class="hero-tile" data-drift="3" style="background:linear-gradient(180deg,#E8F3FC,#C8E0F5);border:1px solid rgba(67,146,223,0.18);box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 18px 34px -16px rgba(67,146,223,0.25);">
+          <span class="hero-tile-icon" style="background:rgba(67,146,223,0.14);">
+            <iconify-icon icon="solar:stethoscope-linear" width="20" style="color:#4392DF;stroke-width:1.5;"></iconify-icon>
+          </span>
+          <div>
+            <p class="hero-tile-t">Clínica Geral</p>
+            <p class="hero-tile-s">Diagnóstico preciso</p>
+          </div>
+        </div>
+        <!-- Tile Coral -->
+        <div class="hero-tile" data-drift="1" style="animation-delay:0.3s;background:linear-gradient(180deg,#FBE8E6,#f5c5c1);border:1px solid rgba(235,116,106,0.18);box-shadow:0 1px 0 rgba(255,255,255,0.8) inset, 0 18px 34px -16px rgba(235,116,106,0.25);">
+          <span class="hero-tile-icon" style="background:rgba(235,116,106,0.14);">
+            <iconify-icon icon="solar:user-hands-linear" width="20" style="color:#EB746A;stroke-width:1.5;"></iconify-icon>
+          </span>
+          <div>
+            <p class="hero-tile-t">Atendimento</p>
+            <p class="hero-tile-s">Cuidado humanizado</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stat pills hero -->
+      <div class="flex gap-3 mt-5" style="flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;background:rgba(255,255,255,0.78);backdrop-filter:blur(14px);border:1px solid rgba(127,152,84,0.16);box-shadow:0 1px 0 rgba(255,255,255,0.9) inset, 0 12px 24px -14px rgba(60,50,40,0.18);">
+          <p class="font-fraunces font-light" style="margin:0;font-size:2rem;line-height:1;color:#7F9854;">+1200</p>
+          <p class="text-xs font-manrope" style="margin:0;color:rgba(60,50,40,0.55);">Pacientes<br>atendidos</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;background:linear-gradient(160deg,#7F9854 0%,#4a6b2a 100%);box-shadow:rgba(255,255,255,0.14) 0 1px 0 inset,rgba(60,50,40,0.5) 0 24px 44px -18px;" class="pulse-glow">
+          <p class="font-fraunces font-light" style="margin:0;font-size:2rem;line-height:1;color:#fff;">15+</p>
+          <p class="text-xs font-manrope" style="margin:0;color:rgba(255,255,255,0.65);">Anos de<br>experiência</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     TIPOGRAFIA — Seção 2
+================================================================ -->
+<section id="tipografia" class="section-bg-wave" style="background:var(--med-shell);">
+  <div class="ds-section">
+    <span class="section-eyebrow" data-rise>
+      <iconify-icon icon="solar:layers-minimalistic-linear" width="13"></iconify-icon>
+      Fundamentos · 01
+    </span>
+    <h2 class="section-title font-fraunces" data-rise style="animation-delay:0.09s;">Tipografia</h2>
+    <p class="section-lead font-manrope" data-rise style="animation-delay:0.18s;">
+      Fraunces light para display e headings — elegância e acolhimento. Manrope para interface e body — clareza clínica. Geist como fallback mono. As classes <code class="ds-code">.font-fraunces</code> e <code class="ds-code">.font-manrope</code> carregam <code class="ds-code">!important</code>.
+    </p>
+
+    <div class="ds-sheet" style="margin-top:40px;" data-rise>
+      <!-- Display hero title -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Display · título hero</div>
+          <div class="face">Fraunces 300 · line-height 0.98 · letter-spacing −0.02em<code>#hero h1.font-fraunces.font-light</code></div>
+        </div>
+        <div class="sample">
+          <h1 class="font-fraunces font-light" style="margin:0;color:#2c2416;font-size:clamp(2.5rem,6vw,4.5rem);line-height:0.98;letter-spacing:-0.02em;">Dra. Josiane<br>Lima.</h1>
+        </div>
+        <div class="sizes">clamp(3rem, 7vw, 6.25rem)</div>
+      </div>
+      <!-- Display statement -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Display · statement</div>
+          <div class="face">Fraunces 300 · accent em sálvia · line-height 1.1<code>h2.scroll-reveal · em.not-italic.font-normal</code></div>
+        </div>
+        <div class="sample">
+          <h2 class="font-fraunces font-light" style="margin:0;color:#2c2416;font-size:clamp(1.75rem,4vw,3rem);line-height:1.1;letter-spacing:-0.02em;">Cuidado <em class="not-italic font-normal" style="color:#7F9854;">humano</em> e ciência com excelência.</h2>
+        </div>
+        <div class="sizes">clamp(2.25rem, 5vw, 4.25rem)</div>
+      </div>
+      <!-- Heading 2 seção -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Heading 2 · seção</div>
+          <div class="face">Fraunces 300 · line-height 1.05<code>#serviços h2 · #consultas h2</code></div>
+        </div>
+        <div class="sample">
+          <h2 class="font-fraunces font-light" style="margin:0;color:#2c2416;font-size:clamp(1.75rem,3.5vw,2.75rem);line-height:1.05;letter-spacing:-0.02em;">Especialidades Médicas</h2>
+        </div>
+        <div class="sizes">clamp(2rem, 4.5vw, 3.5rem)</div>
+      </div>
+      <!-- Numeral stat -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Numeral · stat</div>
+          <div class="face">Fraunces 300 · tracking −0.04em · line-height 1<code>p.font-fraunces (proof band)</code></div>
+        </div>
+        <div class="sample">
+          <p class="font-fraunces font-light" style="margin:0;color:#2c2416;font-size:clamp(2.25rem,4vw,3.25rem);line-height:1;letter-spacing:-0.04em;">1200 <span style="color:#7F9854;">+</span></p>
+        </div>
+        <div class="sizes">clamp(2.25rem, 4vw, 3.25rem)</div>
+      </div>
+      <!-- Heading 3 card -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Heading 3 · card</div>
+          <div class="face">Fraunces 300 · tracking −0.02em<code>h3.font-fraunces.text-xl</code></div>
+        </div>
+        <div class="sample">
+          <h3 class="font-fraunces font-light" style="margin:0;color:#2c2416;font-size:1.25rem;letter-spacing:-0.02em;">Cardiologia Preventiva</h3>
+        </div>
+        <div class="sizes">1.25rem</div>
+      </div>
+      <!-- Title card Manrope -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Title · card Manrope</div>
+          <div class="face">Manrope 500<code>h3.text-lg.font-medium.font-manrope</code></div>
+        </div>
+        <div class="sample">
+          <h3 class="text-lg font-medium font-manrope" style="margin:0;color:#2c2416;">Medicina Integrativa</h3>
+        </div>
+        <div class="sizes">1.125rem</div>
+      </div>
+      <!-- Lead -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Lead</div>
+          <div class="face">Manrope 400 · line-height 1.65<code>p.text-base.sm:text-lg.font-manrope</code></div>
+        </div>
+        <div class="sample">
+          <p class="font-manrope" style="margin:0;color:rgba(60,50,40,0.62);line-height:1.65;font-size:1.125rem;">Cuidado acolhedor, diagnóstico preciso, tratamento humanizado.</p>
+        </div>
+        <div class="sizes">1.125rem | 1rem</div>
+      </div>
+      <!-- Body -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Body</div>
+          <div class="face">Manrope 400 · line-height 1.6<code>p.text-sm.font-manrope</code></div>
+        </div>
+        <div class="sample">
+          <p class="text-sm font-manrope" style="margin:0;color:rgba(60,50,40,0.55);line-height:1.6;">A saúde é um estado de completo bem-estar físico, mental e social — não apenas ausência de doença ou enfermidade.</p>
+        </div>
+        <div class="sizes">0.875rem</div>
+      </div>
+      <!-- Button label -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Button</div>
+          <div class="face">Manrope 500<code>a.text-sm.font-medium.font-manrope</code></div>
+        </div>
+        <div class="sample">
+          <span class="text-sm font-medium font-manrope" style="color:#2c2416;">Agendar Consulta · Saiba Mais</span>
+        </div>
+        <div class="sizes">0.875rem</div>
+      </div>
+      <!-- Wordmark -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Wordmark</div>
+          <div class="face">Manrope 500 · tracking −0.025em<code>#nav span.text-sm.tracking-tight</code></div>
+        </div>
+        <div class="sample">
+          <span class="text-sm font-medium font-manrope" style="color:#2c2416;letter-spacing:-0.025em;">Dra. Josiane Lima</span>
+        </div>
+        <div class="sizes">0.875rem</div>
+      </div>
+      <!-- Label -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Label · eyebrow, meta</div>
+          <div class="face">Manrope 500<code>.text-xs.font-medium.font-manrope</code></div>
+        </div>
+        <div class="sample">
+          <span class="text-xs font-medium font-manrope" style="color:#4a6b2a;">Fundamentos · 01</span>
+          &nbsp;
+          <span class="text-xs font-medium font-manrope" style="color:#4a6b2a;">Medicina · Bem-Estar</span>
+        </div>
+        <div class="sizes">0.75rem</div>
+      </div>
+      <!-- Caption -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Caption</div>
+          <div class="face">Manrope 400<code>p.text-xs.font-manrope (rgba .4)</code></div>
+        </div>
+        <div class="sample">
+          <p class="text-xs font-manrope" style="margin:0;color:rgba(60,50,40,0.4);">© 2025 Dra. Josiane Lima · CRM 123456 · Todos os direitos reservados.</p>
+        </div>
+        <div class="sizes">0.75rem</div>
+      </div>
+      <!-- Input -->
+      <div class="ds-type-row">
+        <div>
+          <div class="role">Input</div>
+          <div class="face">Geist/Manrope 400<code>input[type=email].text-sm</code></div>
+        </div>
+        <div class="sample">
+          <span class="text-sm font-manrope" style="color:#2c2416;">nome@email.com.br</span>
+        </div>
+        <div class="sizes">0.875rem</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     CORES — Seção 3
+================================================================ -->
+<section id="cores" class="section-bg-wave" style="background:var(--med-ground);">
+  <div class="ds-section">
+    <span class="section-eyebrow" data-rise>
+      <iconify-icon icon="solar:palette-linear" width="13"></iconify-icon>
+      Fundamentos · 02
+    </span>
+    <h2 class="section-title font-fraunces" data-rise>Cores</h2>
+    <p class="section-lead font-manrope" data-rise>
+      Paleta orgânica e acolhedora — inspirada na natureza e no cuidado. Pêssego e sálvia como alma da identidade; azul para confiança clínica; coral para vitalidade; ocre para calor e humanidade.
+    </p>
+
+    <p class="ds-sub">Paleta Principal</p>
+    <div class="ds-sheet color-grid" data-rise>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#FCE8D5;"></div></div>
+        <div><strong>Pêssego Suave</strong><code>#FCE8D5 · rgb(252,232,213)</code><p>HSL: 24°, 85%, 91% · Background hero, superfície principal, gradiente warm.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#A8C282;"></div></div>
+        <div><strong>Verde Sálvia</strong><code>#A8C282 · rgb(168,194,130)</code><p>HSL: 92°, 32%, 64% · Tiles, fundos suaves, superfícies de destaque.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#7F9854;"></div></div>
+        <div><strong>Verde Oliva</strong><code>#7F9854 · rgb(127,152,84)</code><p>HSL: 88°, 29%, 46% · Botão primário, ícones, eyebrows, acentos.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#4392DF;"></div></div>
+        <div><strong>Azul Confiança</strong><code>#4392DF · rgb(67,146,223)</code><p>HSL: 211°, 72%, 57% · Links, nós inferiores, badges informativos.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#F3C440;"></div></div>
+        <div><strong>Amarelo Ocre</strong><code>#F3C440 · rgb(243,196,64)</code><p>HSL: 44°, 89%, 60% · Destaques de atenção, nós superiores, calor.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#EB746A;"></div></div>
+        <div><strong>Coral / Salmão</strong><code>#EB746A · rgb(235,116,106)</code><p>HSL: 4°, 78%, 67% · CTAs secundários, vitalidade, nós intermediários.</p></div>
+      </div>
+    </div>
+
+    <p class="ds-sub">Superfícies e Fundos</p>
+    <div class="ds-sheet color-grid" data-rise>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#F5EEE6;"></div></div>
+        <div><strong>Chão Quente</strong><code>#F5EEE6 · Page ground</code><p>Body background — enquadra a rounded shell com calor.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#FDF8F3;"></div></div>
+        <div><strong>Papel Quente</strong><code>#FDF8F3 · Shell paper</code><p>A rounded page shell sobre a qual cada seção descansa.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#FFFFFF;"></div></div>
+        <div><strong>Branco Cartão</strong><code>#FFFFFF · Card white</code><p>Cards de serviço, superfícies de componentes, inputs.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip on-white"><div class="fill" style="inset:12px;border-radius:12px;background:rgba(252,232,213,0.4);"></div></div>
+        <div><strong>Pêssego Muted</strong><code>rgba(252,232,213,0.4) · Card muted</code><p>Wells de ícones, fundos alternativos suaves.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:linear-gradient(160deg,#7F9854 0%,#4a6b2a 100%);"></div></div>
+        <div><strong>Gradiente Oliva</strong><code>linear-gradient(160deg, #7F9854, #4a6b2a)</code><p>Botão primário, card featured, sidebar, proof pill central.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:linear-gradient(160deg,#FCE8D5 0%,#e8d4b8 55%);"></div></div>
+        <div><strong>Gradiente Hero</strong><code>linear-gradient(160deg, #FCE8D5, #e8d4b8)</code><p>Fundo da hero — warmth suave e acolhimento.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><div class="fill" style="background:#2c2416;"></div></div>
+        <div><strong>Ink Quente</strong><code>#2C2416 · Texto principal</code><p>Headings, títulos, wordmark, links ativos.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip on-white"><div class="fill" style="inset:12px;border-radius:12px;background:rgba(255,255,255,0.78);border:1px solid rgba(127,152,84,0.14);"></div></div>
+        <div><strong>Frosted White</strong><code>rgba(255,255,255,.78–.9)</code><p>Nav capsule (.78), badge hero (.72), inputs (.9), modal (.9).</p></div>
+      </div>
+    </div>
+
+    <p class="ds-sub">Texto e Ícones</p>
+    <div class="ds-sheet color-grid" data-rise>
+      <div class="color-swatch">
+        <div class="color-chip"><span class="aa" style="color:#2c2416;">Aa</span></div>
+        <div><strong>Ink</strong><code>#2C2416 · rgb(44,36,22)</code><p>Headings, títulos principais, wordmark.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><span class="aa" style="color:rgba(60,50,40,0.62);">Aa</span></div>
+        <div><strong>Lead text</strong><code>rgba(60,50,40,0.62)</code><p>Texto de lead, parágrafos de destaque.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><span class="aa" style="color:rgba(60,50,40,0.55);">Aa</span></div>
+        <div><strong>Body muted</strong><code>rgba(60,50,40,0.55)</code><p>Corpo de cards, listas, body padrão.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><span class="aa" style="color:rgba(60,50,40,0.40);">Aa</span></div>
+        <div><strong>Caption</strong><code>rgba(60,50,40,0.40)</code><p>Legendas, copyright, meta-info.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip"><span class="aa" style="color:#4a6b2a;">Aa</span></div>
+        <div><strong>Oliva texto</strong><code>#4A6B2A · Deep olive</code><p>Eyebrows, labels de seção, links de destaque.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background:#2c2416;"><span class="aa" style="color:#fff;">Aa</span></div>
+        <div><strong>Texto no escuro</strong><code>#FFFFFF</code><p>Labels em gradiente oliva, botão primário.</p></div>
+      </div>
+    </div>
+
+    <p class="ds-sub">Bordas e Overlays</p>
+    <div class="ds-sheet color-grid" data-rise>
+      <div class="color-swatch">
+        <div class="color-chip on-white"><div class="bar" style="border-color:rgba(127,152,84,0.10);"></div></div>
+        <div><strong>Hairline Sage</strong><code>rgba(127,152,84,0.10)</code><p>Cards, wells de ícones, tiles.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip on-white"><div class="bar" style="border-color:rgba(127,152,84,0.18);"></div></div>
+        <div><strong>Glass Edge</strong><code>rgba(127,152,84,0.18)</code><p>Nav capsule, badges, inputs.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip on-white"><div class="bar" style="border-color:rgba(127,152,84,0.22);"></div></div>
+        <div><strong>Accent Edge</strong><code>rgba(127,152,84,0.22)</code><p>Eyebrow pills, focus states.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background:linear-gradient(160deg,#FCE8D5,#f5cfa8);">
+          <div class="fill" style="inset:14px;border-radius:12px;background:rgba(255,255,255,0.86);"></div>
+        </div>
+        <div><strong>Orb Pêssego</strong><code>radial-gradient rgba(252,232,213,.42) → transparent</code><p>Bloom de fundo na hero.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background:#1a1a1a;">
+          <div style="width:3px;height:30px;border-radius:2px;background:#7F9854;margin-right:4px;"></div>
+          <div style="width:3px;height:30px;border-radius:2px;background:#EB746A;margin-right:4px;"></div>
+          <div style="width:3px;height:30px;border-radius:2px;background:#4392DF;"></div>
+        </div>
+        <div><strong>Partículas hero</strong><code>#7F9854 (60%) · #EB746A · #4392DF</code><p>Canvas de partículas animadas na hero.</p></div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background:linear-gradient(160deg,#A8C282,#FCE8D5);">
+          <div class="fill" style="background:linear-gradient(180deg,transparent,rgba(245,238,230,0.75));"></div>
+        </div>
+        <div><strong>Floor Haze</strong><code>linear-gradient(180deg, transparent, rgba(245,238,230,.75))</code><p>Base da hero — funde com o shell.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     COMPONENTES — Seção 4+
+================================================================ -->
+<section id="componentes" class="section-bg-wave" style="background:var(--med-shell);">
+  <div class="ds-section">
+    <span class="section-eyebrow" data-rise>
+      <iconify-icon icon="solar:box-minimalistic-linear" width="13"></iconify-icon>
+      Componentes · 07–14
+    </span>
+    <h2 class="section-title font-fraunces" data-rise>UI Components</h2>
+    <p class="section-lead font-manrope" data-rise>
+      Cada componente segue as mesmas classes e inline-styles do TerraSprint — adaptados à paleta quente da médica. Hover lifts, glow, gradientes suaves e bordas orgânicas.
+    </p>
+
+    <!-- ACTIONS -->
+    <p class="ds-sub" id="actions-sub">Ações · Buttons</p>
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Botões primários e secundários</h3>
+        <code>a.btn-primary.rounded-full.px-7.py-3.5 · hover:-translate-y-0.5 · glow animation</code>
+      </div>
+      <div class="ds-row">
+        <a href="#" class="btn-primary group font-manrope">
+          Agendar Consulta
+          <iconify-icon icon="solar:arrow-right-down-linear" width="15" class="transition-transform duration-300 group-hover:translate-y-0.5" style="stroke-width:1.5;"></iconify-icon>
+        </a>
+        <a href="#" class="btn-secondary font-manrope">
+          Saiba Mais
+        </a>
+        <a href="#" class="btn-coral font-manrope">
+          Contato Urgente
+          <iconify-icon icon="solar:phone-linear" width="14" style="stroke-width:1.5;"></iconify-icon>
+        </a>
+        <a href="#" class="btn-blue font-manrope">
+          Telemedicina
+          <iconify-icon icon="solar:video-frame-linear" width="14" style="stroke-width:1.5;"></iconify-icon>
+        </a>
+      </div>
+      <p class="ds-note"><b>Primary (Olive):</b> gradiente #7F9854→#4a6b2a, glow pulsante 3s, hover translateY(-2px). <b>Secondary (Glass):</b> rgba(255,255,255,.86) + border sage. <b>Coral:</b> CTA de urgência. <b>Blue:</b> telemedicina.</p>
+    </div>
+
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Compact CTA e Icon Button (nav)</h3>
+        <code>#nav · a.btn-nav.px-4.py-2.text-xs · button.w-9.h-9.rounded-full</code>
+      </div>
+      <div class="ds-row">
+        <a href="#" class="btn-nav group font-manrope">
+          Consultar
+          <iconify-icon icon="solar:arrow-right-linear" width="13" class="transition-transform duration-300 group-hover:translate-x-0.5" style="stroke-width:1.5;"></iconify-icon>
+        </a>
+        <button type="button" class="inline-flex items-center justify-center rounded-full w-9 h-9 transition-colors" style="border:1px solid rgba(127,152,84,0.18);color:#2c2416;" aria-label="Abrir menu">
+          <iconify-icon icon="solar:hamburger-menu-linear" width="18" style="stroke-width:1.5;"></iconify-icon>
+        </button>
+        <button type="button" class="inline-flex items-center justify-center rounded-full w-9 h-9 transition-colors" style="border:1px solid rgba(127,152,84,0.18);color:#2c2416;" aria-label="Fechar menu">
+          <iconify-icon icon="solar:close-circle-linear" width="18" style="stroke-width:1.5;"></iconify-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- INPUTS -->
+    <p class="ds-sub">Inputs e Formulários</p>
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Campo e form de agendamento</h3>
+        <code>input.rounded-full.px-5.py-3.5 · border sage · focus:glow-sage · textarea.rounded-[20px]</code>
+      </div>
+      <form class="flex flex-col gap-4" style="max-width:520px;" onsubmit="event.preventDefault();this.querySelector('button span').textContent='Solicitação enviada!';">
+        <input type="text" placeholder="Seu nome completo" class="input-field font-manrope">
+        <input type="email" placeholder="email@dominio.com.br" class="input-field font-manrope">
+        <input type="tel" placeholder="(00) 00000-0000" class="input-field font-manrope">
+        <textarea rows="3" placeholder="Descreva brevemente sua necessidade..." class="input-textarea font-manrope"></textarea>
+        <button type="submit" class="btn-primary font-manrope" style="align-self:flex-start;">
+          <span>Solicitar Agendamento</span>
+          <iconify-icon icon="solar:calendar-mark-linear" width="15" style="stroke-width:1.5;"></iconify-icon>
+        </button>
+      </form>
+      <p class="ds-note"><b>Focus ring:</b> box-shadow glow rgba(127,152,84,.12) + border sage .5. <b>Placeholder:</b> rgba(60,50,40,.38).</p>
+    </div>
+
+    <!-- CARDS -->
+    <p class="ds-sub">Cards e Containers</p>
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Cards de especialidade · família</h3>
+        <code>div.card-service.rounded-[24px].p-7 · hover:-translate-y-4 · grid sm:grid-cols-2 lg:grid-cols-3</code>
+      </div>
+      <div class="ds-3">
+        <div class="card-service" data-rise>
+          <span class="inline-flex items-center justify-center rounded-2xl mb-5" style="width:48px;height:48px;background:rgba(127,152,84,0.12);border:1px solid rgba(127,152,84,0.18);">
+            <iconify-icon icon="solar:heart-pulse-2-linear" width="22" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>
+          </span>
+          <h3 class="font-manrope font-medium text-base mb-2" style="color:#2c2416;">Cardiologia</h3>
+          <p class="text-sm font-manrope" style="color:rgba(60,50,40,0.55);line-height:1.6;">Avaliação e acompanhamento cardiovascular preventivo com exames de precisão.</p>
+          <p class="mt-5 inline-flex items-center gap-1.5 text-xs font-medium rounded-full px-3 py-1.5 font-manrope" style="background:rgba(252,232,213,0.5);color:rgba(60,50,40,0.6);">
+            <iconify-icon icon="solar:clock-circle-linear" width="12" style="stroke-width:1.5;"></iconify-icon>Consulta 50 min
+          </p>
+        </div>
+        <div class="card-service" data-rise style="transition-delay:0.09s;">
+          <span class="inline-flex items-center justify-center rounded-2xl mb-5" style="width:48px;height:48px;background:rgba(67,146,223,0.12);border:1px solid rgba(67,146,223,0.18);">
+            <iconify-icon icon="solar:stethoscope-linear" width="22" style="stroke-width:1.5;color:#4392DF;"></iconify-icon>
+          </span>
+          <h3 class="font-manrope font-medium text-base mb-2" style="color:#2c2416;">Clínica Geral</h3>
+          <p class="text-sm font-manrope" style="color:rgba(60,50,40,0.55);line-height:1.6;">Atendimento integral e humanizado com diagnóstico clínico preciso e ágil.</p>
+          <p class="mt-5 inline-flex items-center gap-1.5 text-xs font-medium rounded-full px-3 py-1.5 font-manrope" style="background:rgba(252,232,213,0.5);color:rgba(60,50,40,0.6);">
+            <iconify-icon icon="solar:clock-circle-linear" width="12" style="stroke-width:1.5;"></iconify-icon>Consulta 40 min
+          </p>
+        </div>
+        <div class="card-service" data-rise style="transition-delay:0.18s;">
+          <span class="inline-flex items-center justify-center rounded-2xl mb-5" style="width:48px;height:48px;background:rgba(243,196,64,0.12);border:1px solid rgba(243,196,64,0.28);">
+            <iconify-icon icon="solar:leaf-linear" width="22" style="stroke-width:1.5;color:#a07b00;"></iconify-icon>
+          </span>
+          <h3 class="font-manrope font-medium text-base mb-2" style="color:#2c2416;">Medicina Integrativa</h3>
+          <p class="text-sm font-manrope" style="color:rgba(60,50,40,0.55);line-height:1.6;">Integração de práticas naturais com medicina convencional para saúde plena.</p>
+          <p class="mt-5 inline-flex items-center gap-1.5 text-xs font-medium rounded-full px-3 py-1.5 font-manrope" style="background:rgba(252,232,213,0.5);color:rgba(60,50,40,0.6);">
+            <iconify-icon icon="solar:clock-circle-linear" width="12" style="stroke-width:1.5;"></iconify-icon>Sessão 60 min
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Card case study / depoimento</h3>
+        <code>div.grid.md:grid-cols-2.rounded-[28px].overflow-hidden · copy p-8 · visual m-3.rounded-[20px]</code>
+      </div>
+      <div class="grid md:grid-cols-2 rounded-[28px] overflow-hidden" style="background:#fff;border:1px solid rgba(127,152,84,0.10);box-shadow:0 20px 40px -22px rgba(60,50,40,0.22);">
+        <div class="p-8 flex flex-col justify-center order-2 md:order-1">
+          <p class="text-xs font-medium mb-4 font-manrope" style="color:#4a6b2a;">Depoimento · Paciente</p>
+          <h3 class="font-fraunces font-light" style="margin:0 0 20px;color:#2c2416;font-size:1.25rem;letter-spacing:-0.02em;">"Minha saúde cardíaca melhorou muito após iniciar o acompanhamento com a Dra. Josiane."</h3>
+          <div class="flex flex-col gap-3 text-sm font-manrope" style="color:rgba(60,50,40,0.6);line-height:1.6;">
+            <p><span class="font-medium" style="color:#2c2416;">Diagnóstico —</span> Hipertensão estágio inicial identificada precocemente.</p>
+            <p><span class="font-medium" style="color:#2c2416;">Tratamento —</span> Plano individualizado com dieta, exercício e medicação.</p>
+            <p><span class="font-medium" style="color:#2c2416;">Resultado —</span> Pressão normalizada em 3 meses sem efeitos colaterais.</p>
+          </div>
+        </div>
+        <div class="relative order-1 md:order-2 m-3 rounded-[20px] overflow-hidden" style="background:linear-gradient(150deg,#FCE8D5,#f5cfa8);min-height:220px;">
+          <div class="absolute left-8 top-8 right-16 rounded-2xl p-4" style="background:rgba(255,255,255,0.9);box-shadow:0 12px 24px -14px rgba(60,50,40,0.22);">
+            <div class="h-2 w-2/3 rounded-full mb-2" style="background:rgba(60,50,40,0.12);"></div>
+            <div class="h-2 w-1/2 rounded-full" style="background:rgba(60,50,40,0.08);"></div>
+          </div>
+          <div class="absolute left-16 top-28 right-8 rounded-2xl p-4" style="background:#2c2416;box-shadow:0 16px 30px -14px rgba(44,36,22,0.5);">
+            <div class="h-2 w-1/2 rounded-full mb-2" style="background:rgba(255,255,255,0.3);"></div>
+            <div class="h-2 w-3/4 rounded-full" style="background:rgba(255,255,255,0.15);"></div>
+          </div>
+          <div class="absolute left-8 bottom-6 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium font-manrope" style="background:rgba(255,255,255,0.9);color:#2c2416;">
+            <iconify-icon icon="solar:shield-check-linear" width="13" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>
+            Resultado verificado
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Package cards · planos de consulta</h3>
+        <code>#planos › grid.md:grid-cols-3 · cards lg:-rotate-1 lg:translate-y-3 | featured lg:scale-[1.03] | lg:rotate-1</code>
+      </div>
+      <div class="rounded-[36px] px-5 sm:px-10 py-14" style="background:#fff;border:1px solid rgba(127,152,84,0.10);box-shadow:0 1px 0 rgba(255,255,255,0.9) inset, 0 30px 60px -30px rgba(60,50,40,0.22);">
+        <div class="grid md:grid-cols-3 gap-4 lg:gap-0 items-stretch">
+          <!-- Plano Básico -->
+          <div class="rounded-[26px] p-7 flex flex-col lg:-rotate-1 lg:translate-y-3" style="background:rgba(252,232,213,0.3);border:1px solid rgba(127,152,84,0.12);box-shadow:0 16px 30px -20px rgba(60,50,40,0.18);">
+            <p class="text-xs font-medium mb-1 font-manrope" style="color:rgba(60,50,40,0.5);">Avulso</p>
+            <h3 class="text-lg font-medium mb-4 font-manrope" style="color:#2c2416;">Consulta Inicial</h3>
+            <p class="mb-6 font-fraunces font-light" style="color:#2c2416;font-size:1.75rem;letter-spacing:-0.04em;">R$280 <span class="text-xs font-normal font-manrope" style="color:rgba(60,50,40,0.45);">/ sessão</span></p>
+            <ul class="flex flex-col gap-2.5 text-sm mb-8 font-manrope" style="color:rgba(60,50,40,0.6);">
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>Anamnese completa</li>
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>Exame clínico</li>
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>Prescrição médica</li>
+            </ul>
+            <a href="#" class="mt-auto btn-secondary font-manrope text-sm" style="justify-content:center;">Agendar</a>
+          </div>
+          <!-- Plano Destaque (featured) -->
+          <div class="rounded-[26px] p-7 flex flex-col relative z-10 lg:-translate-y-2 lg:scale-[1.03]" style="background:linear-gradient(160deg,#7F9854 0%,#4a6b2a 70%);box-shadow:rgba(255,255,255,0.16) 0 1px 0 inset, rgba(60,50,40,0.6) 0 30px 55px -22px;">
+            <div class="flex items-center justify-between mb-1">
+              <p class="text-xs font-medium font-manrope" style="color:rgba(255,255,255,0.55);">Mais procurado</p>
+              <span class="text-xs font-medium rounded-full px-2.5 py-1 font-manrope" style="background:rgba(243,196,64,0.22);color:#f3e08a;">★ Recomendado</span>
+            </div>
+            <h3 class="text-lg font-medium mb-4 font-manrope" style="color:#fff;">Acompanhamento</h3>
+            <p class="mb-6 font-fraunces font-light" style="color:#fff;font-size:1.75rem;letter-spacing:-0.04em;">R$680 <span class="text-xs font-normal font-manrope" style="color:rgba(255,255,255,0.45);">/ mês</span></p>
+            <ul class="flex flex-col gap-2.5 text-sm mb-8 font-manrope" style="color:rgba(255,255,255,0.65);">
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#A8C282;"></iconify-icon>2 consultas mensais</li>
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#A8C282;"></iconify-icon>Telemedicina inclusa</li>
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#A8C282;"></iconify-icon>Análise de exames</li>
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#A8C282;"></iconify-icon>Plano alimentar</li>
+            </ul>
+            <a href="#" class="mt-auto inline-flex items-center justify-center gap-1.5 rounded-full px-5 py-3 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 font-manrope" style="color:#2c2416;background:#fff;box-shadow:0 10px 22px -10px rgba(0,0,0,0.4);">Começar agora</a>
+          </div>
+          <!-- Plano Premium -->
+          <div class="rounded-[26px] p-7 flex flex-col lg:rotate-1 lg:translate-y-3" style="background:rgba(252,232,213,0.3);border:1px solid rgba(127,152,84,0.12);box-shadow:0 16px 30px -20px rgba(60,50,40,0.18);">
+            <p class="text-xs font-medium mb-1 font-manrope" style="color:rgba(60,50,40,0.5);">Anual</p>
+            <h3 class="text-lg font-medium mb-4 font-manrope" style="color:#2c2416;">Premium</h3>
+            <p class="mb-6 font-fraunces font-light" style="color:#2c2416;font-size:1.75rem;letter-spacing:-0.04em;">Sob consulta</p>
+            <ul class="flex flex-col gap-2.5 text-sm mb-8 font-manrope" style="color:rgba(60,50,40,0.6);">
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>Consultas ilimitadas</li>
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>Home care disponível</li>
+              <li class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="15" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>Equipe multidisciplinar</li>
+            </ul>
+            <a href="#" class="mt-auto btn-secondary font-manrope text-sm" style="justify-content:center;">Solicitar proposta</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVBARS -->
+    <p class="ds-sub">Navegação</p>
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Nav capsule desktop</h3>
+        <code>header#nav.fixed · #navCapsule.rounded-[36px] · rgba(255,255,255,.78) · blur(18px)</code>
+      </div>
+      <div class="ds-navbox">
+        <div class="flex items-center justify-between gap-3 rounded-[36px] pl-5 pr-2 py-2" style="background:rgba(255,255,255,0.78);backdrop-filter:blur(18px);border:1px solid rgba(127,152,84,0.14);box-shadow:rgba(255,255,255,0.9) 0 1px 0 inset,rgba(60,50,40,0.18) 0 10px 30px -14px;">
+          <a href="#" class="flex items-center gap-2.5">
+            <span aria-hidden="true" style="display:inline-flex;align-items:center;flex-shrink:0;">
+              <svg width="24" height="24" viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="60" cy="42" rx="34" ry="30" fill="#7F9854" opacity="0.9"/>
+                <ellipse cx="38" cy="52" rx="20" ry="17" fill="#7F9854" opacity="0.8"/>
+                <ellipse cx="82" cy="52" rx="20" ry="17" fill="#7F9854" opacity="0.8"/>
+                <ellipse cx="60" cy="28" rx="22" ry="18" fill="#A8C282" opacity="0.7"/>
+                <rect x="56" y="68" width="8" height="28" rx="4" fill="#7F9854"/>
+                <path d="M60 96 Q45 102 30 100" stroke="#7F9854" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M60 96 Q75 102 90 100" stroke="#7F9854" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M30 100 Q26 106 22 112" stroke="#4392DF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M90 100 Q94 106 98 112" stroke="#4392DF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <circle cx="30" cy="100" r="3.5" fill="#4392DF"/>
+                <circle cx="22" cy="112" r="3" fill="#4392DF"/>
+                <circle cx="90" cy="100" r="3.5" fill="#4392DF"/>
+                <circle cx="98" cy="112" r="3" fill="#4392DF"/>
+                <circle cx="45" cy="104" r="3" fill="#EB746A"/>
+                <circle cx="75" cy="104" r="3" fill="#EB746A"/>
+                <circle cx="50" cy="120" r="2.5" fill="#F3C440"/>
+                <circle cx="70" cy="120" r="2.5" fill="#F3C440"/>
+              </svg>
+            </span>
+            <span class="text-sm font-medium font-manrope" style="color:#2c2416;letter-spacing:-0.02em;">Dra. Josiane Lima</span>
+          </a>
+          <nav class="hidden md:flex items-center gap-1">
+            <a href="#" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope" style="color:#2c2416;background:rgba(60,50,40,0.06);">Início</a>
+            <a href="#" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope" style="color:rgba(60,50,40,0.55);">Especialidades</a>
+            <a href="#" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope" style="color:rgba(60,50,40,0.55);">Planos</a>
+            <a href="#" class="rounded-full px-3.5 py-1.5 text-xs font-medium font-manrope" style="color:rgba(60,50,40,0.55);">Contato</a>
+          </nav>
+          <div class="flex items-center gap-2">
+            <a href="#" class="btn-nav hidden sm:inline-flex font-manrope">Agendar <iconify-icon icon="solar:arrow-right-linear" width="13" style="stroke-width:1.5;"></iconify-icon></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES -->
+    <p class="ds-sub">Badges e Status</p>
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Badges e pills · variantes da paleta</h3>
+        <code>span.badge-* · rounded-full · glass / tinted</code>
+      </div>
+      <div class="ds-row" style="flex-wrap:wrap;">
+        <div class="badge-hero">
+          <iconify-icon icon="solar:bolt-linear" width="14" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>
+          CRM 123456 · Médica
+        </div>
+        <span class="badge-sage">
+          <iconify-icon icon="solar:leaf-linear" width="12" style="stroke-width:1.5;"></iconify-icon>
+          Medicina Integrativa
+        </span>
+        <span class="badge-coral">
+          <iconify-icon icon="solar:heart-pulse-linear" width="12" style="stroke-width:1.5;"></iconify-icon>
+          Cardiologia
+        </span>
+        <span class="badge-blue">
+          <iconify-icon icon="solar:stethoscope-linear" width="12" style="stroke-width:1.5;"></iconify-icon>
+          Telemedicina
+        </span>
+        <span class="badge-ocre">
+          <iconify-icon icon="solar:star-linear" width="12" style="stroke-width:1.5;"></iconify-icon>
+          Mais procurado
+        </span>
+        <div class="status-chip-light">
+          <iconify-icon icon="solar:shield-check-linear" width="13" style="stroke-width:1.5;color:#7F9854;"></iconify-icon>
+          Resultado verificado
+        </div>
+        <div class="status-chip-dark">
+          <iconify-icon icon="solar:link-round-angle-linear" width="13" style="stroke-width:1.5;color:#A8C282;"></iconify-icon>
+          3 especialidades
+        </div>
+      </div>
+    </div>
+
+    <!-- MODALS -->
+    <p class="ds-sub">Modal e Tooltip</p>
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Modal de agendamento</h3>
+        <code>.modal-overlay · .modal-box.rounded-[28px] · transform.translateY(20px→0) · backdrop-blur(6px)</code>
+      </div>
+      <div class="ds-row" style="flex-wrap:wrap;">
+        <button type="button" onclick="document.getElementById('demo-modal').classList.add('open')" class="btn-primary font-manrope">
+          Abrir Modal
+          <iconify-icon icon="solar:window-frame-linear" width="14" style="stroke-width:1.5;"></iconify-icon>
+        </button>
+        <!-- Tooltips -->
+        <div class="ds-row" style="gap:24px;">
+          <div class="tooltip">
+            <button class="btn-secondary font-manrope" style="font-size:13px;padding:10px 20px;">Hover me (tooltip)</button>
+            <div class="tooltip-label font-manrope">Consulta disponível online ou presencial</div>
+          </div>
+        </div>
+      </div>
+      <p class="ds-note"><b>Modal:</b> overlay rgba(44,36,22,.42) + blur(6px); box desliza de translateY(20px)→0 em 0.4s cubic. <b>Tooltip:</b> bg #2c2416, arrow via ::after, opacity transition 0.2s.</p>
+    </div>
+
+    <!-- DATA DISPLAY -->
+    <p class="ds-sub">Proof Band · Data Display</p>
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Proof band · 3 pills</h3>
+        <code>div.flex.lg:flex-row · div.proof-pill-* · lg:-mr-4 lg:rotate-[-1deg] | lg:scale-[1.04] | lg:-ml-4 lg:rotate-[1deg]</code>
+      </div>
+      <div class="flex flex-col lg:flex-row items-stretch justify-center gap-4 lg:gap-0" style="max-width:860px;">
+        <div class="proof-pill-white lg:-mr-4 lg:-rotate-1">
+          <p class="proof-num font-fraunces font-light">+1200</p>
+          <p class="proof-label font-manrope">Pacientes atendidos</p>
+        </div>
+        <div class="proof-pill-dark relative z-10">
+          <p class="proof-num proof-num-light font-fraunces font-light">15</p>
+          <p class="proof-label proof-label-light font-manrope">Anos de experiência</p>
+        </div>
+        <div class="proof-pill-white lg:-ml-4 lg:rotate-1">
+          <p class="proof-num font-fraunces font-light" style="color:#7F9854;">98%</p>
+          <p class="proof-label font-manrope">Satisfação</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal demo -->
+<div id="demo-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-box font-manrope">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="font-fraunces font-light" style="margin:0;color:#2c2416;font-size:1.5rem;letter-spacing:-0.02em;">Agendar Consulta</h2>
+      <button onclick="document.getElementById('demo-modal').classList.remove('open')" class="inline-flex items-center justify-center rounded-full w-9 h-9" style="border:1px solid rgba(127,152,84,0.18);color:#2c2416;">
+        <iconify-icon icon="solar:close-circle-linear" width="18" style="stroke-width:1.5;"></iconify-icon>
+      </button>
+    </div>
+    <p class="text-sm font-manrope mb-6" style="color:rgba(60,50,40,0.6);line-height:1.6;">Preencha seus dados e entraremos em contato para confirmar o melhor horário.</p>
+    <div class="flex flex-col gap-3">
+      <input type="text" placeholder="Nome completo" class="input-field">
+      <input type="email" placeholder="email@dominio.com.br" class="input-field">
+      <input type="tel" placeholder="(00) 00000-0000" class="input-field">
+    </div>
+    <div class="flex gap-3 mt-6">
+      <button class="btn-primary font-manrope" style="flex:1;justify-content:center;">Confirmar</button>
+      <button onclick="document.getElementById('demo-modal').classList.remove('open')" class="btn-secondary font-manrope">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     ÍCONES — Seção 5
+================================================================ -->
+<section id="icones" class="section-bg-wave" style="background:var(--med-ground);">
+  <div class="ds-section">
+    <span class="section-eyebrow" data-rise>
+      <iconify-icon icon="solar:layers-minimalistic-linear" width="13"></iconify-icon>
+      Fundamentos · 05
+    </span>
+    <h2 class="section-title font-fraunces" data-rise>Ícones</h2>
+    <p class="section-lead font-manrope" data-rise>
+      Solar Linear (1.5px stroke) via <code class="ds-code">&lt;iconify-icon&gt;</code> 1.0.7. Paleta médica: oliva para saúde, azul para confiança, coral para vitalidade, ocre para atenção.
+    </p>
+
+    <div class="ds-sheet icon-grid" style="margin-top:32px;" data-rise>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:heart-pulse-2-linear" width="20" style="color:#7F9854;"></iconify-icon></div><code>heart-pulse-2-linear</code><small>20 · hero tile</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:stethoscope-linear" width="20" style="color:#4392DF;"></iconify-icon></div><code>stethoscope-linear</code><small>20 · especialidade</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:leaf-linear" width="20" style="color:#7F9854;"></iconify-icon></div><code>leaf-linear</code><small>20 · medicina natural</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:user-hands-linear" width="20" style="color:#EB746A;"></iconify-icon></div><code>user-hands-linear</code><small>20 · atendimento</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:calendar-mark-linear" width="20" style="color:#7F9854;"></iconify-icon></div><code>calendar-mark-linear</code><small>20 · agendamento</small></div>
+
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:shield-check-linear" width="13" style="color:#7F9854;"></iconify-icon></div><code>shield-check-linear</code><small>13 · status</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:bolt-linear" width="14" style="color:#7F9854;"></iconify-icon></div><code>bolt-linear</code><small>14 · badge hero</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:arrow-right-linear" width="14" style="color:#2c2416;"></iconify-icon></div><code>arrow-right-linear</code><small>13–14 · CTA</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:arrow-right-down-linear" width="15" style="color:#2c2416;"></iconify-icon></div><code>arrow-right-down-linear</code><small>15 · hero CTA</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:hamburger-menu-linear" width="18" style="color:#2c2416;"></iconify-icon></div><code>hamburger-menu-linear</code><small>18 · menu</small></div>
+
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:clock-circle-linear" width="12" style="color:rgba(60,50,40,0.6);"></iconify-icon></div><code>clock-circle-linear</code><small>12 · meta pill</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:check-circle-linear" width="15" style="color:#7F9854;"></iconify-icon></div><code>check-circle-linear</code><small>15 · lista features</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:layers-minimalistic-linear" width="13" style="color:#4a6b2a;"></iconify-icon></div><code>layers-minimalistic</code><small>13 · eyebrow</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:box-minimalistic-linear" width="13" style="color:#4a6b2a;"></iconify-icon></div><code>box-minimalistic</code><small>13 · componente</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:palette-linear" width="20" style="color:#EB746A;"></iconify-icon></div><code>palette-linear</code><small>20 · cores</small></div>
+
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:star-linear" width="16" style="color:#F3C440;"></iconify-icon></div><code>star-linear</code><small>16 · avaliação</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:phone-linear" width="18" style="color:#4392DF;"></iconify-icon></div><code>phone-linear</code><small>18 · contato</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:video-frame-linear" width="18" style="color:#4392DF;"></iconify-icon></div><code>video-frame-linear</code><small>18 · telemedicina</small></div>
+      <div class="icon-item"><div class="icon-glyph"><iconify-icon icon="solar:window-frame-linear" width="18" style="color:#2c2416;"></iconify-icon></div><code>window-frame-linear</code><small>18 · modal</small></div>
+      <div class="icon-item"><div class="icon-glyph on-dark"><iconify-icon icon="solar:link-round-angle-linear" width="13" style="color:#A8C282;"></iconify-icon></div><code>link-round-angle</code><small>13 · chip dark</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     MOTION — Seção 6
+================================================================ -->
+<section id="motion" class="section-bg-wave" style="background:var(--med-shell);">
+  <div class="ds-section">
+    <span class="section-eyebrow" data-rise>
+      <iconify-icon icon="solar:layers-minimalistic-linear" width="13"></iconify-icon>
+      Fundamentos · 06
+    </span>
+    <h2 class="section-title font-fraunces" data-rise>Motion</h2>
+    <p class="section-lead font-manrope" data-rise>
+      Movimento suave e físico: risers sobem 14px, tiles derivam em loops infinitos, o statement aguça palavra a palavra com o scroll. Tudo ignorado sob <code class="ds-code">prefers-reduced-motion</code>.
+    </p>
+
+    <!-- Rise reveal -->
+    <div class="ds-spec" id="ds-rise" data-rise>
+      <div class="ds-spec-h">
+        <h3>Rise reveal</h3>
+        <code>[data-rise] · IntersectionObserver 0.12 · opacity+translateY(14px) · 0.8s cubic(0.22,0.61,0.36,1) · 90ms stagger</code>
+      </div>
+      <div class="ds-3">
+        <div data-rise class="rounded-[24px] p-6 card-service"><p class="text-sm font-manrope" style="margin:0;color:rgba(60,50,40,0.55);line-height:1.6;">Cuidado acolhedor e diagnóstico humanizado.</p></div>
+        <div data-rise class="rounded-[24px] p-6 card-service"><p class="text-sm font-manrope" style="margin:0;color:rgba(60,50,40,0.55);line-height:1.6;">Medicina preventiva e bem-estar integral.</p></div>
+        <div data-rise class="rounded-[24px] p-6 card-service"><p class="text-sm font-manrope" style="margin:0;color:rgba(60,50,40,0.55);line-height:1.6;">Tecnologia e ciência a serviço da saúde.</p></div>
+      </div>
+      <button type="button" class="ds-replay" data-ds-replay="rise">
+        <iconify-icon icon="solar:arrow-right-linear" width="13"></iconify-icon>Replay
+      </button>
+    </div>
+
+    <!-- Tile drift -->
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Tile drift</h3>
+        <code>[data-drift="1|2|3"] · CSS animation translateY(−8px) rotate(±3deg) · 5–6s · infinite ease-in-out</code>
+      </div>
+      <div class="ds-row" style="padding:18px 6px 10px;gap:28px 40px;">
+        <div data-drift="1" class="flex items-center gap-2.5 rounded-[20px] px-4 py-3.5" style="background:linear-gradient(180deg,#FCE8D5,#f5cfa8);border:1px solid rgba(127,152,84,0.14);box-shadow:0 1px 0 rgba(255,255,255,0.8) inset,0 18px 34px -16px rgba(60,50,40,0.22);">
+          <span class="inline-flex items-center justify-center rounded-xl" style="width:34px;height:34px;background:rgba(127,152,84,0.14);"><iconify-icon icon="solar:heart-pulse-2-linear" width="17" style="stroke-width:1.5;color:#7F9854;"></iconify-icon></span>
+          <div><p class="text-xs font-medium font-manrope" style="margin:0;color:#2c2416;">Cardiologia</p><p class="text-xs font-manrope" style="margin:0;color:rgba(60,50,40,0.5);">Preventiva</p></div>
+        </div>
+        <div data-drift="2" class="flex items-center gap-2.5 rounded-[20px] px-4 py-3.5" style="background:linear-gradient(180deg,#E8F3FC,#C8E0F5);border:1px solid rgba(67,146,223,0.18);box-shadow:0 1px 0 rgba(255,255,255,0.8) inset,0 18px 34px -16px rgba(67,146,223,0.22);">
+          <span class="inline-flex items-center justify-center rounded-xl" style="width:34px;height:34px;background:rgba(67,146,223,0.14);"><iconify-icon icon="solar:stethoscope-linear" width="17" style="stroke-width:1.5;color:#4392DF;"></iconify-icon></span>
+          <div><p class="text-xs font-medium font-manrope" style="margin:0;color:#2c2416;">Clínica</p><p class="text-xs font-manrope" style="margin:0;color:rgba(60,50,40,0.5);">Geral</p></div>
+        </div>
+        <div data-drift="3" class="flex items-center gap-2.5 rounded-[20px] px-4 py-3.5" style="background:linear-gradient(180deg,#FBE8E6,#f5c5c1);border:1px solid rgba(235,116,106,0.18);box-shadow:0 1px 0 rgba(255,255,255,0.8) inset,0 18px 34px -16px rgba(235,116,106,0.2);">
+          <span class="inline-flex items-center justify-center rounded-xl" style="width:34px;height:34px;background:rgba(235,116,106,0.14);"><iconify-icon icon="solar:leaf-linear" width="17" style="stroke-width:1.5;color:#EB746A;"></iconify-icon></span>
+          <div><p class="text-xs font-medium font-manrope" style="margin:0;color:#2c2416;">Integrativa</p><p class="text-xs font-manrope" style="margin:0;color:rgba(60,50,40,0.5);">Natural</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Word reveal -->
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Word reveal (scroll-scrubbed)</h3>
+        <code>.scroll-reveal · GSAP 3.12.2 ScrollTrigger · per word opacity 0.1→1 blur 8px→0 y 20px→0 · stagger 0.08 · scrub 1</code>
+      </div>
+      <div class="text-center" style="padding:10px 0 4px;">
+        <h2 class="scroll-reveal font-fraunces font-light" style="margin:0;color:#2c2416;font-size:clamp(2rem,4vw,3rem);line-height:1.1;letter-spacing:-0.02em;">
+          Saúde plena com cuidado <em class="not-italic font-normal" style="color:#7F9854;">humanizado</em> e ciência de ponta.
+        </h2>
+      </div>
+      <p class="ds-note"><b>Hover lift:</b> botões <code class="ds-code">hover:-translate-y-0.5</code>, cards de serviço <code class="ds-code">hover:-translate-y-1</code>, 300ms. <b>Glow pulsante:</b> CTA primário em animação 3s ease-in-out.</p>
+    </div>
+
+    <!-- Animações de fundo -->
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Background Orbs · hero</h3>
+        <code>.hero-orb · radial-gradient · filter:blur(80px) · animation orbDrift 12s ease-in-out infinite alternate</code>
+      </div>
+      <div style="position:relative;border-radius:28px;overflow:hidden;height:280px;background:var(--grad-hero);">
+        <div style="position:absolute;width:60%;height:100%;left:-10%;top:-20%;background:radial-gradient(circle at 40% 40%,rgba(168,194,130,0.5) 0%,rgba(127,152,84,0.2) 45%,transparent 70%);filter:blur(60px);animation:orbDrift 10s ease-in-out infinite alternate;"></div>
+        <div style="position:absolute;width:50%;height:100%;right:-10%;top:10%;background:radial-gradient(circle at 60% 50%,rgba(243,196,64,0.35) 0%,rgba(235,116,106,0.15) 45%,transparent 70%);filter:blur(50px);animation:orbDrift 12s ease-in-out 3s infinite alternate;"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <span class="badge-hero font-manrope">Orbs animados em background — blur(80px) · radial-gradient · alternate</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chuva de Folhas da Árvore · Hero engine -->
+    <div class="ds-spec" data-rise>
+      <div class="ds-spec-h">
+        <h3>Chuva de Folhas · Hero Engine</h3>
+        <code>#hero-canvas · 45–85 folhas ativas · formato botânico bézier · rotação 3D · colisão física e splashes · vento interativo</code>
+      </div>
+      <div style="background:linear-gradient(180deg,#F8F2EC,#F1E9DF);border-radius:24px;padding:24px;border:1px solid rgba(127,152,84,0.18);">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+          <div>
+            <p class="font-manrope font-semibold text-sm" style="margin:0;color:#2c2416;">Simulação Física de Chuva de Folhas da Árvore</p>
+            <p class="font-manrope text-xs" style="margin:4px 0 0;color:rgba(60,50,40,0.6);max-width:540px;line-height:1.5;">
+              Partem da copa da Árvore da Dra. Josiane Lima, reagem ao movimento do mouse com aceleração de vento, colidem com elementos e produzem micro-splashes ao tocar superfícies.
+            </p>
+          </div>
+          <button type="button" id="motion-leaf-burst-btn" class="ds-replay" style="margin:0;">
+            <iconify-icon icon="solar:leaf-linear" width="13" style="color:#7F9854;"></iconify-icon>
+            Disparar Revoada de Folhas
+          </button>
+        </div>
+      </div>
+      <p class="ds-note"><b>Interatividade:</b> Toque em qualquer área do Hero, no botão "Soprar Folhas" ou na Árvore da Vida para disparar rajadas extras de folhas. Comportamento suspenso automaticamente sob <code class="ds-code">prefers-reduced-motion</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     FOOTER / CLOSING CTA
+================================================================ -->
+<section id="contato" id="footer-section" style="background:linear-gradient(160deg,#FCE8D5 0%,#f0d5b2 50%,#e6cba0 100%);position:relative;overflow:hidden;">
+  <canvas id="footer-canvas" aria-hidden="true"></canvas>
+  <div class="footer-glow" aria-hidden="true"></div>
+  <div class="ds-section" style="position:relative;z-index:1;">
+    <div style="max-width:720px;margin:0 auto;text-align:center;">
+      <span class="section-eyebrow" style="margin-bottom:24px;" data-rise>
+        <iconify-icon icon="solar:heart-pulse-linear" width="13" style="color:#7F9854;"></iconify-icon>
+        Agende sua consulta
+      </span>
+      <h2 class="scroll-reveal font-fraunces font-light" style="margin:0 0 20px;color:#2c2416;font-size:clamp(2.25rem,5vw,4rem);line-height:1.02;letter-spacing:-0.02em;" data-rise>
+        Cuide da sua saúde com quem <em class="not-italic font-normal" style="color:#7F9854;">realmente</em> se importa.
+      </h2>
+      <p class="font-manrope" style="color:rgba(60,50,40,0.6);line-height:1.65;font-size:1rem;margin:0 0 40px;" data-rise>
+        Atendimento presencial e online. Consultas disponíveis de segunda a sexta, das 8h às 18h.
+      </p>
+      <form class="flex flex-col sm:flex-row items-center gap-3" style="max-width:520px;margin:0 auto 32px;" onsubmit="event.preventDefault();this.querySelector('button span').textContent='Solicitação enviada!';" data-rise>
+        <input type="email" required placeholder="seu@email.com.br" class="input-field font-manrope" style="flex:1;border-radius:999px;">
+        <button type="submit" class="btn-primary font-manrope" style="white-space:nowrap;">
+          <span>Solicitar agendamento</span>
+          <iconify-icon icon="solar:arrow-right-linear" width="13" style="stroke-width:1.5;"></iconify-icon>
+        </button>
+      </form>
+      <p class="text-xs font-manrope" style="color:rgba(60,50,40,0.4);margin:0 0 60px;">Sem spam. Seus dados são protegidos conforme LGPD.</p>
+      <!-- Footer bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8" style="border-top:1px solid rgba(127,152,84,0.18);">
+        <div class="flex items-center gap-2.5">
+          <span aria-hidden="true" style="display:inline-flex;align-items:center;flex-shrink:0;">
+            <svg width="24" height="24" viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="60" cy="42" rx="34" ry="30" fill="#7F9854" opacity="0.9"/>
+              <ellipse cx="38" cy="52" rx="20" ry="17" fill="#7F9854" opacity="0.8"/>
+              <ellipse cx="82" cy="52" rx="20" ry="17" fill="#7F9854" opacity="0.8"/>
+              <ellipse cx="60" cy="28" rx="22" ry="18" fill="#A8C282" opacity="0.7"/>
+              <rect x="56" y="68" width="8" height="28" rx="4" fill="#7F9854"/>
+              <path d="M60 96 Q45 102 30 100" stroke="#7F9854" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M60 96 Q75 102 90 100" stroke="#7F9854" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M30 100 Q26 106 22 112" stroke="#4392DF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M90 100 Q94 106 98 112" stroke="#4392DF" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <circle cx="30" cy="100" r="3.5" fill="#4392DF"/>
+              <circle cx="22" cy="112" r="3" fill="#4392DF"/>
+              <circle cx="90" cy="100" r="3.5" fill="#4392DF"/>
+              <circle cx="98" cy="112" r="3" fill="#4392DF"/>
+              <circle cx="45" cy="104" r="3" fill="#EB746A"/>
+              <circle cx="75" cy="104" r="3" fill="#EB746A"/>
+              <circle cx="50" cy="120" r="2.5" fill="#F3C440"/>
+              <circle cx="70" cy="120" r="2.5" fill="#F3C440"/>
+            </svg>
+          </span>
+          <span class="text-xs font-medium font-manrope" style="color:#2c2416;letter-spacing:-0.02em;">Dra. Josiane Lima</span>
+        </div>
+        <nav class="flex items-center gap-5 text-xs" style="color:rgba(60,50,40,0.5);" aria-label="Footer">
+          <a href="#tipografia" class="font-manrope hover:text-[#2c2416] transition-colors">Tipografia</a>
+          <a href="#cores" class="font-manrope hover:text-[#2c2416] transition-colors">Cores</a>
+          <a href="#componentes" class="font-manrope hover:text-[#2c2416] transition-colors">Componentes</a>
+          <a href="#icones" class="font-manrope hover:text-[#2c2416] transition-colors">Ícones</a>
+        </nav>
+        <p class="text-xs font-manrope" style="margin:0;color:rgba(60,50,40,0.38);">© 2025 Dra. Josiane Lima · CRM 123456</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     SCRIPTS
+================================================================ -->
+<script>
+/* ----------------------------------------------------------------
+   Nav scroll state (mesma lógica do TerraSprint)
+---------------------------------------------------------------- */
+(function(){
+  const capsule = document.getElementById('navCapsule');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) capsule.classList.add('scrolled');
+    else capsule.classList.remove('scrolled');
+  }, { passive: true });
+})();
+
+/* ----------------------------------------------------------------
+   Active nav links
+---------------------------------------------------------------- */
+(function(){
+  const links = document.querySelectorAll('#ds-links a');
+  const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('is-active'));
+        const a = document.querySelector(`#ds-links a[href="#${e.target.id}"]`);
+        if (a) a.classList.add('is-active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => obs.observe(s));
+})();
+
+/* ----------------------------------------------------------------
+   Rise reveal — IntersectionObserver (mesma lógica TerraSprint)
+   [data-rise] · 0.8s cubic · 90ms stagger
+---------------------------------------------------------------- */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('[data-rise]').forEach(el => el.classList.add('is-visible'));
+    return;
+  }
+  let staggerMap = new WeakMap();
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const delay = (parseFloat(el.style.transitionDelay) || 0) + i * 0.04;
+      el.style.transitionDelay = delay + 's';
+      el.classList.add('is-visible');
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('[data-rise]').forEach(el => obs.observe(el));
+
+  /* Replay button */
+  document.querySelectorAll('[data-ds-replay]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#ds-rise [data-rise]').forEach(el => {
+        el.classList.remove('is-visible');
+        el.style.transitionDelay = '';
+        void el.offsetWidth;
+      });
+      setTimeout(() => {
+        document.querySelectorAll('#ds-rise [data-rise]').forEach((el, i) => {
+          el.style.transitionDelay = (i * 0.09) + 's';
+          el.classList.add('is-visible');
+        });
+      }, 60);
+    });
+  });
+})();
+
+/* ----------------------------------------------------------------
+   CHUVA DE FOLHAS — Motor Expressivo da Dra. Josiane Lima
+   Otimizado para Computadores e Smartphones (iOS, Android e Touch)
+   Folhas verdes ovais caem em primeiro plano (z-index: 15),
+   reagem a vento por mouse, toque e brisa ambiental contínua.
+---------------------------------------------------------------- */
+(function(){
+  var hero = document.getElementById('hero');
+  var canvas = document.getElementById('hero-canvas');
+  if(!canvas || !hero) return;
+
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '15';
+
+  var ctx = canvas.getContext('2d');
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var W = 0, H = 0;
+  var leaves = [];
+  var splashes = [];
+  var isMobile = window.innerWidth < 768;
+  var count = isMobile ? 58 : 88;
+  var mouse = { x: -9999, y: -9999, inside: false };
+  var wind = 0;
+  var rects = [];
+  var frame = 0;
+  var seeded = false;
+
+  // Paleta botânica rica em verde oliva e verde sálvia
+  var LEAF_PALETTE = [
+    { fill: '#7F9854', vein: 'rgba(255,255,255,0.40)' },
+    { fill: '#7F9854', vein: 'rgba(255,255,255,0.45)' },
+    { fill: '#6B8342', vein: 'rgba(255,255,255,0.35)' },
+    { fill: '#8BA55F', vein: 'rgba(255,255,255,0.50)' },
+    { fill: '#A8C282', vein: 'rgba(255,255,255,0.55)' },
+    { fill: '#5a7038', vein: 'rgba(255,255,255,0.30)' }
+  ];
+
+  function resize(){
+    var rect = hero.getBoundingClientRect();
+    W = rect.width;
+    H = rect.height;
+    isMobile = window.innerWidth < 768;
+    count = isMobile ? 58 : 88;
+
+    canvas.width = Math.max(1, W * DPR);
+    canvas.height = Math.max(1, H * DPR);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    collectRects();
+
+    if(!seeded && W > 0){
+      seeded = true;
+      leaves = [];
+      for(var i=0; i<count; i++) leaves.push(makeLeaf(false, false));
+    }
+  }
+
+  function collectRects(){
+    rects = [];
+    var hr = hero.getBoundingClientRect();
+    hero.querySelectorAll('[data-drift], h1, [data-rise], .btn-primary, .btn-secondary, .hero-preview-chip').forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if(r.width < 20 || r.height < 10) return;
+      rects.push({
+        left: r.left - hr.left,
+        right: r.right - hr.left,
+        top: r.top - hr.top,
+        bottom: r.bottom - hr.top
+      });
+    });
+  }
+
+  function makeLeaf(resetY, fromBurst){
+    var nearTree = fromBurst || (Math.random() < 0.42);
+    var nearMouse = !fromBurst && mouse.inside && (Math.random() < 0.22);
+    var x;
+
+    if(fromBurst){
+      x = W * 0.5 + (Math.random() - 0.5) * (isMobile ? 180 : 260);
+    } else if(nearMouse){
+      x = mouse.x + (Math.random() - 0.5) * 140;
+    } else if(nearTree){
+      x = W * 0.5 + (Math.random() - 0.5) * (isMobile ? 220 : 300);
+    } else {
+      x = Math.random() * (W + 160) - 80;
+    }
+
+    var pal = LEAF_PALETTE[Math.floor(Math.random() * LEAF_PALETTE.length)];
+    // Tamanho das folhas bem visível em smartphone e desktop
+    var size = isMobile ? (Math.random() * 7 + 10) : (Math.random() * 8 + 9);
+
+    return {
+      x: x,
+      y: resetY ? (fromBurst ? H * 0.10 + (Math.random() * 30) : -35) : Math.random() * H * 0.9,
+      py: resetY ? -35 : 0,
+      vy: Math.random() * 1.5 + 1.1, // velocidade suave e fluida
+      vx: (Math.random() - 0.5) * 0.7,
+      size: size,
+      aspect: Math.random() * 0.25 + 0.45,
+      angle: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.05,
+      sway: Math.random() * Math.PI * 2,
+      swaySpeed: Math.random() * 0.028 + 0.016,
+      swayAmp: Math.random() * 1.6 + 1.0,
+      color: pal.fill,
+      veinColor: pal.vein,
+      alpha: Math.random() * 0.25 + 0.72, // opacidade mais firme para alta visibilidade no celular
+      scaleX: 1
+    };
+  }
+
+  function makeSplash(x, y, color){
+    var n = Math.floor(Math.random() * 4) + 2;
+    for(var i=0; i<n; i++){
+      splashes.push({
+        x: x,
+        y: y,
+        vx: (Math.random() - 0.5) * 3.4 + wind * 0.25,
+        vy: -Math.random() * 2.6 - 0.6,
+        r: Math.random() * 2.2 + 0.9,
+        color: color,
+        life: 1.0,
+        decay: Math.random() * 0.04 + 0.035
+      });
+    }
+  }
+
+  function drawLeaf(lf){
+    ctx.save();
+    ctx.translate(lf.x, lf.y);
+    ctx.rotate(lf.angle);
+    ctx.scale(lf.scaleX, 1);
+    ctx.globalAlpha = lf.alpha;
+
+    var s = lf.size;
+    var w = s * lf.aspect;
+
+    // Folha botânica expressiva
+    ctx.beginPath();
+    ctx.moveTo(0, -s);
+    ctx.bezierCurveTo(w * 1.25, -s * 0.4, w * 1.15, s * 0.5, 0, s);
+    ctx.bezierCurveTo(-w * 1.15, s * 0.5, -w * 1.25, -s * 0.4, 0, -s);
+    ctx.fillStyle = lf.color;
+    ctx.fill();
+
+    // Sombra sutil de profundidade
+    ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Nervura central clara
+    ctx.beginPath();
+    ctx.moveTo(0, -s * 0.85);
+    ctx.quadraticCurveTo(w * 0.1, 0, 0, s * 0.85);
+    ctx.strokeStyle = lf.veinColor;
+    ctx.lineWidth = 1.0;
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // Interatividade com o cursor (Desktop)
+  window.addEventListener('pointermove', function(e){
+    var r = hero.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+    mouse.inside = mouse.x >= 0 && mouse.x <= r.width && mouse.y >= 0 && mouse.y <= r.height;
+  }, {passive:true});
+
+  // Interatividade com Toque no Smartphone
+  function handleTouch(e){
+    if(!e.touches || e.touches.length === 0) return;
+    var t = e.touches[0];
+    var r = hero.getBoundingClientRect();
+    mouse.x = t.clientX - r.left;
+    mouse.y = t.clientY - r.top;
+    mouse.inside = mouse.x >= 0 && mouse.x <= r.width && mouse.y >= 0 && mouse.y <= r.height;
+  }
+  window.addEventListener('touchstart', handleTouch, {passive:true});
+  window.addEventListener('touchmove', handleTouch, {passive:true});
+  window.addEventListener('touchend', function(){
+    setTimeout(function(){ mouse.inside = false; }, 800);
+  }, {passive:true});
+
+  // Função pública para disparar revoadas de folhas (funciona em Desktop e Celular)
+  window.burstLeaves = function(count, originX, originY){
+    var n = count || (isMobile ? 26 : 36);
+    var ox = (typeof originX === 'number') ? originX : W * 0.5;
+    var oy = (typeof originY === 'number') ? originY : H * 0.12;
+    for(var i=0; i<n; i++){
+      var lf = makeLeaf(true, true);
+      lf.x = ox + (Math.random() - 0.5) * (isMobile ? 160 : 220);
+      lf.y = oy + (Math.random() - 0.5) * 40;
+      lf.vy = Math.random() * 2.5 + 1.2;
+      lf.vx = (Math.random() - 0.5) * 3.8;
+      leaves.push(lf);
+    }
+  };
+
+  // Botão "Soprar Folhas" da Hero
+  var heroBurstBtn = document.getElementById('hero-burst-btn');
+  if(heroBurstBtn){
+    heroBurstBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      window.burstLeaves(isMobile ? 28 : 36, W * 0.5, H * 0.1);
+    });
+  }
+
+  // Emblema da Árvore da Vida na Hero
+  var heroTreeEmblem = document.getElementById('hero-tree-emblem');
+  if(heroTreeEmblem){
+    heroTreeEmblem.addEventListener('click', function(e){
+      var rect = heroTreeEmblem.getBoundingClientRect();
+      var hr = hero.getBoundingClientRect();
+      var ox = (rect.left + rect.width * 0.3) - hr.left;
+      var oy = (rect.top + rect.height * 0.5) - hr.top;
+      window.burstLeaves(isMobile ? 28 : 36, ox, oy);
+    });
+  }
+
+  // Botão de teste na seção Motion
+  var motionBurstBtn = document.getElementById('motion-leaf-burst-btn');
+  if(motionBurstBtn){
+    motionBurstBtn.addEventListener('click', function(e){
+      window.burstLeaves(isMobile ? 30 : 40, W * 0.5, 40);
+    });
+  }
+
+  // Clique no hero gera uma revoada vigorosa de folhas da árvore
+  hero.addEventListener('click', function(e){
+    if(e.target.closest('a, button, input, textarea, select')) return;
+    var hr = hero.getBoundingClientRect();
+    window.burstLeaves(isMobile ? 24 : 30, e.clientX - hr.left, e.clientY - hr.top);
+  });
+
+  window.addEventListener('resize', resize, {passive:true});
+  if('ResizeObserver' in window){
+    var ro = new ResizeObserver(resize);
+    ro.observe(hero);
+  }
+
+  resize();
+
+  function tick(){
+    ctx.clearRect(0, 0, W, H);
+    frame++;
+
+    if(frame % 40 === 0) collectRects();
+
+    // Brisa ambiental contínua (mesmo sem mouse no celular) + vetor de vento pelo ponteiro/toque
+    var ambientBreeze = Math.sin(frame * 0.016) * 1.5 + Math.cos(frame * 0.028) * 0.8;
+    var pointerWind = mouse.inside ? (mouse.x / W - 0.5) * 7.5 : 0;
+    var targetWind = ambientBreeze + pointerWind;
+    wind += (targetWind - wind) * 0.04;
+
+    // Atualização e renderização das folhas
+    for(var i = leaves.length - 1; i >= 0; i--){
+      var lf = leaves[i];
+      lf.py = lf.y;
+      lf.sway += lf.swaySpeed;
+      lf.x += lf.vx + Math.sin(lf.sway) * lf.swayAmp + wind * 0.6;
+      lf.y += lf.vy;
+      lf.angle += lf.rotSpeed + wind * 0.009;
+      lf.scaleX = Math.cos(lf.sway * 0.8); // efeito 3D de giro no ar
+
+      // Elimina folhas excedentes pós-rajada
+      if(leaves.length > count + 35 && i > count){
+        leaves.splice(i, 1);
+        continue;
+      }
+
+      var hit = false;
+
+      // Colisão com os cartões: no mobile é moderada (10% das folhas) para que as folhas atravessem toda a tela com fluidez
+      if(!isMobile || (i % 9 === 0)){
+        for(var r = 0; r < rects.length; r++){
+          var rc = rects[r];
+          if(lf.y >= rc.top && lf.py < rc.top && lf.x >= rc.left && lf.x <= rc.right){
+            makeSplash(lf.x, rc.top, lf.color);
+            Object.assign(lf, makeLeaf(true, false));
+            hit = true;
+            break;
+          }
+        }
+      }
+
+      // Colisão com o solo da hero
+      if(!hit && lf.y > H - 12){
+        makeSplash(lf.x, H - 12, lf.color);
+        Object.assign(lf, makeLeaf(true, false));
+        hit = true;
+      }
+
+      // Se saiu pelas laterais
+      if(!hit && (lf.x < -80 || lf.x > W + 80)){
+        Object.assign(lf, makeLeaf(true, false));
+        hit = true;
+      }
+
+      if(!hit) drawLeaf(lf);
+    }
+
+    // Gotículas e seiva de splash
+    for(var j = splashes.length - 1; j >= 0; j--){
+      var sp = splashes[j];
+      sp.x += sp.vx;
+      sp.y += sp.vy;
+      sp.vy += 0.16;
+      sp.life -= sp.decay;
+
+      if(sp.life <= 0){
+        splashes.splice(j, 1);
+        continue;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, sp.life * 0.85);
+      ctx.fillStyle = sp.color;
+      ctx.beginPath();
+      ctx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+})();
+
+/* ----------------------------------------------------------------
+   Footer canvas — pétalas (mesma lógica do TerraSprint adaptada)
+   Cor das pétalas → pêssego e sálvia
+---------------------------------------------------------------- */
+(function(){
+  const canvas = document.getElementById('footer-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const PETALS = ['#FCE8D5','#A8C282','#f5cfa8','#C8E0F5'];
+  let petals = [], W, H, running = false, rafId;
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  function spawnPetal() {
+    return {
+      x: Math.random() * W,
+      y: -20,
+      vx: (Math.random() - 0.5) * 1.2,
+      vy: Math.random() * 0.8 + 0.5,
+      angle: Math.random() * Math.PI * 2,
+      spin: (Math.random() - 0.5) * 0.03,
+      sway: Math.random() * 0.02,
+      swayT: Math.random() * Math.PI * 2,
+      size: Math.random() * 10 + 6,
+      color: PETALS[Math.floor(Math.random() * PETALS.length)],
+      alpha: Math.random() * 0.5 + 0.3,
+    };
+  }
+  for (let i = 0; i < 35; i++) {
+    const p = spawnPetal();
+    p.y = Math.random() * H;
+    petals.push(p);
+  }
+
+  function loop() {
+    if (!running) return;
+    ctx.clearRect(0, 0, W, H);
+    petals.forEach((p, idx) => {
+      p.swayT += p.sway;
+      p.x += p.vx + Math.sin(p.swayT) * 0.6;
+      p.y += p.vy;
+      p.angle += p.spin;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.globalAlpha = p.alpha;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(p.size * 0.5, -p.size * 0.8, p.size, 0);
+      ctx.quadraticCurveTo(p.size * 0.5,  p.size * 0.8, 0, 0);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.restore();
+      if (p.y > H + 20) petals[idx] = spawnPetal();
+    });
+    rafId = requestAnimationFrame(loop);
+  }
+
+  /* Only run while section is visible (IntersectionObserver) */
+  const section = document.getElementById('contato');
+  if (section) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !running) { running = true; loop(); }
+        else if (!e.isIntersecting && running) { running = false; cancelAnimationFrame(rafId); }
+      });
+    }, { threshold: 0.05 });
+    io.observe(section);
+  }
+})();
+
+/* ----------------------------------------------------------------
+   GSAP ScrollTrigger — word reveal (mesma implementação TerraSprint)
+---------------------------------------------------------------- */
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll('.scroll-reveal').forEach(el => {
+    const html = el.innerHTML;
+    el.innerHTML = html.replace(/(<[^>]+>)|([^<]+)/g, (m, tag, text) => {
+      if (tag) return tag;
+      return text.replace(/\S+/g, w => `<span class="sr-word" style="display:inline-block;">${w}</span>`);
+    });
+
+    const words = el.querySelectorAll('.sr-word');
+    const startV = el.dataset.revealStart || 'top 90%';
+    const endV   = el.dataset.revealEnd   || 'bottom 60%';
+
+    gsap.fromTo(words,
+      { opacity: 0.08, filter: 'blur(8px)', y: 20 },
+      {
+        opacity: 1, filter: 'blur(0px)', y: 0,
+        stagger: parseFloat(el.dataset.revealStagger || 0.08),
+        scrollTrigger: {
+          trigger: el,
+          start: startV, end: endV,
+          scrub: 1,
+        },
+      }
+    );
+  });
+})();
+</script>
+
+</body>
+</html>
