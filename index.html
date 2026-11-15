@@ -300,16 +300,54 @@
     </div>
 
     <!-- ============================================================
-         CAMADA 30: BOTÃO CENTRALIZADO INFERIOR & MICRO-RÓTULOS EDITORIAIS
+         CAMADA 30: BOTÃO CENTRALIZADO, LOCAIS & MICRO-RÓTULOS EDITORIAIS
     ============================================================ -->
+    <!-- Locais de Atendimento (Design System Editorial Capsule) -->
+    <div id="hero-locations-card" class="hero-editorial-label absolute z-30 left-6 sm:left-10 bottom-24 sm:bottom-28 pointer-events-auto transition-transform duration-300 hover:-translate-y-1">
+      <div class="glass-capsule px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-2xl flex flex-col gap-2 border border-[#7F9854]/25 shadow-lg backdrop-blur-xl bg-white/80 max-w-[245px] sm:max-w-[280px]">
+        
+        <!-- Header com Ícone e Rótulo -->
+        <div class="flex items-center gap-1.5 pb-1.5 border-b border-[#7F9854]/15">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#7F9854] stroke-[2.2]"></i>
+          <span class="font-manrope text-[10px] uppercase font-bold tracking-[0.16em] text-[#2C2416]/75">
+            Locais de Atendimento
+          </span>
+        </div>
+
+        <!-- Lista de Unidades com Nós Coloridos da Identidade Visual -->
+        <div class="flex flex-col gap-1.5">
+          <!-- Zona Sul: Botafogo -->
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#4392DF] shadow-xs shrink-0"></span>
+            <div class="flex items-baseline gap-1.5 font-manrope text-[11px] sm:text-xs">
+              <span class="font-semibold text-[#2C2416]">Zona Sul</span>
+              <span class="text-[#2C2416]/40 text-[10px]">—</span>
+              <span class="font-medium text-[#2C2416]/75">Botafogo</span>
+            </div>
+          </div>
+
+          <!-- Zona Norte: Shopping Nova América -->
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[#EB746A] shadow-xs shrink-0"></span>
+            <div class="flex items-baseline gap-1.5 font-manrope text-[11px] sm:text-xs">
+              <span class="font-semibold text-[#2C2416]">Zona Norte</span>
+              <span class="text-[#2C2416]/40 text-[10px]">—</span>
+              <span class="font-medium text-[#2C2416]/75 whitespace-nowrap">Shopping Nova América</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Canto Inferior Esquerdo (Micro-Rótulo Minimalista Editorial) -->
-    <div id="hero-bottom-left" class="hero-editorial-label absolute bottom-7 sm:bottom-8 left-6 sm:left-10 z-30 hidden md:flex items-center gap-3 text-xs font-manrope text-[#2C2416]/65 tracking-wider">
+    <div id="hero-bottom-left" class="hero-editorial-label absolute bottom-7 sm:bottom-8 left-6 sm:left-10 z-30 flex items-center gap-2.5 text-xs font-manrope text-[#2C2416]/65 tracking-wider">
       <div class="w-2.5 h-2.5 rounded-full border border-[#7F9854] flex items-center justify-center">
         <div class="w-1.5 h-1.5 rounded-full bg-[#7F9854]"></div>
       </div>
       <span class="uppercase text-[11px] font-semibold tracking-[0.18em]">01 / INTRODUÇÃO</span>
-      <span class="text-[#2C2416]/30">|</span>
-      <span class="text-[11px] font-medium text-[#2C2416]/55">ROLE PARA EXPLORAR</span>
+      <span class="text-[#2C2416]/30 hidden sm:inline">|</span>
+      <span class="text-[11px] font-medium text-[#2C2416]/55 hidden sm:inline">ROLE PARA EXPLORAR</span>
       <i data-lucide="arrow-down" class="w-3.5 h-3.5 text-[#7F9854] animate-bounce"></i>
     </div>
 
@@ -511,8 +549,11 @@
     });
 
     /* ----------------------------------------------------------------
-       5. CHUVA DE FOLHAS VERDES BOTÂNICAS NO CANVAS
-       (Física orgânica com vento interativo e rotação 3D)
+       5. CHUVA DE FOLHAS BOTÂNICAS COM FÍSICA DE IMPACTO & ESTOURO (SPLASH)
+       - Folhas colidem com botões, cards, popups e o solo da dobra
+       - Ao tocar na superfície, estouram em gotículas cintilantes de seiva
+       - Interatividade completa com ponteiro (PC) e gestos de toque (Smartphone)
+       - Disparo de revoadas de folhas (burst) ao interagir
     ---------------------------------------------------------------- */
     (function initLeafRain() {
       const hero = document.getElementById('hero');
@@ -523,23 +564,54 @@
       const DPR = Math.min(window.devicePixelRatio || 1, 2);
       let W = 0, H = 0;
       let leaves = [];
-      const isMobile = window.innerWidth < 768;
-      const count = isMobile ? 48 : 78;
+      let splashes = [];
+      let rects = [];
+      let isMobile = window.innerWidth < 768;
+      let count = isMobile ? 54 : 82;
       let mouse = { x: -9999, y: -9999, inside: false };
       let wind = 0;
       let frame = 0;
 
-      const LEAF_COLORS = ['#7F9854', '#8BA55F', '#6B8342', '#A8C282', '#5A7038'];
+      // Paleta botânica rica em tons de verde oliva e sálvia oficial
+      const LEAF_PALETTE = [
+        { fill: '#7F9854', vein: 'rgba(255, 255, 255, 0.45)' },
+        { fill: '#8BA55F', vein: 'rgba(255, 255, 255, 0.50)' },
+        { fill: '#6B8342', vein: 'rgba(255, 255, 255, 0.38)' },
+        { fill: '#A8C282', vein: 'rgba(255, 255, 255, 0.55)' },
+        { fill: '#5A7038', vein: 'rgba(255, 255, 255, 0.32)' }
+      ];
+
+      function collectRects() {
+        rects = [];
+        const hr = hero.getBoundingClientRect();
+        // Mapeia botões, cards de locais, pílulas e títulos expostos no corpo do Hero
+        const targets = hero.querySelectorAll('#hero-locations-card, #hero-center-cta, #hero-bottom-right, #hero-bottom-left, .btn-primary-med, .glass-capsule');
+        targets.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.width < 15 || r.height < 10) return;
+          rects.push({
+            left: r.left - hr.left,
+            right: r.right - hr.left,
+            top: r.top - hr.top,
+            bottom: r.bottom - hr.top
+          });
+        });
+      }
 
       function resizeCanvas() {
         const rect = hero.getBoundingClientRect();
         W = rect.width;
         H = rect.height;
+        isMobile = window.innerWidth < 768;
+        count = isMobile ? 54 : 82;
+
         canvas.width = Math.max(1, W * DPR);
         canvas.height = Math.max(1, H * DPR);
         canvas.style.width = W + 'px';
         canvas.style.height = H + 'px';
         ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+        collectRects();
 
         if (leaves.length === 0 && W > 0) {
           for (let i = 0; i < count; i++) {
@@ -548,23 +620,54 @@
         }
       }
 
-      function createLeaf(resetY) {
+      function createLeaf(resetY, fromBurst, ox, oy) {
+        const pal = LEAF_PALETTE[Math.floor(Math.random() * LEAF_PALETTE.length)];
+        const size = isMobile ? (Math.random() * 7 + 10) : (Math.random() * 8 + 9);
+        
+        let x;
+        if (fromBurst && typeof ox === 'number') {
+          x = ox + (Math.random() - 0.5) * (isMobile ? 120 : 180);
+        } else {
+          x = Math.random() * (W + 180) - 90;
+        }
+
+        const y = resetY ? (fromBurst && typeof oy === 'number' ? oy + (Math.random() * 20 - 10) : -35) : Math.random() * H;
+
         return {
-          x: Math.random() * (W + 200) - 100,
-          y: resetY ? -35 : Math.random() * H,
+          x: x,
+          y: y,
+          py: y,
           vy: Math.random() * 1.5 + 1.1,
-          vx: (Math.random() - 0.5) * 0.6,
-          size: Math.random() * 8 + 9,
+          vx: (Math.random() - 0.5) * 0.7,
+          size: size,
           aspect: Math.random() * 0.25 + 0.45,
           angle: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.04,
+          rotSpeed: (Math.random() - 0.5) * 0.045,
           sway: Math.random() * Math.PI * 2,
-          swaySpeed: Math.random() * 0.025 + 0.015,
-          swayAmp: Math.random() * 1.5 + 0.8,
-          color: LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)],
-          alpha: Math.random() * 0.3 + 0.62,
+          swaySpeed: Math.random() * 0.026 + 0.015,
+          swayAmp: Math.random() * 1.6 + 0.9,
+          color: pal.fill,
+          veinColor: pal.vein,
+          alpha: Math.random() * 0.28 + 0.68,
           scaleX: 1
         };
+      }
+
+      // Estouro da folha em partículas de seiva/orvalho cintilante
+      function makeSplash(x, y, color) {
+        const n = Math.floor(Math.random() * 4) + 3; // 3 a 6 gotículas
+        for (let i = 0; i < n; i++) {
+          splashes.push({
+            x: x,
+            y: y,
+            vx: (Math.random() - 0.5) * 4.2 + wind * 0.35,
+            vy: -Math.random() * 3.0 - 0.8, // espirra para cima com vigor
+            r: Math.random() * 2.2 + 0.9,
+            color: color,
+            life: 1.0,
+            decay: Math.random() * 0.045 + 0.035
+          });
+        }
       }
 
       function drawSingleLeaf(lf) {
@@ -584,23 +687,64 @@
         ctx.fillStyle = lf.color;
         ctx.fill();
 
+        // Sombra sutil de profundidade
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.06)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+
         // Nervura central da folha
         ctx.beginPath();
         ctx.moveTo(0, -s * 0.85);
         ctx.quadraticCurveTo(w * 0.1, 0, 0, s * 0.85);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.strokeStyle = lf.veinColor;
         ctx.lineWidth = 0.9;
         ctx.stroke();
 
         ctx.restore();
       }
 
+      // Função pública para disparar revoadas de folhas (cliques, toques, interações)
+      window.burstLeaves = function(count, originX, originY) {
+        const n = count || (isMobile ? 22 : 32);
+        const ox = (typeof originX === 'number') ? originX : W * 0.5;
+        const oy = (typeof originY === 'number') ? originY : H * 0.15;
+        for (let i = 0; i < n; i++) {
+          const lf = createLeaf(true, true, ox, oy);
+          lf.vy = Math.random() * 2.6 + 1.2;
+          lf.vx = (Math.random() - 0.5) * 4.0;
+          leaves.push(lf);
+        }
+      };
+
+      // Interatividade com o cursor (Desktop)
       window.addEventListener('pointermove', (e) => {
         const r = hero.getBoundingClientRect();
         mouse.x = e.clientX - r.left;
         mouse.y = e.clientY - r.top;
         mouse.inside = mouse.x >= 0 && mouse.x <= r.width && mouse.y >= 0 && mouse.y <= r.height;
       }, { passive: true });
+
+      // Interatividade com gestos de toque no Smartphone
+      function handleTouch(e) {
+        if (!e.touches || e.touches.length === 0) return;
+        const t = e.touches[0];
+        const r = hero.getBoundingClientRect();
+        mouse.x = t.clientX - r.left;
+        mouse.y = t.clientY - r.top;
+        mouse.inside = mouse.x >= 0 && mouse.x <= r.width && mouse.y >= 0 && mouse.y <= r.height;
+      }
+      window.addEventListener('touchstart', handleTouch, { passive: true });
+      window.addEventListener('touchmove', handleTouch, { passive: true });
+      window.addEventListener('touchend', () => {
+        setTimeout(() => { mouse.inside = false; }, 800);
+      }, { passive: true });
+
+      // Toque ou clique no Hero dispara revoada leve a partir do ponto de toque
+      hero.addEventListener('click', (e) => {
+        if (e.target.closest('a, button')) return;
+        const hr = hero.getBoundingClientRect();
+        window.burstLeaves(isMobile ? 18 : 26, e.clientX - hr.left, e.clientY - hr.top);
+      });
 
       window.addEventListener('resize', resizeCanvas, { passive: true });
       resizeCanvas();
@@ -609,25 +753,84 @@
         ctx.clearRect(0, 0, W, H);
         frame++;
 
-        // Brisa ambiental contínua + vetor de vento pelo ponteiro
-        const ambientWind = Math.sin(frame * 0.018) * 1.4;
-        const pointerWind = mouse.inside ? (mouse.x / W - 0.5) * 6.5 : 0;
-        const targetWind = ambientWind + pointerWind;
-        wind += (targetWind - wind) * 0.035;
+        // Atualiza periodicamente os limites dos botões/corpos expostos
+        if (frame % 35 === 0) collectRects();
 
-        for (let i = 0; i < leaves.length; i++) {
+        // Brisa ambiental contínua + vetor de vento pelo ponteiro ou toque
+        const ambientWind = Math.sin(frame * 0.016) * 1.5;
+        const pointerWind = mouse.inside ? (mouse.x / W - 0.5) * 7.0 : 0;
+        const targetWind = ambientWind + pointerWind;
+        wind += (targetWind - wind) * 0.038;
+
+        // Atualização e renderização das folhas com detecção de impacto
+        for (let i = leaves.length - 1; i >= 0; i--) {
           const lf = leaves[i];
+          lf.py = lf.y;
           lf.sway += lf.swaySpeed;
           lf.x += lf.vx + Math.sin(lf.sway) * lf.swayAmp + wind * 0.6;
           lf.y += lf.vy;
           lf.angle += lf.rotSpeed + wind * 0.008;
           lf.scaleX = Math.cos(lf.sway * 0.8);
 
-          if (lf.y > H + 40 || lf.x < -80 || lf.x > W + 80) {
-            Object.assign(lf, createLeaf(true));
+          // Remove folhas extras geradas por rajadas após estabilizarem
+          if (leaves.length > count + 28 && i >= count) {
+            leaves.splice(i, 1);
+            continue;
           }
 
-          drawSingleLeaf(lf);
+          let hit = false;
+
+          // Impacto e estouro ao tocar no topo dos corpos (botões, cards, pílulas)
+          if (!isMobile || (i % 2 === 0)) {
+            for (let r = 0; r < rects.length; r++) {
+              const rc = rects[r];
+              if (lf.y >= rc.top && lf.py <= rc.top + 6 && lf.x >= rc.left && lf.x <= rc.right) {
+                makeSplash(lf.x, rc.top, lf.color);
+                Object.assign(lf, createLeaf(true));
+                hit = true;
+                break;
+              }
+            }
+          }
+
+          // Impacto no solo inferior da dobra
+          if (!hit && lf.y > H - 12) {
+            makeSplash(lf.x, H - 12, lf.color);
+            Object.assign(lf, createLeaf(true));
+            hit = true;
+          }
+
+          // Limites laterais da tela
+          if (!hit && (lf.x < -80 || lf.x > W + 80)) {
+            Object.assign(lf, createLeaf(true));
+            hit = true;
+          }
+
+          if (!hit) {
+            drawSingleLeaf(lf);
+          }
+        }
+
+        // Renderização e física das partículas de estouro (gotículas de seiva)
+        for (let j = splashes.length - 1; j >= 0; j--) {
+          const sp = splashes[j];
+          sp.x += sp.vx;
+          sp.y += sp.vy;
+          sp.vy += 0.17; // gravidade suave
+          sp.life -= sp.decay;
+
+          if (sp.life <= 0) {
+            splashes.splice(j, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, sp.life * 0.9);
+          ctx.fillStyle = sp.color;
+          ctx.beginPath();
+          ctx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
         }
 
         requestAnimationFrame(animateLeaves);
