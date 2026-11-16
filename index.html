@@ -241,6 +241,70 @@
       will-change: transform, opacity;
       transform-origin: center bottom;
     }
+
+    /* ----------------------------------------------------------------
+       3ª DOBRA: SEÇÃO DE AGENDAMENTO (DESIGN SYSTEM CARDS & HOVERS)
+    ---------------------------------------------------------------- */
+    .badge-sage {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 14px; border-radius: 999px;
+      font: 600 11px/1.4 'Manrope', sans-serif; color: #4a6b2a;
+      background: rgba(127,152,84,0.10);
+      border: 1px solid rgba(127,152,84,0.22);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .badge-coral {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 14px; border-radius: 999px;
+      font: 600 11px/1.4 'Manrope', sans-serif; color: #9c3129;
+      background: rgba(235,116,106,0.12);
+      border: 1px solid rgba(235,116,106,0.28);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .badge-blue {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 14px; border-radius: 999px;
+      font: 600 11px/1.4 'Manrope', sans-serif; color: #1a4f8a;
+      background: rgba(67,146,223,0.12);
+      border: 1px solid rgba(67,146,223,0.28);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .agendamento-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(127, 152, 84, 0.16);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 16px 36px -18px rgba(60, 50, 40, 0.12);
+      border-radius: 26px;
+      transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), border-color 0.35s ease;
+    }
+    .agendamento-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(127, 152, 84, 0.35);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.95) inset, 0 24px 44px -16px rgba(60, 50, 40, 0.20);
+    }
+    .btn-glow-pulse {
+      animation: btnGlow 3.2s ease-in-out infinite;
+    }
+    @keyframes btnGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(127,152,84,0.0), 0 1px 0 rgba(255,255,255,0.28) inset, 0 -3px 8px rgba(0,0,0,0.3) inset, 0 16px 32px -12px rgba(60,50,40,0.45);
+      }
+      50% {
+        box-shadow: 0 0 24px 4px rgba(127,152,84,0.32), 0 1px 0 rgba(255,255,255,0.28) inset, 0 -3px 8px rgba(0,0,0,0.3) inset, 0 16px 32px -12px rgba(60,50,40,0.45);
+      }
+    }
+    /* Botões Sociais Minimalistas Editoriais */
+    .social-btn img,
+    .social-btn svg,
+    .social-btn i {
+      transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), filter 0.3s ease;
+    }
+    .social-btn:hover img,
+    .social-btn:hover svg,
+    .social-btn:hover i {
+      transform: scale(1.12);
+    }
   </style>
 </head>
 <body class="relative bg-[#FAF5EE] text-[#2C2416]">
@@ -394,7 +458,7 @@
 
     <!-- Botão Centralizado na Parte Inferior (Design System CTA Oficial) -->
     <div id="hero-center-cta" class="hero-editorial-label absolute bottom-3.5 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-auto">
-      <a href="#trajetoria" class="btn-primary-med group px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm" aria-label="Conhecer a Trajetória da Dra. Josiane Lima">
+      <a href="#agendamento" class="btn-primary-med group px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm" aria-label="Agendar Consulta com a Dra. Josiane Lima">
         <span>Agendar Consulta</span>
         <i data-lucide="calendar" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2] transition-transform duration-300 group-hover:scale-110"></i>
       </a>
@@ -419,7 +483,7 @@
        - Bloco 2: Deck de fotos em loop de 3s com troca suave de profundidade
        - Bloco 3: Deck de fotos em loop de 3s com delay de 1.5s
   ================================================================ -->
-  <section id="trajetoria" class="relative w-full pt-10 pb-16 sm:pt-14 sm:pb-24 px-4 sm:px-8 md:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/18 overflow-hidden">
+  <section id="trajetoria" class="relative w-full pt-8 pb-14 sm:pt-10 sm:pb-18 lg:pt-12 lg:pb-20 px-4 sm:px-8 md:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/18 overflow-hidden">
     
     <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden">
@@ -484,7 +548,7 @@
         <!-- ============================================================
              BLOCO 2: STACK DE IMAGENS EM LOOP 3S + TEXTO ABAIXO
         ============================================================ -->
-        <article class="trajetoria-card flex flex-col justify-between group">
+        <article class="trajetoria-card h-full flex flex-col justify-between group">
           
           <!-- Mídia Superior: Deck com Transição Fluida a cada 3 segundos -->
           <div id="deck-bloco2" class="deck-container relative w-full aspect-[4/5] rounded-[22px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/18 shadow-inner">
@@ -525,7 +589,7 @@
           <!-- Texto Inferior Exato do Bloco 2 -->
           <div class="mt-6 flex flex-col flex-1 justify-between">
             <div>
-              <span class="font-manrope text-[11px] uppercase tracking-[0.16em] font-bold text-[#4392DF] block mb-2">
+              <span class="font-manrope text-[11px] uppercase tracking-[0.16em] font-bold text-[#4392DF] block mb-2 min-h-[28px] sm:min-h-[32px] flex items-center">
                 Liga Acadêmica & Congresso Internacional
               </span>
               <p class="font-manrope text-[14.5px] sm:text-[15px] leading-relaxed text-[#2C2416]/85 font-normal">
@@ -548,7 +612,7 @@
         <!-- ============================================================
              BLOCO 3: STACK DE IMAGENS EM LOOP 3S (+1.5S OFFSET) + TEXTO ABAIXO
         ============================================================ -->
-        <article class="trajetoria-card flex flex-col justify-between group">
+        <article class="trajetoria-card h-full flex flex-col justify-between group">
           
           <!-- Mídia Superior: Deck com Transição Fluida com Ritmo Alternado -->
           <div id="deck-bloco3" class="deck-container relative w-full aspect-[4/5] rounded-[22px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/18 shadow-inner">
@@ -589,7 +653,7 @@
           <!-- Texto Inferior Exato do Bloco 3 -->
           <div class="mt-6 flex flex-col flex-1 justify-between">
             <div>
-              <span class="font-manrope text-[11px] uppercase tracking-[0.16em] font-bold text-[#EB746A] block mb-2">
+              <span class="font-manrope text-[11px] uppercase tracking-[0.16em] font-bold text-[#EB746A] block mb-2 min-h-[28px] sm:min-h-[32px] flex items-center">
                 Comunidades Ribeirinhas · Pará
               </span>
               <p class="font-manrope text-[14.5px] sm:text-[15px] leading-relaxed text-[#2C2416]/85 font-normal">
@@ -609,6 +673,189 @@
 
         </article>
 
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ================================================================
+       4. TERCEIRA DOBRA: SEÇÃO DE AGENDAMENTO DE CONSULTAS
+       - Arquitetura Editorial Assimétrica de Alto Nível (Nível Awwwards)
+       - Título Monumental com Quebra de Linha Conforme Especificação
+       - Bloco 1: Zona Sul - Botafogo
+       - Bloco 2: Zona Norte - Shopping Nova América
+       - Bloco 3: Destaque Modalidade Domiciliar e Online
+       - Call to Action Principal: Agendar Consulta
+  ================================================================ -->
+  <section id="agendamento" class="relative w-full pt-2 pb-10 sm:pt-3 sm:pb-14 lg:pt-4 lg:pb-18 px-4 sm:px-8 md:px-12 bg-[#FAF5EE] border-t border-[#7F9854]/18 overflow-hidden">
+    
+    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute -top-32 -right-32 w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] bg-gradient-to-bl from-[#A8C282]/18 via-[#FCE8D5]/22 to-transparent rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-32 -left-32 w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] bg-gradient-to-tr from-[#FCE8D5]/30 via-[#A8C282]/15 to-transparent rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto">
+      
+      <!-- Layout Editorial em 2 Colunas Balanceadas: Título à Esquerda & Pontos de Atendimento à Direita -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-4 lg:gap-14 xl:gap-18 items-start max-w-6xl mx-auto">
+        
+        <!-- Coluna da Esquerda (50% de largura): Título Monumental (Levemente acima da linha do primeiro popup "Zona Sul") -->
+        <div id="agendamento-title-group" class="w-full lg:sticky lg:top-20 flex flex-col justify-between pt-0 lg:-mt-2">
+          <div>
+            <!-- Título Principal com Quebra de Linha Exata Conforme Especificação (Sem popup 03 Atendimento) -->
+            <h2 class="font-fraunces font-light text-[clamp(2.1rem,4.8vw,4.25rem)] leading-[1.04] tracking-[-0.03em] text-[#2C2416] mb-2 sm:mb-4">
+              Agendamento de<br>
+              <span class="italic font-normal text-[#7F9854]">Consultas</span>
+            </h2>
+
+            <!-- Texto de Apoio Editorial -->
+            <p class="font-manrope text-sm sm:text-[16.5px] text-[#2C2416]/75 leading-relaxed font-light mb-2.5 sm:mb-5 max-w-md">
+              Atendimento acolhedor e individualizado. Escolha o consultório de sua preferência ou opte pelo cuidado no conforto do seu lar e por telemedicina.
+            </p>
+          </div>
+
+          <!-- Micro-Badge de Compromisso com a Saúde Infantil (Compacto e sem respiro ocioso no mobile) -->
+          <div class="flex items-center gap-3 p-2.5 sm:p-4 rounded-2xl bg-white/85 border border-[#7F9854]/20 backdrop-blur-sm max-w-md shadow-xs mb-0">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#7F9854]/12 flex items-center justify-center text-[#7F9854] shrink-0">
+              <i data-lucide="shield-check" class="w-4.5 h-4.5 sm:w-5 sm:h-5 stroke-[2.2]"></i>
+            </div>
+            <div class="font-manrope text-[11.5px] sm:text-xs text-[#2C2416]/75 leading-snug">
+              <span class="font-semibold text-[#2C2416] block">Pediatria Integrativa & Humanizada</span>
+              Escuta atenta e dedicação integral a cada etapa do crescimento do seu filho.
+            </div>
+          </div>
+
+          <!-- Botões de Conexão Social com Apenas os Ícones (Instagram & LinkedIn) Conforme Design System -->
+          <div class="flex items-center gap-2 mt-2 sm:mt-3">
+            <!-- Botão Instagram -->
+            <a href="https://www.instagram.com" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="social-btn group relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-white/90 hover:bg-white border border-[#7F9854]/22 hover:border-[#EB746A]/50 shadow-xs hover:shadow-md backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 active:scale-95 overflow-hidden"
+               aria-label="Instagram da Dra. Josiane Lima"
+               title="Instagram — Dra. Josiane Lima">
+              <span class="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-[#FCE8D5]/60 via-[#EB746A]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></span>
+              <img 
+                src="Midias que seram usadas/icone-instagram.png" 
+                alt="Instagram da Dra. Josiane Lima" 
+                class="w-5 h-5 sm:w-5.5 sm:h-5.5 object-contain rounded-[5px] relative z-10 select-none"
+              />
+            </a>
+
+            <!-- Botão LinkedIn -->
+            <a href="https://www.linkedin.com" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="social-btn group relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-white/90 hover:bg-white border border-[#7F9854]/22 hover:border-[#4392DF]/50 shadow-xs hover:shadow-md backdrop-blur-md flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 active:scale-95 overflow-hidden"
+               aria-label="LinkedIn da Dra. Josiane Lima"
+               title="LinkedIn — Dra. Josiane Lima">
+              <span class="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-[#FAF5EE] via-[#4392DF]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></span>
+              <img 
+                src="Midias que seram usadas/icone-linkedin.png" 
+                alt="LinkedIn da Dra. Josiane Lima" 
+                class="w-5 h-5 sm:w-5.5 sm:h-5.5 object-contain rounded-[5px] relative z-10 select-none"
+              />
+            </a>
+          </div>
+        </div>
+
+        <!-- Coluna da Direita (50% de largura): Pontos de Atendimento -->
+        <div id="agendamento-cards-container" class="w-full flex flex-col gap-2.5 sm:gap-5 lg:pt-0">
+          
+          <!-- ============================================================
+               BLOCO DE ENDEREÇO 1: ZONA SUL - BOTAFOGO
+          ============================================================ -->
+          <div class="agendamento-card agendamento-card-item p-4 sm:p-6 rounded-[22px] sm:rounded-[24px] group">
+            <div class="flex items-start justify-between gap-4 mb-2">
+              <span class="badge-blue">
+                <span class="w-2 h-2 rounded-full bg-[#4392DF] shadow-xs"></span>
+                <span>Presencial · Zona Sul</span>
+              </span>
+              <div class="w-8 h-8 rounded-full bg-[#4392DF]/10 flex items-center justify-center text-[#4392DF] group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="map-pin" class="w-4 h-4 stroke-[2.2]"></i>
+              </div>
+            </div>
+            <h3 class="font-fraunces font-normal text-lg sm:text-2xl text-[#2C2416] tracking-[-0.01em] mb-1 sm:mb-1.5">
+              Zona Sul - Botafogo
+            </h3>
+            <p class="font-manrope text-xs sm:text-[14.5px] text-[#2C2416]/80 leading-relaxed font-medium">
+              Clínica Bormann e Labrea - Rua da Passagem, 83. Sala 208
+            </p>
+          </div>
+
+          <!-- ============================================================
+               BLOCO DE ENDEREÇO 2: ZONA NORTE - SHOPPING NOVA AMÉRICA
+          ============================================================ -->
+          <div class="agendamento-card agendamento-card-item p-4 sm:p-6 rounded-[22px] sm:rounded-[24px] group">
+            <div class="flex items-start justify-between gap-4 mb-2">
+              <span class="badge-coral">
+                <span class="w-2 h-2 rounded-full bg-[#EB746A] shadow-xs"></span>
+                <span>Presencial · Zona Norte</span>
+              </span>
+              <div class="w-8 h-8 rounded-full bg-[#EB746A]/10 flex items-center justify-center text-[#EB746A] group-hover:scale-110 transition-transform duration-300">
+                <i data-lucide="map-pin" class="w-4 h-4 stroke-[2.2]"></i>
+              </div>
+            </div>
+            <h3 class="font-fraunces font-normal text-lg sm:text-2xl text-[#2C2416] tracking-[-0.01em] mb-1 sm:mb-1.5">
+              Zona Norte - Shopping Nova América
+            </h3>
+            <p class="font-manrope text-xs sm:text-[14.5px] text-[#2C2416]/80 leading-relaxed font-medium">
+              Clínica Cuidar Bem Saúde Integrada - Avenida Pastor Martin Luther King, 126. Office 3000. Sala 917
+            </p>
+          </div>
+
+          <!-- ============================================================
+               BLOCO / DESTAQUE MODALIDADE 3: DOMICILIAR E ONLINE
+          ============================================================ -->
+          <div class="agendamento-card agendamento-card-item p-4 sm:p-6 rounded-[22px] sm:rounded-[24px] bg-gradient-to-br from-[#FAF5EE] via-white/95 to-[#A8C282]/18 border border-[#7F9854]/25 shadow-md group">
+            <div class="flex items-start justify-between gap-4 mb-2">
+              <span class="badge-sage">
+                <span class="w-2 h-2 rounded-full bg-[#7F9854] animate-pulse"></span>
+                <span>Modalidade Flexível</span>
+              </span>
+              <div class="flex items-center gap-1.5 text-[#7F9854]">
+                <div class="w-7 h-7 rounded-full bg-[#7F9854]/12 flex items-center justify-center">
+                  <i data-lucide="home" class="w-3.5 h-3.5 stroke-[2]"></i>
+                </div>
+                <div class="w-7 h-7 rounded-full bg-[#7F9854]/12 flex items-center justify-center">
+                  <i data-lucide="video" class="w-3.5 h-3.5 stroke-[2]"></i>
+                </div>
+              </div>
+            </div>
+            <h3 class="font-fraunces font-normal text-lg sm:text-2xl text-[#2C2416] tracking-[-0.01em] mb-1 sm:mb-1.5">
+              Agende Atendimento domiciliar e online
+            </h3>
+            <p class="font-manrope text-xs sm:text-[14.5px] text-[#2C2416]/75 leading-relaxed">
+              Consultas personalizadas na tranquilidade da sua casa ou por telemedicina segura e acessível de onde você estiver.
+            </p>
+          </div>
+
+          <!-- Texto de apoio alocado exatamente abaixo do último popup (Espaçamento harmônico calibrado) -->
+          <div class="pt-3.5 sm:pt-4 flex items-center justify-center sm:justify-start gap-2 text-xs sm:text-[13px] text-[#2C2416]/70 font-manrope">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#7F9854] shrink-0"></i>
+            <span class="font-medium">Atendimento humanizado para bebês, crianças e adolescentes</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ============================================================
+           CALL TO ACTION PRINCIPAL (BOTÃO CENTRALIZADO NA DOBRA)
+           - Sem quebra de texto (whitespace-nowrap)
+           - Centralizado na parte inferior da dobra
+      ============================================================ -->
+      <div id="agendamento-cta-center" class="mt-6 sm:mt-8 lg:mt-12 flex justify-center items-center w-full">
+        <a href="https://wa.me/5521999999999?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20consulta%20com%20a%20Dra.%20Josiane%20Lima" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn-primary-med btn-glow-pulse group px-10 py-4 sm:px-14 sm:py-4.5 text-sm sm:text-base font-semibold shadow-xl whitespace-nowrap inline-flex items-center justify-center gap-3 pointer-events-auto"
+           aria-label="Agendar Consulta">
+          <span class="whitespace-nowrap">Agendar Consulta</span>
+          <i data-lucide="calendar" class="w-4 h-4 stroke-[2.2] transition-transform duration-300 group-hover:scale-110 shrink-0"></i>
+        </a>
       </div>
 
     </div>
@@ -899,6 +1146,49 @@
       duration: 1.2,
       stagger: 0.18,
       ease: "power3.out"
+    });
+
+    /* ----------------------------------------------------------------
+       4.6. COREOGRAFIA DA 3ª DOBRA (SEÇÃO DE AGENDAMENTO DE CONSULTAS)
+       - ScrollReveal editorial do título, cards de endereços e CTA
+       - Cascata (stagger) refinada com power3.out
+    ---------------------------------------------------------------- */
+    gsap.from("#agendamento-title-group", {
+      scrollTrigger: {
+        trigger: "#agendamento",
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      y: 45,
+      opacity: 0,
+      duration: 1.1,
+      ease: "power3.out"
+    });
+
+    gsap.from(".agendamento-card-item", {
+      scrollTrigger: {
+        trigger: "#agendamento-cards-container",
+        start: "top 90%",
+        toggleActions: "play none none none"
+      },
+      y: 20,
+      opacity: 0,
+      duration: 0.85,
+      stagger: 0.12,
+      ease: "power3.out"
+    });
+
+    gsap.from("#agendamento-cta-center", {
+      scrollTrigger: {
+        trigger: "#agendamento-cta-center",
+        start: "top 92%",
+        toggleActions: "play none none none"
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.9,
+      delay: 0.2,
+      ease: "power2.out"
     });
 
     /* ----------------------------------------------------------------
