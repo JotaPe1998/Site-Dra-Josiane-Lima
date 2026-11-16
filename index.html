@@ -391,9 +391,9 @@
   ================================================================ -->
   <section id="hero" class="relative w-full h-screen h-[100dvh] h-[100svh] min-h-[100svh] overflow-hidden bg-[#FAF5EE] flex items-center justify-center select-none">
 
-    <!-- Orbs de Iluminação Difusa com as Cores da Paleta (Gradientes Nativos sem Filtros de Blur) -->
-    <div class="hero-blur-orb w-[65vw] h-[65vw] max-w-[800px] max-h-[800px] -left-20 -top-20" style="background: radial-gradient(circle, rgba(168,194,130,0.32) 0%, rgba(252,232,213,0.30) 42%, transparent 70%);"></div>
-    <div class="hero-blur-orb w-[60vw] h-[60vw] max-w-[750px] max-h-[750px] -right-20 -bottom-20" style="background: radial-gradient(circle, rgba(252,232,213,0.42) 0%, rgba(168,194,130,0.22) 42%, transparent 70%);"></div>
+    <!-- Orbs de Iluminação Difusa em Verde Sálvia e Oliva Puro (Zero Bege · Padronizado em Windows, Android, iOS) -->
+    <div class="hero-blur-orb w-[65vw] h-[65vw] max-w-[800px] max-h-[800px] -left-20 -top-20" style="background: radial-gradient(circle, rgba(168,194,130,0.28) 0%, rgba(127,152,84,0.16) 45%, transparent 70%);"></div>
+    <div class="hero-blur-orb w-[60vw] h-[60vw] max-w-[750px] max-h-[750px] -right-20 -bottom-20" style="background: radial-gradient(circle, rgba(168,194,130,0.22) 0%, rgba(127,152,84,0.12) 45%, transparent 70%);"></div>
 
     <!-- Canvas de Chuva de Folhas Orgânicas -->
     <canvas id="hero-leaf-canvas" aria-hidden="true"></canvas>
@@ -429,8 +429,8 @@
     ============================================================ -->
     <div id="hero-tree-container" class="absolute z-20 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none aspect-[260/322] w-[clamp(210px,60vw,275px)] sm:w-[clamp(260px,34vw,440px)] h-[clamp(240px,36vh,340px)] sm:h-[clamp(280px,44vh,500px)]" style="top: clamp(155px, 20vh, 205px);">
       
-      <!-- Halo de Iluminação Sutil sob as Raízes Coloridas (Gradiente Radial Nativo) -->
-      <div class="absolute inset-x-4 bottom-0 h-44 rounded-full -z-10 pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(252,232,213,0.85) 0%, rgba(168,194,130,0.30) 45%, transparent 75%);"></div>
+      <!-- Halo de Bruma Botânica em Verde Esfumado Puro (Zero Bege · Padronizado em Windows, Android, iOS) -->
+      <div class="absolute -inset-16 sm:-inset-24 rounded-full -z-10 pointer-events-none" style="background: radial-gradient(circle at 50% 55%, rgba(168, 194, 130, 0.42) 0%, rgba(127, 152, 84, 0.24) 35%, rgba(168, 194, 130, 0.10) 60%, transparent 82%);"></div>
 
       <!-- Imagem Oficial da Árvore com Recorte Exato (Sem corte de folhas ou raízes) -->
       <img 
@@ -520,14 +520,8 @@
        - Bloco 2: Deck de fotos em loop de 3s com troca suave de profundidade
        - Bloco 3: Deck de fotos em loop de 3s com delay de 1.5s
   ================================================================ -->
-  <section id="trajetoria" class="relative w-full pt-6 pb-12 sm:pt-10 sm:pb-18 lg:pt-12 lg:pb-20 px-4 sm:px-8 md:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/18 overflow-hidden">
+  <section id="trajetoria" class="relative w-full pt-6 pb-16 sm:pt-10 sm:pb-22 lg:pt-12 lg:pb-26 px-4 sm:px-8 md:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/18 overflow-hidden">
     
-    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System (Gradientes Nativos sem Filtros de Blur) -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <div class="absolute -top-16 -left-16 w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(168,194,130,0.22) 0%, rgba(252,232,213,0.22) 42%, transparent 70%);"></div>
-      <div class="absolute -bottom-16 -right-16 w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(252,232,213,0.35) 0%, rgba(168,194,130,0.18) 45%, transparent 70%);"></div>
-    </div>
-
     <div class="relative max-w-7xl mx-auto">
       
       <!-- ============================================================
@@ -536,11 +530,9 @@
       ============================================================ -->
       <div id="trajetoria-bloco1-center" class="flex flex-col items-center text-center max-w-3xl mx-auto mb-3 sm:mb-5">
         
-        <!-- Mídia Superior: Vídeo Vertical com Acabamento e Proporção 4/5 (Moldura Azul e Clipping 100% Ajustado) -->
-        <div class="relative w-[clamp(280px,32vw,390px)] aspect-[4/5] rounded-[32px] overflow-hidden bg-[#FAF5EE] border-2 border-[#4392DF]/35 shadow-2xl group" style="isolation: isolate; border-radius: 32px; -webkit-mask-image: -webkit-radial-gradient(white, black); mask-image: radial-gradient(white, black); clip-path: inset(0 round 32px); -webkit-clip-path: inset(0 round 32px);">
-          <!-- Bruma / Halo suave atrás do vídeo (Gradiente Radial Nativo) -->
-          <div class="absolute inset-x-4 -bottom-4 h-36 rounded-full -z-10 pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(252,232,213,0.85) 0%, rgba(168,194,130,0.30) 45%, transparent 75%);"></div>
-
+        <!-- Mídia Superior: Vídeo Vertical com Acabamento e Proporção 4/5 (Moldura em Verde Oliva do Design System) -->
+        <div class="relative w-[clamp(280px,32vw,390px)] aspect-[4/5] rounded-[32px] overflow-hidden border-2 border-[#7F9854]/45 shadow-2xl group" style="isolation: isolate; border-radius: 32px; -webkit-mask-image: -webkit-radial-gradient(white, black); mask-image: radial-gradient(white, black); clip-path: inset(0 round 32px); -webkit-clip-path: inset(0 round 32px); background: radial-gradient(circle at 50% 48%, rgba(168, 194, 130, 0.22) 0%, rgba(127, 152, 84, 0.12) 42%, transparent 72%), #FFFFFF;">
+          
           <video 
             id="video-trajetoria-bloco1"
             src="Midias que seram usadas/Woman_posing_in_photo_slideshow_4e96a258.mp4" 
@@ -552,11 +544,11 @@
             preload="auto"
             disablePictureInPicture
             class="w-full h-full object-cover object-top select-none transition-transform duration-700 group-hover:scale-105 pointer-events-none rounded-[32px]"
-            style="mix-blend-mode: multiply; border-radius: 32px; clip-path: inset(0 round 32px); -webkit-clip-path: inset(0 round 32px); -webkit-backface-visibility: hidden; backface-visibility: hidden;"
+            style="mix-blend-mode: multiply; border-radius: 30px; clip-path: inset(0 round 30px); -webkit-clip-path: inset(0 round 30px); -webkit-backface-visibility: hidden; backface-visibility: hidden;"
           ></video>
 
-          <!-- Moldura e Integração Cromática com a Margem Azul do Design System -->
-          <div class="absolute inset-0 pointer-events-none rounded-[32px] ring-1 ring-inset ring-[#4392DF]/25 shadow-[inset_0_0_24px_rgba(245,238,230,0.5)]"></div>
+          <!-- Moldura e Integração Cromática com a Margem Verde Oliva do Design System (Zero Bege) -->
+          <div class="absolute inset-0 pointer-events-none rounded-[32px] ring-1 ring-inset ring-[#7F9854]/25 shadow-[inset_0_0_20px_rgba(127,152,84,0.10)]"></div>
 
           <!-- Selo Superior com Micro-Indicador -->
           <div class="absolute top-4 left-4 z-10 px-3.5 py-1 rounded-full text-[10.5px] font-semibold font-manrope bg-white/90 backdrop-blur-md text-[#7F9854] border border-[#7F9854]/22 shadow-xs flex items-center gap-1.5">
@@ -728,12 +720,12 @@
        - Bloco 3: Destaque Modalidade Domiciliar e Online
        - Call to Action Principal: Agendar Consulta
   ================================================================ -->
-  <section id="agendamento" class="relative w-full pt-2 pb-10 sm:pt-3 sm:pb-14 lg:pt-4 lg:pb-18 px-4 sm:px-8 md:px-12 bg-[#FAF5EE] border-t border-[#7F9854]/18 overflow-hidden">
+  <section id="agendamento" class="relative w-full pt-8 pb-10 sm:pt-12 sm:pb-14 lg:pt-16 lg:pb-18 px-4 sm:px-8 md:px-12 bg-[#FAF5EE] border-t border-[#7F9854]/18 overflow-hidden">
     
-    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System (Gradientes Nativos sem Filtros de Blur) -->
+    <!-- Orbs e Bruma Orgânica de Fundo em Verde Sálvia & Oliva (Zero Bege · Padronizado em Windows, Android, iOS) -->
     <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <div class="absolute -top-16 -right-16 w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(168,194,130,0.20) 0%, rgba(252,232,213,0.22) 42%, transparent 70%);"></div>
-      <div class="absolute -bottom-16 -left-16 w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(252,232,213,0.32) 0%, rgba(168,194,130,0.16) 45%, transparent 70%);"></div>
+      <div class="absolute -top-16 -right-16 w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(168,194,130,0.24) 0%, rgba(127,152,84,0.14) 45%, transparent 70%);"></div>
+      <div class="absolute -bottom-16 -left-16 w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(168,194,130,0.20) 0%, rgba(127,152,84,0.12) 45%, transparent 70%);"></div>
     </div>
 
     <div class="relative max-w-7xl mx-auto">
