@@ -177,6 +177,32 @@
       left: 140%;
     }
 
+    /* Suporte a Altura Dinâmica de Viewport (iOS Safari & Android Chrome) */
+    #hero {
+      height: 100vh;
+      height: 100dvh;
+      height: 100svh;
+      min-height: 100svh;
+      min-height: -webkit-fill-available;
+    }
+
+    /* Suporte a Safe Areas para Desktop e Tablet */
+    @media (min-width: 640px) {
+      #hero-center-cta {
+        bottom: 2rem;
+      }
+      #hero-locations-card {
+        bottom: 7rem;
+      }
+    }
+
+    @media (max-width: 639px) {
+      #hero-locations-card,
+      #hero-center-cta {
+        bottom: auto;
+      }
+    }
+
     /* Canvas de Chuva de Folhas Orgânicas */
     #hero-leaf-canvas {
       position: absolute;
@@ -352,7 +378,7 @@
        - Letreiro Monumental (Z-INDEX: 10) que desliza SUAVEMENTE POR TRÁS da árvore
        - Micro-rótulo editorial no canto inferior esquerdo
   ================================================================ -->
-  <section id="hero" class="relative w-full h-screen overflow-hidden bg-[#FAF5EE] flex items-center justify-center select-none">
+  <section id="hero" class="relative w-full h-screen h-[100dvh] h-[100svh] min-h-[100svh] overflow-hidden bg-[#FAF5EE] flex items-center justify-center select-none">
 
     <!-- Orbs de Iluminação Difusa com as Cores da Paleta -->
     <div class="hero-blur-orb w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] -left-28 -top-28 bg-gradient-to-br from-[#A8C282]/30 via-[#FCE8D5]/35 to-transparent"></div>
@@ -369,15 +395,15 @@
          Inicia na porção superior com a base tocando a copa da árvore,
          e no scroll desliza SUAVEMENTE POR TRÁS de toda a árvore!
     ============================================================ -->
-    <div id="hero-headline-group" class="absolute z-10 w-full max-w-7xl px-4 flex flex-col items-center justify-center text-center pointer-events-none" style="top: clamp(65px, 8.5vh, 96px);">
+    <div id="hero-headline-group" class="absolute z-10 w-full max-w-7xl px-4 flex flex-col items-center justify-center text-center pointer-events-none" style="top: clamp(68px, 9vh, 96px);">
       
       <!-- Título Principal / H1 Exato -->
-      <h1 id="hero-title" class="font-fraunces font-light text-[clamp(2.9rem,8.4vw,8.5rem)] leading-[0.92] tracking-[-0.03em] text-[#2C2416] max-w-6xl">
+      <h1 id="hero-title" class="font-fraunces font-light text-[clamp(2.05rem,7.5vw,2.85rem)] sm:text-[clamp(2.9rem,8.4vw,8.5rem)] leading-[0.94] sm:leading-[0.92] tracking-[-0.03em] text-[#2C2416] max-w-6xl">
         Florescer Com Raízes
       </h1>
 
       <!-- Subtítulo Oficial em Cinza Grafite do Design System -->
-      <p id="hero-subtitle" class="font-manrope font-semibold text-[clamp(0.85rem,1.35vw,1.15rem)] uppercase tracking-[0.22em] mt-3.5 max-w-3xl" style="color: rgba(60, 50, 40, 0.78);">
+      <p id="hero-subtitle" class="font-manrope font-semibold text-[clamp(0.72rem,2.5vw,0.88rem)] sm:text-[clamp(0.85rem,1.35vw,1.15rem)] uppercase tracking-[0.20em] sm:tracking-[0.22em] mt-2 sm:mt-3.5 max-w-3xl" style="color: rgba(60, 50, 40, 0.78);">
         Dra. Josiane Lima | Pediatra
       </p>
 
@@ -390,7 +416,7 @@
          - Posicionada logo abaixo do subtítulo (próxima e sem sobreposição inicial)
          - Título e subtítulo sobrepõem-se deslizando por trás somente na rolagem
     ============================================================ -->
-    <div id="hero-tree-container" class="absolute z-20 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none w-[clamp(280px,36vw,440px)] h-[clamp(320px,47vh,500px)] aspect-[260/322]" style="top: clamp(165px, 21vh, 205px);">
+    <div id="hero-tree-container" class="absolute z-20 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none aspect-[260/322] w-[clamp(210px,60vw,275px)] sm:w-[clamp(260px,34vw,440px)] h-[clamp(240px,36vh,340px)] sm:h-[clamp(280px,44vh,500px)]" style="top: clamp(155px, 20vh, 205px);">
       
       <!-- Halo de Iluminação Sutil sob as Raízes Coloridas -->
       <div class="absolute inset-x-4 bottom-0 h-44 bg-radial from-[#FCE8D5]/80 via-[#A8C282]/30 to-transparent blur-3xl -z-10 pointer-events-none"></div>
@@ -408,7 +434,7 @@
          CAMADA 30: BOTÃO CENTRALIZADO, LOCAIS & MICRO-RÓTULOS EDITORIAIS
     ============================================================ -->
     <!-- Locais de Atendimento (Design System Editorial Capsule) -->
-    <div id="hero-locations-card" class="hero-editorial-label absolute z-30 left-4 sm:left-10 bottom-24 sm:bottom-28 pointer-events-auto transition-transform duration-300 hover:-translate-y-1">
+    <div id="hero-locations-card" class="hero-editorial-label absolute z-30 left-4 sm:left-10 bottom-auto sm:bottom-28 pointer-events-auto transition-transform duration-300 hover:-translate-y-1">
       <div class="glass-capsule px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-2xl flex flex-col gap-2 border border-[#7F9854]/25 shadow-lg backdrop-blur-xl bg-white/80 w-fit max-w-[calc(100vw-2rem)] sm:max-w-none">
         
         <!-- Header com Ícone e Rótulo -->
@@ -446,7 +472,7 @@
     </div>
 
     <!-- Canto Inferior Esquerdo (Micro-Rótulo Minimalista Editorial) -->
-    <div id="hero-bottom-left" class="hero-editorial-label absolute bottom-7 sm:bottom-8 left-6 sm:left-10 z-30 flex items-center gap-2.5 text-xs font-manrope text-[#2C2416]/65 tracking-wider">
+    <div id="hero-bottom-left" class="hero-editorial-label absolute bottom-7 sm:bottom-8 left-6 sm:left-10 z-30 hidden sm:flex items-center gap-2.5 text-xs font-manrope text-[#2C2416]/65 tracking-wider">
       <div class="w-2.5 h-2.5 rounded-full border border-[#7F9854] flex items-center justify-center">
         <div class="w-1.5 h-1.5 rounded-full bg-[#7F9854]"></div>
       </div>
@@ -457,7 +483,7 @@
     </div>
 
     <!-- Botão Centralizado na Parte Inferior (Design System CTA Oficial) -->
-    <div id="hero-center-cta" class="hero-editorial-label absolute bottom-3.5 sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-auto">
+    <div id="hero-center-cta" class="hero-editorial-label absolute bottom-auto sm:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center pointer-events-auto">
       <a href="https://wa.me/5521974307155?text=Ol%C3%A1%2C%20quero%20mais%20informa%C3%A7%C3%B5es%20a%20respeito%20de%20agendamentos%20e%20consultas." target="_blank" rel="noopener noreferrer" class="btn-primary-med group px-5 py-2.5 sm:px-8 sm:py-3.5 text-xs sm:text-sm" aria-label="Agendar Consulta com a Dra. Josiane Lima">
         <span>Agendar Consulta</span>
         <i data-lucide="calendar" class="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2] transition-transform duration-300 group-hover:scale-110"></i>
@@ -912,17 +938,63 @@
       const headline = document.getElementById('hero-headline-group');
       const tree = document.getElementById('hero-tree-container');
       const hero = document.getElementById('hero');
+      const locationsCard = document.getElementById('hero-locations-card');
+      const cta = document.getElementById('hero-center-cta');
       if (!headline || !tree || !hero) return;
       
-      const hRect = headline.getBoundingClientRect();
       const heroRect = hero.getBoundingClientRect();
+      const hRect = headline.getBoundingClientRect();
+      const isMobile = window.innerWidth < 640;
       
-      // Proximidade elegante entre o subtítulo e o topo das folhas da árvore:
-      // ~14px em smartphone e ~18px em desktop
-      const isMobile = window.innerWidth < 768;
-      const gap = isMobile ? 14 : 18;
-      const initialTop = (hRect.bottom - heroRect.top) + gap;
-      tree.style.top = initialTop + 'px';
+      if (isMobile && locationsCard && cta) {
+        const headBottom = hRect.bottom - heroRect.top;
+        const availableH = heroRect.height - headBottom;
+        
+        const isTall = availableH > 520;
+        const isMedium = availableH > 440;
+        
+        const gapHeadToTree = isTall ? 14 : (isMedium ? 10 : 7);
+        const gapTreeToCard = isTall ? 14 : (isMedium ? 10 : 8);
+        const gapCardToCta = isTall ? 14 : (isMedium ? 10 : 8);
+        const bottomSafe = isTall ? 28 : (isMedium ? 20 : 12);
+        
+        const cardH = locationsCard.offsetHeight || 66;
+        const ctaH = cta.offsetHeight || 40;
+        
+        const fixedBelow = gapTreeToCard + cardH + gapCardToCta + ctaH + bottomSafe;
+        const maxTreeH = availableH - gapHeadToTree - fixedBelow;
+        
+        const treeH = Math.min(Math.max(180, Math.floor(maxTreeH * (isTall ? 0.90 : 0.96))), isTall ? 340 : 280);
+        const treeW = Math.round(treeH * (260 / 322));
+        
+        const treeTop = headBottom + gapHeadToTree;
+        tree.style.top = treeTop + 'px';
+        tree.style.height = treeH + 'px';
+        tree.style.width = treeW + 'px';
+        
+        const cardTop = treeTop + treeH + gapTreeToCard;
+        locationsCard.style.top = cardTop + 'px';
+        locationsCard.style.bottom = 'auto';
+        
+        const btnTop = cardTop + cardH + gapCardToCta;
+        cta.style.top = btnTop + 'px';
+        cta.style.bottom = 'auto';
+      } else {
+        // Desktop: layout e proporções estéticas originais
+        const gap = 18;
+        const initialTop = (hRect.bottom - heroRect.top) + gap;
+        tree.style.top = initialTop + 'px';
+        tree.style.height = '';
+        tree.style.width = '';
+        if (locationsCard) {
+          locationsCard.style.top = '';
+          locationsCard.style.bottom = '';
+        }
+        if (cta) {
+          cta.style.top = '';
+          cta.style.bottom = '';
+        }
+      }
     }
 
     window.addEventListener('resize', alignTreeInitial, { passive: true });
