@@ -219,13 +219,15 @@
       z-index: 15;
     }
 
-    /* Orbs e fundos */
+    /* Orbs e fundos difusos sem filtros pesados (Compatibilidade Total WebKit / iOS) */
     .hero-blur-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(85px);
       pointer-events: none;
       animation: orbPulse 16s ease-in-out infinite alternate;
+      will-change: transform, opacity;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
     @keyframes orbPulse {
       0% { transform: scale(1) translate(0, 0); opacity: 0.45; }
@@ -389,9 +391,9 @@
   ================================================================ -->
   <section id="hero" class="relative w-full h-screen h-[100dvh] h-[100svh] min-h-[100svh] overflow-hidden bg-[#FAF5EE] flex items-center justify-center select-none">
 
-    <!-- Orbs de Iluminação Difusa com as Cores da Paleta -->
-    <div class="hero-blur-orb w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] -left-28 -top-28 bg-gradient-to-br from-[#A8C282]/30 via-[#FCE8D5]/35 to-transparent"></div>
-    <div class="hero-blur-orb w-[55vw] h-[55vw] max-w-[750px] max-h-[750px] -right-28 -bottom-28 bg-gradient-to-tl from-[#FCE8D5]/40 via-[#A8C282]/25 to-transparent"></div>
+    <!-- Orbs de Iluminação Difusa com as Cores da Paleta (Gradientes Nativos sem Filtros de Blur) -->
+    <div class="hero-blur-orb w-[65vw] h-[65vw] max-w-[800px] max-h-[800px] -left-20 -top-20" style="background: radial-gradient(circle, rgba(168,194,130,0.32) 0%, rgba(252,232,213,0.30) 42%, transparent 70%);"></div>
+    <div class="hero-blur-orb w-[60vw] h-[60vw] max-w-[750px] max-h-[750px] -right-20 -bottom-20" style="background: radial-gradient(circle, rgba(252,232,213,0.42) 0%, rgba(168,194,130,0.22) 42%, transparent 70%);"></div>
 
     <!-- Canvas de Chuva de Folhas Orgânicas -->
     <canvas id="hero-leaf-canvas" aria-hidden="true"></canvas>
@@ -427,8 +429,8 @@
     ============================================================ -->
     <div id="hero-tree-container" class="absolute z-20 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none aspect-[260/322] w-[clamp(210px,60vw,275px)] sm:w-[clamp(260px,34vw,440px)] h-[clamp(240px,36vh,340px)] sm:h-[clamp(280px,44vh,500px)]" style="top: clamp(155px, 20vh, 205px);">
       
-      <!-- Halo de Iluminação Sutil sob as Raízes Coloridas -->
-      <div class="absolute inset-x-4 bottom-0 h-44 bg-radial from-[#FCE8D5]/80 via-[#A8C282]/30 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+      <!-- Halo de Iluminação Sutil sob as Raízes Coloridas (Gradiente Radial Nativo) -->
+      <div class="absolute inset-x-4 bottom-0 h-44 rounded-full -z-10 pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(252,232,213,0.85) 0%, rgba(168,194,130,0.30) 45%, transparent 75%);"></div>
 
       <!-- Imagem Oficial da Árvore com Recorte Exato (Sem corte de folhas ou raízes) -->
       <img 
@@ -518,12 +520,12 @@
        - Bloco 2: Deck de fotos em loop de 3s com troca suave de profundidade
        - Bloco 3: Deck de fotos em loop de 3s com delay de 1.5s
   ================================================================ -->
-  <section id="trajetoria" class="relative w-full pt-8 pb-14 sm:pt-10 sm:pb-18 lg:pt-12 lg:pb-20 px-4 sm:px-8 md:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/18 overflow-hidden">
+  <section id="trajetoria" class="relative w-full pt-6 pb-12 sm:pt-10 sm:pb-18 lg:pt-12 lg:pb-20 px-4 sm:px-8 md:px-12 bg-[#F5EEE6] border-t border-[#7F9854]/18 overflow-hidden">
     
-    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-      <div class="absolute -top-40 -left-40 w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-gradient-to-br from-[#A8C282]/20 via-[#FCE8D5]/25 to-transparent rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-40 -right-40 w-[55vw] h-[55vw] max-w-[700px] max-h-[700px] bg-gradient-to-tl from-[#FCE8D5]/35 via-[#A8C282]/18 to-transparent rounded-full blur-3xl"></div>
+    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System (Gradientes Nativos sem Filtros de Blur) -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      <div class="absolute -top-16 -left-16 w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(168,194,130,0.22) 0%, rgba(252,232,213,0.22) 42%, transparent 70%);"></div>
+      <div class="absolute -bottom-16 -right-16 w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(252,232,213,0.35) 0%, rgba(168,194,130,0.18) 45%, transparent 70%);"></div>
     </div>
 
     <div class="relative max-w-7xl mx-auto">
@@ -534,10 +536,10 @@
       ============================================================ -->
       <div id="trajetoria-bloco1-center" class="flex flex-col items-center text-center max-w-3xl mx-auto mb-3 sm:mb-5">
         
-        <!-- Mídia Superior: Vídeo Vertical com Acabamento e Proporção 4/5 -->
-        <div class="relative w-[clamp(280px,32vw,390px)] aspect-[4/5] rounded-[32px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/20 shadow-2xl group" style="isolation: isolate;">
-          <!-- Bruma / Halo suave atrás do vídeo -->
-          <div class="absolute inset-x-4 -bottom-4 h-36 bg-radial from-[#FCE8D5]/80 via-[#A8C282]/30 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+        <!-- Mídia Superior: Vídeo Vertical com Acabamento e Proporção 4/5 (Moldura Azul e Clipping 100% Ajustado) -->
+        <div class="relative w-[clamp(280px,32vw,390px)] aspect-[4/5] rounded-[32px] overflow-hidden bg-[#FAF5EE] border-2 border-[#4392DF]/35 shadow-2xl group" style="isolation: isolate; border-radius: 32px; -webkit-mask-image: -webkit-radial-gradient(white, black); mask-image: radial-gradient(white, black); clip-path: inset(0 round 32px); -webkit-clip-path: inset(0 round 32px);">
+          <!-- Bruma / Halo suave atrás do vídeo (Gradiente Radial Nativo) -->
+          <div class="absolute inset-x-4 -bottom-4 h-36 rounded-full -z-10 pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(252,232,213,0.85) 0%, rgba(168,194,130,0.30) 45%, transparent 75%);"></div>
 
           <video 
             id="video-trajetoria-bloco1"
@@ -549,12 +551,12 @@
             webkit-playsinline 
             preload="auto"
             disablePictureInPicture
-            class="w-full h-full object-cover object-top select-none transition-transform duration-700 group-hover:scale-105 pointer-events-none"
-            style="mix-blend-mode: multiply; transform: translate3d(0,0,0); will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden;"
+            class="w-full h-full object-cover object-top select-none transition-transform duration-700 group-hover:scale-105 pointer-events-none rounded-[32px]"
+            style="mix-blend-mode: multiply; border-radius: 32px; clip-path: inset(0 round 32px); -webkit-clip-path: inset(0 round 32px); -webkit-backface-visibility: hidden; backface-visibility: hidden;"
           ></video>
 
-          <!-- Moldura e Integração Cromática com o Fundo -->
-          <div class="absolute inset-0 pointer-events-none rounded-[32px] ring-1 ring-inset ring-[#7F9854]/18 shadow-[inset_0_0_32px_rgba(245,238,230,0.5)]"></div>
+          <!-- Moldura e Integração Cromática com a Margem Azul do Design System -->
+          <div class="absolute inset-0 pointer-events-none rounded-[32px] ring-1 ring-inset ring-[#4392DF]/25 shadow-[inset_0_0_24px_rgba(245,238,230,0.5)]"></div>
 
           <!-- Selo Superior com Micro-Indicador -->
           <div class="absolute top-4 left-4 z-10 px-3.5 py-1 rounded-full text-[10.5px] font-semibold font-manrope bg-white/90 backdrop-blur-md text-[#7F9854] border border-[#7F9854]/22 shadow-xs flex items-center gap-1.5">
@@ -728,10 +730,10 @@
   ================================================================ -->
   <section id="agendamento" class="relative w-full pt-2 pb-10 sm:pt-3 sm:pb-14 lg:pt-4 lg:pb-18 px-4 sm:px-8 md:px-12 bg-[#FAF5EE] border-t border-[#7F9854]/18 overflow-hidden">
     
-    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-      <div class="absolute -top-32 -right-32 w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] bg-gradient-to-bl from-[#A8C282]/18 via-[#FCE8D5]/22 to-transparent rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-32 -left-32 w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] bg-gradient-to-tr from-[#FCE8D5]/30 via-[#A8C282]/15 to-transparent rounded-full blur-3xl"></div>
+    <!-- Orbs e Bruma Orgânica de Fundo Conforme Design System (Gradientes Nativos sem Filtros de Blur) -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+      <div class="absolute -top-16 -right-16 w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(168,194,130,0.20) 0%, rgba(252,232,213,0.22) 42%, transparent 70%);"></div>
+      <div class="absolute -bottom-16 -left-16 w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(252,232,213,0.32) 0%, rgba(168,194,130,0.16) 45%, transparent 70%);"></div>
     </div>
 
     <div class="relative max-w-7xl mx-auto">
@@ -926,10 +928,10 @@
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      smoothTouch: false, // Mantém inércia nativa rápida e fluida do iOS sem virtualização lenta
+      smoothTouch: false, // Mantém inércia nativa do iOS sem virtualização lenta
       syncTouch: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.0
+      touchMultiplier: 0.85 // Calibra a sensibilidade física do touch no iOS Safari (evita supersalto de dobra)
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -1095,9 +1097,9 @@
         scrollTrigger: {
           trigger: "#hero",
           start: "top top",
-          end: isDesktop ? "+=90%" : "+=70%",
+          end: isDesktop ? "+=95%" : "+=120%",
           pin: true,
-          scrub: isMobile ? 0.35 : 0.7, // Resposta instantânea e orgânica no touch sem atraso
+          scrub: isMobile ? 0.6 : 0.75, // Resposta orgânica calibrada: transição estável que não salta a 2ª dobra
           anticipatePin: 1
         }
       });
