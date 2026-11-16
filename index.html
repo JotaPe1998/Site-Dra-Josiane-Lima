@@ -85,6 +85,12 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    /* Elimina latência de toque de 300ms e atrasos de clique no iOS Safari */
+    button, a, input, select, textarea, [role="button"], .btn-primary-med, .social-btn {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     ::selection {
       background: var(--med-olive);
       color: #FFFFFF;
@@ -265,6 +271,9 @@
       overflow: hidden;
       box-shadow: 0 14px 30px -12px rgba(60, 50, 40, 0.22);
       will-change: transform, opacity;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translate3d(0, 0, 0);
       transform-origin: center bottom;
     }
 
@@ -526,7 +535,7 @@
       <div id="trajetoria-bloco1-center" class="flex flex-col items-center text-center max-w-3xl mx-auto mb-3 sm:mb-5">
         
         <!-- Mídia Superior: Vídeo Vertical com Acabamento e Proporção 4/5 -->
-        <div class="relative w-[clamp(280px,32vw,390px)] aspect-[4/5] rounded-[32px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/20 shadow-2xl group">
+        <div class="relative w-[clamp(280px,32vw,390px)] aspect-[4/5] rounded-[32px] overflow-hidden bg-[#FAF5EE] border border-[#7F9854]/20 shadow-2xl group" style="isolation: isolate;">
           <!-- Bruma / Halo suave atrás do vídeo -->
           <div class="absolute inset-x-4 -bottom-4 h-36 bg-radial from-[#FCE8D5]/80 via-[#A8C282]/30 to-transparent blur-3xl -z-10 pointer-events-none"></div>
 
@@ -541,7 +550,7 @@
             preload="auto"
             disablePictureInPicture
             class="w-full h-full object-cover object-top select-none transition-transform duration-700 group-hover:scale-105 pointer-events-none"
-            style="mix-blend-mode: multiply; filter: contrast(1.02) saturate(1.03);"
+            style="mix-blend-mode: multiply; transform: translate3d(0,0,0); will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden;"
           ></video>
 
           <!-- Moldura e Integração Cromática com o Fundo -->
@@ -899,16 +908,28 @@
     lucide.createIcons();
 
     /* ----------------------------------------------------------------
-       1. LENIS SMOOTH SCROLL (INTEGRADO AO GSAP TICKER)
+       1. LENIS SMOOTH SCROLL (INTEGRADO AO GSAP TICKER & OTIMIZADO PARA IOS)
     ---------------------------------------------------------------- */
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Desativa recálculos pesados no mobile durante a expansão/colapso da barra do Safari
+    ScrollTrigger.config({
+      ignoreMobileResize: true,
+      autoRefreshEvents: "visibilitychange,DOMContentLoaded,load"
+    });
+
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
     const lenis = new Lenis({
-      duration: 1.25,
+      duration: isTouch ? 0 : 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.05,
-      touchMultiplier: 1.8
+      smoothTouch: false, // Mantém inércia nativa rápida e fluida do iOS sem virtualização lenta
+      syncTouch: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.0
     });
 
     lenis.on('scroll', ScrollTrigger.update);
@@ -1000,7 +1021,15 @@
       }
     }
 
-    window.addEventListener('resize', alignTreeInitial, { passive: true });
+    // Dispara recálculo APENAS se a largura mudar (evita reflow durante rolagem no Safari iOS)
+    let lastInnerWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+      if (window.innerWidth !== lastInnerWidth) {
+        lastInnerWidth = window.innerWidth;
+        alignTreeInitial();
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+      }
+    }, { passive: true });
     window.addEventListener('load', () => {
       alignTreeInitial();
       if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
@@ -1018,30 +1047,30 @@
 
       // Entrada da Árvore Central
       gsap.from("#hero-tree-container", {
-        scale: 0.90,
+        scale: 0.92,
         opacity: 0,
-        y: 16,
-        duration: 1.5,
-        ease: "power3.out"
+        y: 12,
+        duration: 0.9,
+        ease: "power2.out"
       });
 
       // Entrada dos Letreiros
       gsap.from("#hero-headline-group", {
-        y: -24,
+        y: -18,
         opacity: 0,
-        duration: 1.4,
-        delay: 0.2,
-        ease: "power3.out"
+        duration: 0.8,
+        delay: 0.1,
+        ease: "power2.out"
       });
 
       // Entrada dos Micro-rótulos e Botão Central
       gsap.from(".hero-editorial-label", {
         opacity: 0,
-        y: 15,
-        duration: 1.0,
-        delay: 0.5,
+        y: 10,
+        duration: 0.7,
+        delay: 0.2,
         ease: "power2.out",
-        stagger: 0.12
+        stagger: 0.08
       });
     });
 
@@ -1068,7 +1097,7 @@
           start: "top top",
           end: isDesktop ? "+=90%" : "+=70%",
           pin: true,
-          scrub: 1,
+          scrub: isMobile ? 0.35 : 0.7, // Resposta instantânea e orgânica no touch sem atraso
           anticipatePin: 1
         }
       });
@@ -1239,10 +1268,23 @@
         }, "-=0.4");
       }
 
+      // Otimização WebKit / iOS: apenas executa o ciclo se o deck estiver no viewport
+      let deckInView = true;
+      if ('IntersectionObserver' in window) {
+        const deckObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            deckInView = entry.isIntersecting;
+          });
+        }, { threshold: 0.1 });
+        deckObserver.observe(deck);
+      }
+
       // Dispara o ciclo de 3 segundos respeitando o delay programado
       setTimeout(() => {
-        doSwap();
-        setInterval(doSwap, 3000);
+        if (deckInView) doSwap();
+        setInterval(() => {
+          if (deckInView) doSwap();
+        }, 3000);
       }, delaySec * 1000);
     }
 
@@ -1338,7 +1380,7 @@
       let splashes = [];
       let rects = [];
       let isMobile = window.innerWidth < 768;
-      let count = isMobile ? 54 : 82;
+      let count = isMobile ? 32 : 72;
       let mouse = { x: -9999, y: -9999, inside: false };
       let wind = 0;
       let frame = 0;
@@ -1374,7 +1416,7 @@
         W = rect.width;
         H = rect.height;
         isMobile = window.innerWidth < 768;
-        count = isMobile ? 54 : 82;
+        count = isMobile ? 32 : 72;
 
         canvas.width = Math.max(1, W * DPR);
         canvas.height = Math.max(1, H * DPR);
@@ -1603,10 +1645,35 @@
           ctx.fill();
           ctx.restore();
         }
-
-        requestAnimationFrame(animateLeaves);
       }
-      requestAnimationFrame(animateLeaves);
+
+      // Ciclo de renderização com suspensão automática fora da tela (Economia extrema de bateria e CPU no iOS)
+      let leafRafId = null;
+      let heroInView = true;
+
+      function renderLeavesLoop() {
+        if (!heroInView) return;
+        animateLeaves();
+        leafRafId = requestAnimationFrame(renderLeavesLoop);
+      }
+
+      if ('IntersectionObserver' in window) {
+        const heroObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            heroInView = entry.isIntersecting;
+            if (heroInView) {
+              if (!leafRafId) leafRafId = requestAnimationFrame(renderLeavesLoop);
+            } else {
+              if (leafRafId) {
+                cancelAnimationFrame(leafRafId);
+                leafRafId = null;
+              }
+            }
+          });
+        }, { threshold: 0.05 });
+        heroObserver.observe(hero);
+      }
+      leafRafId = requestAnimationFrame(renderLeavesLoop);
     })();
   </script>
 
