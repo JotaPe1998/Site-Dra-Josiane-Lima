@@ -344,28 +344,28 @@
   </div>
 
   <!-- Header Editorial Minimalista -->
-  <header id="site-header" class="fixed top-0 left-0 w-full z-40 px-6 sm:px-12 py-4 transition-all duration-500">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+  <header id="site-header" class="fixed top-0 left-0 w-full z-40 px-3.5 sm:px-8 md:px-12 py-2.5 sm:py-4 transition-all duration-500">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
       
       <!-- Logo Oficial da Árvore e Nome -->
-      <a href="#hero" class="flex items-center gap-3 group focus:outline-none" aria-label="Dra. Josiane Lima — Início">
-        <div class="w-9 h-9 rounded-full bg-white/95 border border-[#7F9854]/25 shadow-xs flex items-center justify-center p-1 group-hover:scale-105 transition-transform duration-300 overflow-hidden">
+      <a href="#hero" class="flex items-center gap-2 sm:gap-3 group focus:outline-none shrink-0" aria-label="Dra. Josiane Lima — Início">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/95 border border-[#7F9854]/25 shadow-xs flex items-center justify-center p-1 group-hover:scale-105 transition-transform duration-300 overflow-hidden shrink-0">
           <img 
             src="Midias que seram usadas/f7fc32f9-5ae3-470e-8199-4719960b6220-removebg-preview.png" 
             alt="Logo Oficial Dra. Josiane Lima" 
             class="w-full h-full object-contain"
           />
         </div>
-        <div class="flex flex-col">
-          <span class="font-manrope font-bold text-sm tracking-tight text-[#2C2416] group-hover:text-[#7F9854] transition-colors">Dra. Josiane Lima</span>
-          <span class="font-manrope text-[10px] uppercase tracking-wider text-[#2C2416]/50 -mt-0.5">Pediatra</span>
+        <div class="flex flex-col whitespace-nowrap">
+          <span class="font-manrope font-bold text-[13px] sm:text-sm tracking-tight text-[#2C2416] group-hover:text-[#7F9854] transition-colors whitespace-nowrap">Dra. Josiane Lima</span>
+          <span class="font-manrope text-[9.5px] sm:text-[10px] uppercase tracking-wider text-[#2C2416]/50 -mt-0.5 whitespace-nowrap">Pediatra</span>
         </div>
       </a>
 
-      <!-- Status de Atendimento Discreto -->
-      <div class="glass-capsule px-4 py-1.5 rounded-full flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-[#7F9854] animate-pulse"></span>
-        <span class="font-manrope text-[11px] font-semibold text-[#2C2416]/80 tracking-wide">CRM-RJ 1244990 · RQE 59693</span>
+      <!-- Status de Atendimento Discreto (Sem quebra de linha) -->
+      <div class="glass-capsule px-2.5 py-1 sm:px-4 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#7F9854] animate-pulse shrink-0"></span>
+        <span class="font-manrope text-[9.5px] sm:text-[11px] font-semibold text-[#2C2416]/80 tracking-wide whitespace-nowrap">CRM-RJ 1244990 · RQE 59693</span>
       </div>
 
     </div>
@@ -537,7 +537,10 @@
             loop 
             muted 
             playsinline 
-            class="w-full h-full object-cover object-top select-none transition-transform duration-700 group-hover:scale-105"
+            webkit-playsinline 
+            preload="auto"
+            disablePictureInPicture
+            class="w-full h-full object-cover object-top select-none transition-transform duration-700 group-hover:scale-105 pointer-events-none"
             style="mix-blend-mode: multiply; filter: contrast(1.02) saturate(1.03);"
           ></video>
 
@@ -1101,14 +1104,67 @@
        - Stagger/Delay de 1.5s entre os Blocos 2 e 3 para ritmo orgânico
        - ScrollTrigger Reveal em cascata
     ---------------------------------------------------------------- */
-    // 1. Aceleração do vídeo do Bloco 1 em 2x com persistência
+    // 1. Autoplay Contínuo e Aceleração do vídeo do Bloco 1 em 2x (Compatibilidade Total iOS e Android)
     (function initBlock1Video() {
       const vid = document.getElementById('video-trajetoria-bloco1');
       if (!vid) return;
+
+      // Configurações estritas para WebKit / iOS Safari e Android Chrome
+      vid.muted = true;
+      vid.defaultMuted = true;
+      vid.setAttribute('muted', '');
+      vid.setAttribute('playsinline', '');
+      vid.setAttribute('webkit-playsinline', '');
       vid.playbackRate = 2.0;
-      vid.addEventListener('loadedmetadata', () => { vid.playbackRate = 2.0; });
-      vid.addEventListener('play', () => { vid.playbackRate = 2.0; });
-      vid.addEventListener('canplay', () => { vid.playbackRate = 2.0; });
+
+      const safePlay = () => {
+        vid.muted = true;
+        vid.playbackRate = 2.0;
+        const playPromise = vid.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {
+            // Em navegadores com restrição inicial de mídia, aguarda primeira interação
+          });
+        }
+      };
+
+      // Tenta autoplay imediato
+      safePlay();
+
+      vid.addEventListener('loadedmetadata', () => {
+        vid.playbackRate = 2.0;
+        safePlay();
+      });
+      vid.addEventListener('canplay', () => {
+        vid.playbackRate = 2.0;
+        safePlay();
+      });
+      vid.addEventListener('play', () => {
+        vid.playbackRate = 2.0;
+      });
+
+      // Retoma reprodução se sair e voltar à área de visão (evita congelamento em background no iOS)
+      if ('IntersectionObserver' in window) {
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              safePlay();
+            }
+          });
+        }, { threshold: 0.15 });
+        videoObserver.observe(vid);
+      }
+
+      // Desbloqueio universal no primeiro toque ou scroll (padrão ouro para mobile)
+      const userUnlock = () => {
+        safePlay();
+        window.removeEventListener('touchstart', userUnlock);
+        window.removeEventListener('touchend', userUnlock);
+        window.removeEventListener('scroll', userUnlock);
+      };
+      window.addEventListener('touchstart', userUnlock, { passive: true });
+      window.addEventListener('touchend', userUnlock, { passive: true });
+      window.addEventListener('scroll', userUnlock, { passive: true });
     })();
 
     // 2. Card Stack Depth Swap nos Blocos 2 e 3 (Loop de 3 segundos)
